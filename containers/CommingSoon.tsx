@@ -4,12 +4,18 @@ import TwitterIcon from '@icons/dapp_twitter_white.svg'
 import { Input, Typography } from 'antd'
 import React from 'react'
 
+import { IBanner } from '@/api/types'
+import Banner from '@/components/Banner'
 import theme from '@/styles/antd-custom.json'
 
 const { Search } = Input
 const { Text, Title } = Typography
 
-const CommingSoon: React.FunctionComponent = () => {
+type Props = {
+  banner: IBanner[]
+}
+
+const CommingSoon: React.FunctionComponent<Props> = (props) => {
   return (
     <>
       <div className="container">
@@ -34,7 +40,9 @@ const CommingSoon: React.FunctionComponent = () => {
             </a>
           </div>
         </div>
-        <div></div>
+        <div>
+          <Banner banner={props.banner} />
+        </div>
       </div>
 
       <style jsx>{`

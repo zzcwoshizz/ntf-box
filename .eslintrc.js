@@ -37,6 +37,8 @@ module.exports = {
     'react/prop-types': 'off',
     '@typescript-eslint/explicit-function-return-type': 'off',
     '@typescript-eslint/explicit-module-boundary-types': 'off',
+    '@typescript-eslint/no-explicit-any': 'off',
+    'no-prototype-builtins': 'off',
     'simple-import-sort/sort': 'error',
     'jsx-a11y/anchor-is-valid': [
       'error',
