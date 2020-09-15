@@ -2,9 +2,11 @@ import App, { AppContext, AppProps } from 'next/app'
 import Head from 'next/head'
 import * as React from 'react'
 
+import { ViewportProvider } from '@/shared/providers/Viewport'
+
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
+    <ViewportProvider>
       <Head>
         <title>NTF BOX</title>
         <link rel="icon" href="/favicon.ico" />
@@ -17,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         <meta httpEquiv="expires" content="0" />
       </Head>
       <Component {...pageProps} />
-    </>
+    </ViewportProvider>
   )
 }
 

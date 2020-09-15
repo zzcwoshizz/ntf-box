@@ -74,8 +74,27 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           margin: 0 auto;
           text-align: center;
         }
+
+        @media screen and (max-width: 980px) {
+          .content {
+            width: 480px;
+          }
+        }
+
+        @media screen and (max-width: 736px) {
+          .content {
+            width: 400px;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          .content {
+            width: 310px;
+          }
+        }
+
         .content :global(.ant-input-group-wrapper) {
-          width: 60%;
+          width: 70%;
           margin-top: 40px;
         }
 
@@ -103,6 +122,24 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           background: url(/imgs/commingsoon/bg.png) no-repeat;
           background-size: cover;
           background-position: center;
+        }
+
+        @media screen and (max-width: 980px) {
+          body {
+            padding: 40px 40px 0 40px;
+          }
+        }
+
+        @media screen and (max-width: 736px) {
+          body {
+            padding: 28px 28px 0 28px;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          body {
+            padding: 20px 20px 0 20px;
+          }
         }
         #__next {
           height: 100%;
