@@ -60,6 +60,24 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           background-position: center;
         }
 
+        @media screen and (max-width: 980px) {
+          .container {
+            padding-bottom: 100px;
+          }
+        }
+
+        @media screen and (max-width: 736px) {
+          .container {
+            padding-bottom: 70px;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          .container {
+            padding-bottom: 35px;
+          }
+        }
+
         .head {
           display: flex;
           align-items: center;
