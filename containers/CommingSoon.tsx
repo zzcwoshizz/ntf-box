@@ -67,22 +67,28 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           justify-content: space-between;
           width: 100%;
           height: 100%;
-          padding-bottom: 10%;
+          padding-bottom: 150px;
           border-radius: 40px 40px 0 0;
           background: url(/imgs/commingsoon/banner_bg.png) no-repeat;
           background-size: cover;
           background-position: center;
         }
 
-        @media screen and (max-width: 1280px) {
+        @media screen and (max-width: 1680px) {
           .container {
             padding-bottom: 8%;
           }
         }
 
-        @media screen and (max-width: 736px) {
+        @media screen and (max-width: 1280px) {
           .container {
             padding-bottom: 6%;
+          }
+        }
+
+        @media screen and (max-width: 736px) {
+          .container {
+            padding-bottom: 4%;
           }
         }
 
