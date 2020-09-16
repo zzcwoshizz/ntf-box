@@ -1,9 +1,10 @@
 import DiscordIcon from '@icons/dapp_discord_white.svg'
 import TelegramIcon from '@icons/dapp_telegram_white.svg'
 import TwitterIcon from '@icons/dapp_twitter_white.svg'
-import { Input, Typography } from 'antd'
+import { Input, message, Typography } from 'antd'
 import React from 'react'
 
+import { subscribe } from '@/api'
 import { IBanner } from '@/api/types'
 import Banner from '@/components/Banner'
 import theme from '@/styles/antd-custom.json'
@@ -16,6 +17,8 @@ type Props = {
 }
 
 const CommingSoon: React.FunctionComponent<Props> = (props) => {
+  const [loading, setLoading] = React.useState(false)
+
   return (
     <>
       <div className="container">
@@ -27,7 +30,18 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           <p>
             <Text type="secondary">集中了全球2000余种NFT项目，包括艺术、游戏、卡牌等项目</Text>
           </p>
-          <Search enterButton="订阅" placeholder="输入您的邮箱账号" />
+          <Search
+            enterButton="订阅"
+            placeholder="输入您的邮箱账号"
+            loading={loading}
+            onSearch={(email) => {
+              setLoading(true)
+              subscribe(email).finally(() => {
+                setLoading(false)
+                message.success('Success')
+              })
+            }}
+          />
           <div className="icon-wrapper">
             <a>
               <DiscordIcon />
@@ -74,7 +88,7 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
 
         @media screen and (max-width: 480px) {
           .container {
-            padding-bottom: 35px;
+            padding-bottom: 20px;
           }
         }
 
@@ -107,7 +121,7 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
 
         @media screen and (max-width: 480px) {
           .content {
-            width: 310px;
+            width: 280px;
           }
         }
 
@@ -116,10 +130,23 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           margin-top: 40px;
         }
 
+        @media screen and (max-width: 480px) {
+          .content :global(.ant-input-group-wrapper) {
+            width: 70%;
+            margin-top: 20px;
+          }
+        }
+
         .icon-wrapper {
           display: flex;
           justify-content: center;
           margin-top: 40px;
+        }
+
+        @media screen and (max-width: 480px) {
+          .icon-wrapper {
+            margin-top: 20px;
+          }
         }
         .icon-wrapper a {
           display: flex;

@@ -99,6 +99,16 @@ const Banner: React.FunctionComponent<Props> = (props) => {
             width: 210px;
           }
         }
+
+        @media screen and (max-width: 480px) {
+          .cell {
+            width: 150px;
+          }
+          .cell img {
+            width: 150px !important;
+            height: 100px !important;
+          }
+        }
         .cell a {
           margin-right: 20px;
         }
@@ -143,6 +153,12 @@ const Banner: React.FunctionComponent<Props> = (props) => {
         @media screen and (max-width: 736px) {
           .slick-list {
             width: 280px;
+          }
+        }
+
+        @media screen and (max-width: 480px) {
+          .slick-list {
+            width: 220px;
           }
         }
         .ant-carousel .slick-dots li.slick-active button {
