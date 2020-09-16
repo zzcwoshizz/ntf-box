@@ -74,7 +74,7 @@ const CommingSoon: React.FunctionComponent<Props> = (props) => {
           background-position: center;
         }
 
-        @media screen and (max-width: 980px) {
+        @media screen and (max-width: 1280px) {
           .container {
             padding-bottom: 8%;
           }
