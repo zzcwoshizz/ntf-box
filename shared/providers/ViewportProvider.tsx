@@ -1,9 +1,9 @@
 import React from 'react'
 import { useWindowSize } from 'react-use'
 
-const viewportContext = React.createContext({})
+const viewportContext = React.createContext({ width: 0, height: 0 })
 
-const ViewportProvider = ({ children }) => {
+const ViewportProvider: React.FunctionComponent = ({ children }) => {
   const { width, height } = useWindowSize()
 
   return <viewportContext.Provider value={{ width, height }}>{children}</viewportContext.Provider>

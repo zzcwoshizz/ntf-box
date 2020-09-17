@@ -146,6 +146,7 @@ class Api {
       ...config,
       headers: {
         'Content-Type': 'application/json',
+        jwt: process.browser ? localStorage.getItem('token') + '' : '',
         ...config.headers
       }
     }

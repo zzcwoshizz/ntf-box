@@ -2,7 +2,7 @@ import { Carousel } from 'antd'
 import React from 'react'
 
 import { IBanner } from '@/api/types'
-import { useViewport } from '@/shared/providers/Viewport'
+import { useViewport } from '@/shared/providers/ViewportProvider'
 import theme from '@/styles/antd-custom.json'
 
 type Props = {
