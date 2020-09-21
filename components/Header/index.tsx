@@ -7,7 +7,7 @@ import EnSvg from '@/icons/icon_en.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
 
-import ActiveLink from '../ActiveLink'
+import ActiveLink from '../Link/ActiveLink'
 
 const languages = {
   cn: <CnSvg width={32} height={32} />,

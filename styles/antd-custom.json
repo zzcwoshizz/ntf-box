@@ -7,10 +7,10 @@
   "@font-size-base": "14px",
   "@heading-color": "#292c33",
   "@text-color": "#292c33",
-  "@text-color-secondary": "rgba(#292c33, 0.85)",
-  "@disabled-color": "rgba(#292c33, 0.5)",
+  "@text-color-secondary": "rgba(41, 44, 51, 0.85)",
+  "@disabled-color": "rgba(41, 44, 51, 0.5)",
   "@border-radius-base": "2px",
-  "@border-color-base": "#e9e9ea",
+  "@border-color-base": "#F2F3F3",
   "@shadow-1-up":
     "0 -6px 16px -8px rgba(0, 0, 0, 0.08), 0 -9px 28px 0 rgba(0, 0, 0, 0.05), 0 -12px 48px 16px rgba(0, 0, 0, 0.03)",
   "@shadow-1-down":
