@@ -19,22 +19,22 @@ const Banner: React.FunctionComponent<Props> = (props) => {
 
     let count = 5
     switch (size) {
-      case 'default':
+      case 'xxl':
         count = 5
         break
-      case 'xlarge':
+      case 'xl':
         count = 4
         break
-      case 'large':
+      case 'lg':
         count = 3
         break
-      case 'medium':
+      case 'md':
         count = 2
         break
-      case 'small':
+      case 'sm':
         count = 1
         break
-      case 'xsmall':
+      case 'xs':
         count = 1
         break
       default:
@@ -72,35 +72,35 @@ const Banner: React.FunctionComponent<Props> = (props) => {
         .cell {
           display: flex;
           align-items: center;
-          width: 1130px;
+          width: 1120px;
           padding: 20px 0;
         }
 
-        @media screen and (max-width: 1680px) {
+        @media screen and (max-width: 1600px) {
           .cell {
             width: 900px;
           }
         }
 
-        @media screen and (max-width: 1280px) {
+        @media screen and (max-width: 1200px) {
           .cell {
             width: 700px;
           }
         }
 
-        @media screen and (max-width: 980px) {
+        @media screen and (max-width: 992px) {
           .cell {
             width: 420px;
           }
         }
 
-        @media screen and (max-width: 736px) {
+        @media screen and (max-width: 768px) {
           .cell {
             width: 210px;
           }
         }
 
-        @media screen and (max-width: 480px) {
+        @media screen and (max-width: 576px) {
           .cell {
             width: 150px;
           }
@@ -123,7 +123,7 @@ const Banner: React.FunctionComponent<Props> = (props) => {
           padding-left: 70px;
         }
 
-        @media screen and (max-width: 736px) {
+        @media screen and (max-width: 768px) {
           .slick-slider {
             padding-left: 70px;
           }
@@ -132,31 +132,31 @@ const Banner: React.FunctionComponent<Props> = (props) => {
           width: 1200px;
         }
 
-        @media screen and (max-width: 1680px) {
+        @media screen and (max-width: 1600px) {
           .slick-list {
             width: 970px;
           }
         }
 
-        @media screen and (max-width: 1280px) {
+        @media screen and (max-width: 1200px) {
           .slick-list {
             width: 770px;
           }
         }
 
-        @media screen and (max-width: 980px) {
+        @media screen and (max-width: 992px) {
           .slick-list {
             width: 490px;
           }
         }
 
-        @media screen and (max-width: 736px) {
+        @media screen and (max-width: 768px) {
           .slick-list {
             width: 280px;
           }
         }
 
-        @media screen and (max-width: 480px) {
+        @media screen and (max-width: 576px) {
           .slick-list {
             width: 220px;
           }
@@ -176,7 +176,7 @@ const Banner: React.FunctionComponent<Props> = (props) => {
           opacity: 0.2;
         }
 
-        @media screen and (max-width: 736px) {
+        @media screen and (max-width: 768px) {
           .ant-carousel .slick-dots {
             display: none !important;
           }

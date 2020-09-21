@@ -9,26 +9,36 @@ const ViewportProvider: React.FunctionComponent = ({ children }) => {
   return <viewportContext.Provider value={{ width, height }}>{children}</viewportContext.Provider>
 }
 
+export type SizeType = 'xxl' | 'xl' | 'lg' | 'md' | 'sm' | 'xs'
+
 const useViewport = () => {
   const { width, height } = React.useContext(viewportContext)
 
   // identity size
-  let size = 'default'
-  if (width > 1680) {
-    size = 'default'
-  } else if (width > 1280) {
-    size = 'xlarge'
-  } else if (width > 980) {
-    size = 'large'
-  } else if (width > 736) {
-    size = 'medium'
-  } else if (width > 480) {
-    size = 'small'
+  let size: SizeType = 'xxl'
+  let containerWidth = 1200
+
+  if (width > 1600) {
+    size = 'xxl'
+    containerWidth = 1120
+  } else if (width > 1200) {
+    size = 'xl'
+    containerWidth = 980
+  } else if (width > 992) {
+    size = 'lg'
+    containerWidth = 840
+  } else if (width > 768) {
+    size = 'md'
+    containerWidth = 660
+  } else if (width > 576) {
+    size = 'sm'
+    containerWidth = 480
   } else {
-    size = 'xsmall'
+    size = 'xs'
+    containerWidth = 300
   }
 
-  return { width, height, size }
+  return { width, height, size, containerWidth }
 }
 
 export { ViewportProvider, useViewport }

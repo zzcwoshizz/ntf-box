@@ -49,11 +49,11 @@ export class Manager {
     return this.contract.methods
       .createOrder(
         data.orderId,
-        data.entrustInfos.map((d) => d.contractAdd),
+        data.entrustInfos.map((d: { contractAdd: any }) => d.contractAdd),
         ['0x0000000000000000000000000000000000000000', data.operator],
         data.salt,
         [data.price + '', data.price + ''],
-        data.entrustInfos.map((d) => d.tokenId),
+        data.entrustInfos.map((d: { tokenId: any }) => d.tokenId),
         [data.platformFee + '', '0', '0'],
         data.orderType,
         v,
