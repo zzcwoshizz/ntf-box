@@ -4,14 +4,15 @@ import React from 'react'
 import { getBanner } from '@/api'
 import { IBanner } from '@/api/types'
 import Banner from '@/components/Banner'
+import Header from '@/components/Header'
 import JTSvg from '@/icons/icon_jt.svg'
-import { useViewport } from '@/shared/providers/ViewportProvider'
+import useContainer from '@/shared/hooks/useContainer'
 
 const { Title, Text } = Typography
 
 const Hero: React.FunctionComponent = () => {
   const [banners, setBanners] = React.useState<IBanner[]>([])
-  const { containerWidth } = useViewport()
+  const { containerWidth } = useContainer()
 
   React.useEffect(() => {
     getBanner().then(({ data }) => {
@@ -23,6 +24,7 @@ const Hero: React.FunctionComponent = () => {
     <>
       <div className="hero">
         <div className="container">
+          <Header />
           <div className="content">
             <Row>
               <Col xs={{ span: 24 }} lg={{ span: 15 }}>
@@ -74,6 +76,39 @@ const Hero: React.FunctionComponent = () => {
         }
         .action {
           margin-top: 40px;
+        }
+
+        @media screen and (max-width: 1200px) {
+          .hero {
+            padding: 40px 40px 0 40px;
+          }
+          .container {
+            border-radius: 36px 36px 0 0;
+          }
+        }
+        @media screen and (max-width: 992px) {
+          .hero {
+            padding: 32px 32px 0 32px;
+          }
+          .container {
+            border-radius: 32px 32px 0 0;
+          }
+        }
+        @media screen and (max-width: 768px) {
+          .hero {
+            padding: 24px 24px 0 24px;
+          }
+          .container {
+            border-radius: 28px 28px 0 0;
+          }
+        }
+        @media screen and (max-width: 576px) {
+          .hero {
+            padding: 16px 16px 0 16px;
+          }
+          .container {
+            border-radius: 24px 24px 0 0;
+          }
         }
       `}</style>
     </>
