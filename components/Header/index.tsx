@@ -1,5 +1,6 @@
 import { MenuOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Menu } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 import CnSvg from '@/icons/icon_cn.svg'
@@ -45,6 +46,8 @@ const Header: React.FunctionComponent = () => {
       title: 'Record'
     }
   ]
+
+  const router = useRouter()
 
   return (
     <>
@@ -104,6 +107,8 @@ const Header: React.FunctionComponent = () => {
 
         header {
           width: 100%;
+          background-color: ${router.asPath === '/' ? 'transparent' : '#fff'};
+          box-shadow: ${router.asPath === '/' ? 'none' : '0px 2px 8px 0px rgba(60, 77, 111, 0.1)'};
         }
 
         .container {
