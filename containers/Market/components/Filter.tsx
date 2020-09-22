@@ -55,6 +55,7 @@ const Filter: React.FunctionComponent = () => {
         .container {
           width: 240px;
           height: 605px;
+          border: 1px solid ${theme['@border-color-base']};
 
           background: #ffffff;
           border-radius: 4px;
