@@ -20,9 +20,6 @@ const Intro: React.FunctionComponent = () => {
             <Text type="secondary">
               You should know how much wealth you idle. You should know how much wealth you idle.
               You should know how much wealth you idle. You should know how much wealth you idle
-              <br />
-              much wealth you idle. You should know how much wealth you idle. You should know how
-              much wealth you idle
             </Text>
           </Col>
         </Row>

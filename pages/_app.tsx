@@ -3,6 +3,7 @@ import Head from 'next/head'
 import * as React from 'react'
 import { UseWalletProvider } from 'use-wallet'
 
+import Footer from '@/components/Footer'
 import { AuthProvider } from '@/shared/providers/AuthProvider'
 import { ManagerProvider } from '@/shared/providers/ManagerProvider'
 import { ViewportProvider } from '@/shared/providers/ViewportProvider'
@@ -34,6 +35,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <meta httpEquiv="expires" content="0" />
             </Head>
             <Component {...pageProps} />
+            <Footer />
           </ViewportProvider>
         </AuthProvider>
       </ManagerProvider>
