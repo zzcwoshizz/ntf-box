@@ -28,6 +28,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
     "antd": "^4.6.4",
+    "echarts": "^4.9.0",
+    "echarts-for-react": "^2.0.16",
     "http-proxy-middleware": "^1.0.5",
     "isomorphic-fetch": "^2.2.1",
     "next": "9.5.3",
