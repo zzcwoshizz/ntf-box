@@ -35,10 +35,9 @@ const Cell: React.FunctionComponent = () => {
       </div>
       <style jsx>{`
         .cell {
-          width: 283px;
+          width: 100%;
           height: 260px;
           border: 1px solid ${theme['@border-color-base']};
-          margin: 0 22px 22px 0;
 
           background: #fff;
           box-shadow: 0px 2px 20px 0px rgba(60, 77, 111, 0.1);
