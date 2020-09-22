@@ -35,6 +35,7 @@
     "next": "9.5.3",
     "react": "16.13.1",
     "react-dom": "16.13.1",
+    "react-perfect-scrollbar": "^1.5.8",
     "react-use": "^15.3.4",
     "use-wallet": "^0.8.0",
     "web3": "1.2.11"

@@ -1,3 +1,5 @@
+import 'react-perfect-scrollbar/dist/css/styles.css'
+
 import App, { AppContext, AppProps } from 'next/app'
 import Head from 'next/head'
 import * as React from 'react'
@@ -34,8 +36,20 @@ function MyApp({ Component, pageProps }: AppProps) {
               <meta httpEquiv="Cache-Control" content="no-cache, must-revalidate" />
               <meta httpEquiv="expires" content="0" />
             </Head>
-            <Component {...pageProps} />
-            <Footer />
+            <div className="page">
+              <div>
+                <Component {...pageProps} />
+              </div>
+              <Footer />
+            </div>
+            <style jsx>{`
+              .page {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                min-height: 100vh;
+              }
+            `}</style>
           </ViewportProvider>
         </AuthProvider>
       </ManagerProvider>

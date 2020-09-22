@@ -8,6 +8,7 @@
   "@heading-color": "#292c33",
   "@text-color": "#292c33",
   "@text-color-secondary": "rgba(41, 44, 51, 0.85)",
+  "@text-color-tertiary": "rgba(41, 44, 51, 0.65)",
   "@disabled-color": "rgba(41, 44, 51, 0.5)",
   "@border-radius-base": "2px",
   "@border-color-base": "#F2F3F3",

@@ -1,8 +1,9 @@
 /* eslint-disable */
-const withPlugins = require('next-compose-plugins');
-const svg = require("next-svgr");
-const images = require('next-images');
+const withPlugins = require('next-compose-plugins')
+const svg = require("next-svgr")
+const images = require('next-images')
 const less = require('@zeit/next-less')
+const css = require('@zeit/next-css')
 
 const themeVariables = require('./styles/antd-custom.json')
 
@@ -36,6 +37,17 @@ const nextConfig = {
   }
 }
 
-module.exports = withPlugins([svg, [images, {
-  fileExtensions: ["jpg", "jpeg", "png", "gif"]
-}], less], nextConfig)
+module.exports = withPlugins(
+  [
+    svg,
+    [
+      images,
+      {
+        fileExtensions: ['jpg', 'jpeg', 'png', 'gif']
+      }
+    ],
+    less,
+    css
+  ],
+  nextConfig
+)
