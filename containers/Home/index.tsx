@@ -6,7 +6,9 @@ import HotSvg from '@/icons/icon_hot.svg'
 import NewSvg from '@/icons/icon_new.svg'
 
 import AssetList from './components/AssetList'
+import Help from './components/Help'
 import Hero from './components/Hero'
+import Intro from './components/Intro'
 
 const Home: React.FunctionComponent = () => {
   return (
@@ -42,6 +44,8 @@ const Home: React.FunctionComponent = () => {
           </AssetContainer>
         </AssetList>
       </div>
+      <Intro />
+      <Help />
       <style jsx>{`
         .list {
           padding: 100px 0;
