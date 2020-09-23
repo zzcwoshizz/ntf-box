@@ -1,8 +1,8 @@
 import React from 'react'
 
-const Container: React.FunctionComponent = ({ children }) => {
+const Container: React.FunctionComponent<{ size?: 'lg' | 'sm' }> = ({ children, size = 'lg' }) => {
   return (
-    <div className="container">
+    <div className={'container' + ' container-' + size}>
       {React.Children.map(children, (child, index) => {
         return child ? (
           <div className="cell-wrapper" key={index}>
@@ -16,48 +16,68 @@ const Container: React.FunctionComponent = ({ children }) => {
           flex-wrap: wrap;
         }
 
-        .cell-wrapper {
-          width: 283px;
+        .container-lg .cell-wrapper {
+          width: calc((100% - 66px) / 4);
           margin: 0 22px 22px 0;
         }
-        @media screen and (min-width: 1600px) {
-          .container > .cell-wrapper:nth-of-type(4n) {
+        .container-sm .cell-wrapper {
+          width: calc((100% - 48px) / 4);
+          margin: 0 16px 16px 0;
+        }
+        @media screen and (min-width: 1601px) {
+          .container-lg > .cell-wrapper:nth-of-type(4n) {
+            margin-right: 0;
+          }
+
+          .container-sm > .cell-wrapper:nth-of-type(4n) {
             margin-right: 0;
           }
         }
 
         @media screen and (max-width: 1600px) and (min-width: 1201px) {
-          .cell-wrapper {
-            width: 311px;
+          .container-lg > .cell-wrapper {
+            width: calc((100% - 44px) / 3);
           }
-          .container > .cell-wrapper:nth-of-type(3n) {
+          .container-lg > .cell-wrapper:nth-of-type(3n) {
+            margin-right: 0;
+          }
+
+          .container-sm > .cell-wrapper {
+            width: calc((100% - 32px) / 3);
+          }
+          .container-sm > .cell-wrapper:nth-of-type(3n) {
             margin-right: 0;
           }
         }
 
-        @media screen and (max-width: 1200px) and (min-width: 993px) {
-          .cell-wrapper {
-            width: 409px;
+        @media screen and (max-width: 1200px) and (min-width: 769px) {
+          .container-lg > .cell-wrapper {
+            width: calc((100% - 22px) / 2);
           }
-          .container > .cell-wrapper:nth-of-type(2n) {
+          .container-lg > .cell-wrapper:nth-of-type(2n) {
             margin-right: 0;
           }
-        }
 
-        @media screen and (max-width: 992px) and (min-width: 769px) {
-          .cell-wrapper {
-            width: 319px;
+          .container-sm > .cell-wrapper {
+            width: 100%;
           }
-          .container > .cell-wrapper:nth-of-type(2n) {
+          .container-sm > .cell-wrapper:nth-of-type(1n) {
             margin-right: 0;
           }
         }
 
         @media screen and (max-width: 768px) {
-          .cell-wrapper {
+          .container-lg > .cell-wrapper {
             width: 100%;
           }
-          .container > .cell-wrapper:nth-of-type(1n) {
+          .container-lg > .cell-wrapper:nth-of-type(1n) {
+            margin-right: 0;
+          }
+
+          .container-sm > .cell-wrapper {
+            width: 100%;
+          }
+          .container-sm > .cell-wrapper:nth-of-type(1n) {
             margin-right: 0;
           }
         }

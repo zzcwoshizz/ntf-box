@@ -1,3 +1,4 @@
+import { Tooltip } from 'antd'
 import React from 'react'
 
 import PriceSvg from '@/icons/icon_price.svg'
@@ -20,7 +21,9 @@ const Cell: React.FunctionComponent = () => {
               <label style={{ marginLeft: 4 }}>22</label>
             </span>
           </p>
-          <h6>Speial Golem ID #12312319223012 30xJacka(Meteotite)</h6>
+          <Tooltip title={'Speial Golem ID #12312319223012 30xJacka(Meteotite)'}>
+            <h6>Speial Golem ID #12312319223012 30xJacka(Meteotite)</h6>
+          </Tooltip>
           <div className="detail">
             <span>
               <PriceSvg />
@@ -75,6 +78,12 @@ const Cell: React.FunctionComponent = () => {
         }
         .content > h6 {
           margin: 0 0 12px 0;
+          height: 40px;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2;
+          overflow: hidden;
+          text-overflow: ellipsis;
           font-size: 14px;
           line-height: 20px;
         }
@@ -103,6 +112,8 @@ const Cell: React.FunctionComponent = () => {
           color: ${theme['@disabled-color']};
           line-height: 16px;
           font-size: 12px;
+          text-overflow: ellipsis;
+          white-space: nowrap;
 
           background: rgba(69, 114, 204, 0.06);
         }

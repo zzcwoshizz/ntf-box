@@ -1,6 +1,8 @@
-import { Select } from 'antd'
+import { Col, Row, Select } from 'antd'
 import React from 'react'
+import PerfectScrollbar from 'react-perfect-scrollbar'
 
+import { AssetCell, AssetContainer } from '@/components/Asset'
 import useTheme from '@/shared/hooks/useTheme'
 
 const { Option } = Select
@@ -16,19 +18,43 @@ const Content: React.FunctionComponent = () => {
           <p>On the shelf 11,271,095</p>
         </div>
         <div className="select">
-          <Select defaultValue="all" style={{ width: 200 }} placeholder="Select type">
-            <Option value="all">All items</Option>
-            <Option value="single">Single items</Option>
-            <Option value="bundles">Bundles</Option>
-          </Select>
-          <Select style={{ width: 200 }} placeholder="Sort by">
-            <Option value="recent-list">Recently Listed</Option>
-            <Option value="recent-create">Recently Created</Option>
-            <Option value="recent-sold">Recently sold</Option>
-            <Option value="expir">Expiring Soon</Option>
-            <Option value="lowest">Lowest Price</Option>
-            <Option value="most-view">Most Viewed</Option>
-          </Select>
+          <Row>
+            <Col xs={{ span: 12 }} lg={{ span: 8 }} style={{ paddingRight: 16 }}>
+              <Select defaultValue="all" placeholder="Select type">
+                <Option value="all">All items</Option>
+                <Option value="single">Single items</Option>
+                <Option value="bundles">Bundles</Option>
+              </Select>
+            </Col>
+            <Col xs={{ span: 12 }} lg={{ span: 8 }}>
+              <Select placeholder="Sort by">
+                <Option value="recent-list">Recently Listed</Option>
+                <Option value="recent-create">Recently Created</Option>
+                <Option value="recent-sold">Recently sold</Option>
+                <Option value="expir">Expiring Soon</Option>
+                <Option value="lowest">Lowest Price</Option>
+                <Option value="most-view">Most Viewed</Option>
+              </Select>
+            </Col>
+          </Row>
+        </div>
+        <div className="list">
+          <PerfectScrollbar style={{ height: '100%' }}>
+            <AssetContainer>
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+              <AssetCell />
+            </AssetContainer>
+          </PerfectScrollbar>
         </div>
       </div>
       <style jsx>{`
@@ -64,11 +90,13 @@ const Content: React.FunctionComponent = () => {
           padding: 18px 15px 0 15px;
         }
         .select :global(.ant-select) {
+          width: 100%;
           height: 32px;
-          margin-right: 16px;
         }
-        .select :global(.ant-select):nth-last-of-type(1) {
-          margin-right: 0;
+
+        .list {
+          height: 500px;
+          padding: 16px;
         }
       `}</style>
     </>
