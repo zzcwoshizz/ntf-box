@@ -6,7 +6,7 @@ import useContainer from '@/shared/hooks/useContainer'
 
 import Content from './components/Content'
 
-const Market: React.FunctionComponent = () => {
+const Activity: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
 
   return (
@@ -39,4 +39,4 @@ const Market: React.FunctionComponent = () => {
   )
 }
 
-export default Market
+export default Activity

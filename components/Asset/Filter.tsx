@@ -10,7 +10,6 @@ import SearchSvg from '@/icons/icon_search.svg'
 import useTheme from '@/shared/hooks/useTheme'
 
 const { SubMenu } = Menu
-const { Text } = Typography
 
 const Filter: React.FunctionComponent = () => {
   const theme = useTheme()

@@ -2,9 +2,9 @@ import { Typography } from 'antd'
 import React from 'react'
 
 import Header from '@/components/Header'
+import Filter from '@/containers/Ranking/components/Filter'
 import useContainer from '@/shared/hooks/useContainer'
 
-import Filter from './components/Filter'
 import List from './components/List'
 
 const { Title } = Typography

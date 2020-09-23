@@ -1,10 +1,10 @@
 import React from 'react'
 
+import { AssetFilter } from '@/components/Asset'
 import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
 
 import Content from './components/Content'
-import Filter from './components/Filter'
 
 const MarketSelect: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
@@ -14,7 +14,7 @@ const MarketSelect: React.FunctionComponent = () => {
       <Header />
       <div className="container">
         <div className="left">
-          <Filter />
+          <AssetFilter />
         </div>
         <div className="right">
           <Content />
@@ -32,6 +32,7 @@ const MarketSelect: React.FunctionComponent = () => {
         }
         .right {
           flex: 1 1 auto;
+          margin-left: 16px;
         }
       `}</style>
     </>

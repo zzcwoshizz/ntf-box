@@ -61,7 +61,6 @@ const Content: React.FunctionComponent = () => {
         .container {
           width: 100%;
           height: 605px;
-          margin-left: 16px;
           border: 1px solid ${theme['@border-color-base']};
           background-color: #fff;
           border-radius: 4px;
