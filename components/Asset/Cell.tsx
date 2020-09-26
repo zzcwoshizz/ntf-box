@@ -1,4 +1,4 @@
-import { Tooltip } from 'antd'
+import { Space, Tooltip } from 'antd'
 import React from 'react'
 
 import PriceSvg from '@/icons/icon_price.svg'
@@ -6,12 +6,16 @@ import TimeSvg from '@/icons/icon_time.svg'
 import TotalSvg from '@/icons/icon_total.svg'
 import useTheme from '@/shared/hooks/useTheme'
 
-const Cell: React.FunctionComponent = () => {
+interface Props {
+  selected?: boolean
+}
+
+const Cell: React.FunctionComponent<Props> = ({ selected = false }) => {
   const theme = useTheme()
 
   return (
     <>
-      <div className="cell">
+      <div className={'cell' + (selected ? ' cell-select' : '')}>
         <img src="" alt="asset" />
         <div className="content">
           <p>
@@ -26,8 +30,10 @@ const Cell: React.FunctionComponent = () => {
           </Tooltip>
           <div className="detail">
             <span>
-              <PriceSvg />
-              <label className="price">0.32E</label>
+              <Space>
+                <PriceSvg />
+                <label className="price">0.32E</label>
+              </Space>
             </span>
             <span className="time">
               <TimeSvg />
@@ -44,10 +50,14 @@ const Cell: React.FunctionComponent = () => {
 
           background: #fff;
           box-shadow: 0px 2px 20px 0px rgba(60, 77, 111, 0.1);
-          border-radius: 8px;
+          border-radius: 4px;
 
           overflow: hidden;
           cursor: pointer;
+        }
+        .cell-select {
+          border: 2px solid #99bbff;
+          background: rgba(69, 114, 204, 0.2);
         }
 
         .cell > img {
@@ -96,9 +106,6 @@ const Cell: React.FunctionComponent = () => {
         .detail > span {
           display: inline-flex;
           align-items: center;
-        }
-        .detail :global(svg) {
-          margin-right: 4px;
         }
         .price {
           font-size: 20px;

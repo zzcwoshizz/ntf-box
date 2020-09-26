@@ -1,4 +1,4 @@
-import { Col, Row, Select, Table, Typography } from 'antd'
+import { Col, Row, Select, Space, Table, Typography } from 'antd'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -18,16 +18,15 @@ const columns = [
     render: () => (
       <>
         <div>
-          <img src="" alt="占位图" />
-          <a>Willion peter</a>
+          <Space>
+            <img src="" alt="占位图" />
+            <a>Willion peter</a>
+          </Space>
         </div>
         <style jsx>{`
           div {
             display: flex;
             align-items: center;
-          }
-          img {
-            margin-right: 5px;
           }
         `}</style>
       </>
@@ -39,19 +38,20 @@ const columns = [
     render: () => (
       <>
         <div>
-          <img src="" alt="占位图" />
-          <a>Willion peter</a>
+          <Space>
+            <img src="" alt="占位图" />
+            <a>Willion peter</a>
+          </Space>
           {' Sell to '}
-          <img src="" alt="占位图" />
-          <a>Willion peter</a>
+          <Space>
+            <img src="" alt="占位图" />
+            <a>Willion peter</a>
+          </Space>
         </div>
         <style jsx>{`
           div {
             display: flex;
             align-items: center;
-          }
-          img {
-            margin-right: 5px;
           }
         `}</style>
       </>

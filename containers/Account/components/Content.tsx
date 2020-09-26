@@ -1,4 +1,4 @@
-import { Col, Row, Select } from 'antd'
+import { Button, Col, Row, Select, Space } from 'antd'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -9,6 +9,7 @@ const { Option } = Select
 
 const Content: React.FunctionComponent = () => {
   const theme = useTheme()
+  const [selected, setSelected] = React.useState([0])
 
   return (
     <>
@@ -38,10 +39,10 @@ const Content: React.FunctionComponent = () => {
             </Col>
           </Row>
         </div>
-        <div className="list">
+        <div className="list" style={{ paddingBottom: selected.length > 0 ? 55 : undefined }}>
           <PerfectScrollbar style={{ height: '100%' }}>
             <AssetContainer>
-              <AssetCell />
+              <AssetCell selected />
               <AssetCell />
               <AssetCell />
               <AssetCell />
@@ -55,6 +56,18 @@ const Content: React.FunctionComponent = () => {
               <AssetCell />
             </AssetContainer>
           </PerfectScrollbar>
+          {selected.length > 0 && (
+            <div className="action">
+              <span>{selected.length} item selected</span>
+              <span>
+                <Space>
+                  <Button>Cancel</Button>
+                  <Button>Transfer</Button>
+                  <Button type="primary">Determine</Button>
+                </Space>
+              </span>
+            </div>
+          )}
         </div>
       </div>
       <style jsx>{`
@@ -94,8 +107,25 @@ const Content: React.FunctionComponent = () => {
         }
 
         .list {
+          position: relative;
+
           height: 500px;
           padding: 16px;
+        }
+
+        .action {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 56px;
+          padding: 0 16px;
+
+          background-color: #fff;
         }
       `}</style>
     </>

@@ -1,3 +1,4 @@
+import { Space } from 'antd'
 import Link, { LinkProps } from 'next/link'
 import React from 'react'
 
@@ -11,7 +12,10 @@ const MoreLink: React.FunctionComponent<LinkProps> = (props) => {
     <>
       <Link {...props}>
         <a>
-          <MoreSvg /> More
+          <Space>
+            <MoreSvg />
+            More
+          </Space>
         </a>
       </Link>
       <style jsx>{`
@@ -20,9 +24,6 @@ const MoreLink: React.FunctionComponent<LinkProps> = (props) => {
           align-items: center;
 
           color: ${theme['@text-color-secondary']};
-        }
-        a > :global(svg) {
-          margin-right: 4px;
         }
       `}</style>
     </>

@@ -3,3 +3,5 @@ export const ERC721_ABI = JSON.parse(
 )
 
 export const SIGN_TEXT = 'Welcome to NftBox!'
+
+export const AVATAR_URL = 'https://robohash.org/'

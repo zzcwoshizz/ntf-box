@@ -2,6 +2,7 @@ import { Typography } from 'antd'
 import React from 'react'
 
 import Header from '@/components/Header'
+import { AVATAR_URL } from '@/shared/constants'
 import useContainer from '@/shared/hooks/useContainer'
 
 const { Text } = Typography
@@ -16,7 +17,7 @@ const AccountTop: React.FunctionComponent = () => {
         <div className="container">
           <div className="balance">3.3282ETH</div>
           <div className="info">
-            <img src={'https://robohash.org/0xfsdghq478gafgfas'} alt="account" />
+            <img src={AVATAR_URL + '0xfsdghq478gafgfas'} alt="account" />
             <div>
               <h6>Hunter Pena</h6>
               <Text copyable>0x131ffgaffdfdjs54378ftdsfas7843</Text>

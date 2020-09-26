@@ -1,3 +1,4 @@
+import { Space } from 'antd'
 import React from 'react'
 
 import useTheme from '@/shared/hooks/useTheme'
@@ -15,8 +16,10 @@ const Item: React.FunctionComponent<Props> = ({ icon, title, extra }) => {
     <>
       <div className="item">
         <div className="meta">
-          {typeof icon === 'string' ? <img src={icon} alt={title?.toString() + ''} /> : icon}
-          {title}
+          <Space>
+            {typeof icon === 'string' ? <img src={icon} alt={title?.toString() + ''} /> : icon}
+            {title}
+          </Space>
         </div>
         <div className="extra">{extra}</div>
       </div>
@@ -41,7 +44,6 @@ const Item: React.FunctionComponent<Props> = ({ icon, title, extra }) => {
         .meta > img {
           width: 24px;
           height: 24px;
-          margin-right: 8px;
           object-fit: cover;
           object-position: center;
 
