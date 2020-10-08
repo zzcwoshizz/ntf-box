@@ -1,61 +1,76 @@
-import { Col, Row, Select } from 'antd'
+import { Col, Row, Select, Spin } from 'antd'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
 import { AssetCell, AssetContainer } from '@/components/Asset'
 import useTheme from '@/shared/hooks/useTheme'
+import { useAsset } from '@/shared/providers/AssetProvider'
 
 const { Option } = Select
 
 const Content: React.FunctionComponent = () => {
   const theme = useTheme()
+  const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset()
 
   return (
     <>
       <div className="container">
         <div className="head">
           <h4>All items</h4>
-          <p>On the shelf 11,271,095</p>
+          <p>On the shelf {page.total}</p>
         </div>
         <div className="select">
           <Row>
             <Col xs={{ span: 12 }} lg={{ span: 8 }} style={{ paddingRight: 16 }}>
-              <Select defaultValue="all" placeholder="Select type">
-                <Option value="all">All items</Option>
-                <Option value="single">Single items</Option>
-                <Option value="bundles">Bundles</Option>
+              <Select
+                value={filter.orderType}
+                placeholder="Select type"
+                onChange={(value) => {
+                  toogleFilter({
+                    ...filter,
+                    orderType: value
+                  })
+                }}>
+                <Option value="0">All items</Option>
+                <Option value="1">Single items</Option>
+                <Option value="2">Bundles</Option>
               </Select>
             </Col>
             <Col xs={{ span: 12 }} lg={{ span: 8 }}>
-              <Select placeholder="Sort by">
-                <Option value="recent-list">Recently Listed</Option>
-                <Option value="recent-create">Recently Created</Option>
-                <Option value="recent-sold">Recently sold</Option>
-                <Option value="expir">Expiring Soon</Option>
-                <Option value="lowest">Lowest Price</Option>
-                <Option value="most-view">Most Viewed</Option>
+              <Select
+                value={filter.itemOrder}
+                placeholder="Sort by"
+                onChange={(value) =>
+                  toogleFilter({
+                    ...filter,
+                    itemOrder: value
+                  })
+                }>
+                <Option value="0">Recently Created</Option>
+                <Option value="1">Expiring Soon</Option>
+                <Option value="2">Lowest Price</Option>
+                <Option value="3">Highest Price</Option>
               </Select>
             </Col>
           </Row>
         </div>
-        <div className="list">
-          <PerfectScrollbar style={{ height: '100%' }}>
-            <AssetContainer>
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-              <AssetCell />
-            </AssetContainer>
-          </PerfectScrollbar>
-        </div>
+        <Spin spinning={fetching && page.page === 1}>
+          <div className="list">
+            <PerfectScrollbar
+              style={{ height: '100%' }}
+              onScrollDown={(e) => {
+                if (e.scrollHeight === e.scrollTop + e.clientHeight) {
+                  onScrollBottom()
+                }
+              }}>
+              <AssetContainer>
+                {assets.map((asset, index) => (
+                  <AssetCell key={index} asset={asset} />
+                ))}
+              </AssetContainer>
+            </PerfectScrollbar>
+          </div>
+        </Spin>
       </div>
       <style jsx>{`
         .container {

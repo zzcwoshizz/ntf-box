@@ -1,4 +1,17 @@
-import { IBanner, IResponse } from './types'
+import {
+  ActivityType,
+  AssetType,
+  IActivity,
+  IAsset,
+  IBanner,
+  IListResponse,
+  IProject,
+  IRanking,
+  IResponse,
+  IUser,
+  IUserPayload,
+  PageParam
+} from './types'
 import api from './util'
 
 export const getBanner = () => {
@@ -13,6 +26,19 @@ export const subscribe = (email: string) => {
 export const login = (headers: { address: string; signature: string }) => {
   return api.post<IResponse<string>>('/login', {
     headers
+  })
+}
+
+// 获取用户登录信息
+export const getUser = (headers: { address: string }) => {
+  return api.get<IResponse<IUser>>('/user', {
+    headers
+  })
+}
+
+export const putUser = (body: IUserPayload) => {
+  return api.put<IResponse<any>>('/user', {
+    body
   })
 }
 
@@ -36,5 +62,65 @@ export const getOrder = (
       price,
       type
     }
+  })
+}
+
+/**
+ * 获取购买订单信息
+ * @param sha3 string
+ */
+export const buy = (sha3: string) => {
+  return api.post<any>(`/order/${sha3}`)
+}
+
+/**
+ * 获取主页热门商品
+ */
+export const getHotGoods = () => {
+  return api.get<IResponse<IAsset[]>>('/home/hot')
+}
+
+/**
+ * 获取主页最新商品
+ */
+export const getLatestGoods = () => {
+  return api.get<IResponse<IAsset[]>>('/home/news')
+}
+
+/**
+ * 获取商品
+ */
+export const getAssetList = (
+  params: PageParam & { projectId?: number; orderType: string; itemOrder: string; address?: string }
+) => {
+  return api.get<IListResponse<IAsset>>('/asset', {
+    params
+  })
+}
+
+export const getProjectList = () => {
+  return api.get<IResponse<IProject[]>>('/projects')
+}
+
+// 排行榜
+export const getRanking = (
+  params: PageParam & {
+    type: AssetType
+    itemOrder: string
+    order: 'desc' | 'asc'
+  }
+) => {
+  return api.get<IListResponse<IRanking>>('/rank', { params, headers: { lan: 'zh' } })
+}
+
+export const getActivity = (
+  params: PageParam & {
+    projectId?: number
+    type: ActivityType
+    address?: string
+  }
+) => {
+  return api.get<IListResponse<IActivity>>('/activity', {
+    params
   })
 }

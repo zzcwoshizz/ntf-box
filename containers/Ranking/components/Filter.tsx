@@ -1,22 +1,26 @@
 import { Tabs } from 'antd'
 import React from 'react'
 
+import { AssetType } from '@/api/types'
+import { ASSET_TYPES } from '@/shared/constants'
+
+import { useData } from '../context'
+
 const { TabPane } = Tabs
 
 const Filter: React.FunctionComponent = () => {
+  const { filter, toogleFilter } = useData()
+
   return (
     <>
-      <Tabs defaultActiveKey="1">
-        <TabPane tab="Hot" key="1" />
-        <TabPane tab="New" key="2" />
-        <TabPane tab="Domain name" key="3" />
-        <TabPane tab="Game" key="4" />
-        <TabPane tab="Virtual world" key="5" />
-        <TabPane tab="Art" key="6" />
-        <TabPane tab="Transaction card" key="7" />
-        <TabPane tab="Collection" key="8" />
-        <TabPane tab="Sports" key="9" />
-        <TabPane tab="Application" key="10" />
+      <Tabs
+        activeKey={filter.type}
+        onChange={(value) => {
+          toogleFilter({ ...filter, type: value as AssetType })
+        }}>
+        {Object.keys(ASSET_TYPES).map((key) => (
+          <TabPane tab={ASSET_TYPES[key as AssetType]} key={key} />
+        ))}
       </Tabs>
       <style jsx global>{`
         .ant-tabs-nav-wrap {

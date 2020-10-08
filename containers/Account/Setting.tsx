@@ -1,16 +1,71 @@
-import { Button, Switch } from 'antd'
+import { Button, Input, Modal, Switch } from 'antd'
 import React from 'react'
 
 import FhSvg from '@/icons/icon_fh.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApp } from '@/shared/providers/AppProvider'
 
 const Setting: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
   const theme = useTheme()
+  const { user, toogleUserInfo } = useApp()
+  const [email, setEmail] = React.useState('')
+  const [emailVisible, setEmailVisible] = React.useState(false)
+  const [name, setName] = React.useState('')
+  const [nameVisible, setNameVisible] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
 
   return (
     <>
+      <Modal
+        visible={emailVisible}
+        title="Set Email"
+        confirmLoading={loading}
+        onOk={() => {
+          toogleUserInfo({
+            email
+          }).finally(() => {
+            setLoading(false)
+            setEmailVisible(false)
+          })
+        }}
+        onCancel={() => {
+          setEmailVisible(false)
+        }}>
+        <Input
+          type="email"
+          placeholder="Please input your email"
+          value={email}
+          onChange={(e) => {
+            setEmail(e.target.value)
+          }}
+        />
+      </Modal>
+      <Modal
+        visible={nameVisible}
+        title="Set Nickname"
+        confirmLoading={loading}
+        onOk={() => {
+          toogleUserInfo({
+            userName: name
+          }).finally(() => {
+            setLoading(false)
+            setNameVisible(false)
+          })
+        }}
+        onCancel={() => {
+          setNameVisible(false)
+        }}>
+        <Input
+          type="text"
+          placeholder="Please input your nickname"
+          value={name}
+          onChange={(e) => {
+            setName(e.target.value)
+          }}
+        />
+      </Modal>
       <div className="container">
         <div className="title">
           <FhSvg style={{ marginRight: 8 }} />
@@ -24,9 +79,9 @@ const Setting: React.FunctionComponent = () => {
           <span style={{ color: theme['@text-color-tertiary'] }}>
             Exception alert, subscribe to the latest news, etc
           </span>
-          <span>kartafpo@dirhog.bm</span>
+          <span>{user?.email}</span>
           <span style={{ textAlign: 'right' }}>
-            <Button type="link" size="small">
+            <Button type="link" size="small" onClick={() => setEmailVisible(true)}>
               Set up
             </Button>
           </span>
@@ -36,9 +91,9 @@ const Setting: React.FunctionComponent = () => {
           <span style={{ color: theme['@text-color-tertiary'] }}>
             Convenient for transaction inquiry
           </span>
-          <span>Hunter Pena</span>
+          <span>{user?.nickName}</span>
           <span style={{ textAlign: 'right' }}>
-            <Button type="link" size="small">
+            <Button type="link" size="small" onClick={() => setNameVisible(true)}>
               Set up
             </Button>
           </span>
@@ -52,13 +107,29 @@ const Setting: React.FunctionComponent = () => {
         <div className="item">
           <span>
             New reminder
-            <Switch style={{ marginLeft: 16 }} defaultChecked />
+            <Switch
+              style={{ marginLeft: 16 }}
+              checked={Boolean(user?.newAlert)}
+              onChange={(value) => {
+                toogleUserInfo({
+                  newAlert: Number(value)
+                })
+              }}
+            />
           </span>
         </div>
         <div className="item">
           <span>
             Security information
-            <Switch style={{ marginLeft: 16 }} />
+            <Switch
+              style={{ marginLeft: 16 }}
+              checked={Boolean(user?.tradeAlert)}
+              onChange={(value) => {
+                toogleUserInfo({
+                  tradeAlert: Number(value)
+                })
+              }}
+            />
           </span>
         </div>
       </div>

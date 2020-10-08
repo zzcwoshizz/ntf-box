@@ -4,23 +4,26 @@ import React from 'react'
 import Header from '@/components/Header'
 import { AVATAR_URL } from '@/shared/constants'
 import useContainer from '@/shared/hooks/useContainer'
+import { useApp } from '@/shared/providers/AppProvider'
+import { shortenAddress } from '@/utils/string'
 
 const { Text } = Typography
 
 const AccountTop: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
+  const { account, user, balance, web3 } = useApp()
 
   return (
     <>
       <Header />
       <div className="hero">
         <div className="container">
-          <div className="balance">3.3282ETH</div>
+          <div className="balance">{web3.utils.fromWei(balance)}ETH</div>
           <div className="info">
-            <img src={AVATAR_URL + '0xfsdghq478gafgfas'} alt="account" />
+            <img src={AVATAR_URL + user?.nickName ?? user?.address ?? account} alt="account" />
             <div>
-              <h6>Hunter Pena</h6>
-              <Text copyable>0x131ffgaffdfdjs54378ftdsfas7843</Text>
+              <h6>{shortenAddress(user?.nickName ?? user?.address ?? account)}</h6>
+              <Text copyable>{user?.address ?? account}</Text>
             </div>
           </div>
         </div>

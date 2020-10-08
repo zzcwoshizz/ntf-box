@@ -1,23 +1,41 @@
 import React from 'react'
+import { useWallet } from 'use-wallet'
 
-import { AssetFilter } from '@/components/Asset'
+import ActivityContent from '@/containers/Activity/components/Content'
 import useContainer from '@/shared/hooks/useContainer'
+import { ActivityProvider } from '@/shared/providers/ActivityProvider'
+import { useApp } from '@/shared/providers/AppProvider'
+import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
-import ActivityContent from './components/ActivityContent'
+import Filter from './components/ActivityFilter'
 
 const Activity: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
+  const { connect, account } = useApp()
+  const wallet = useWallet()
+
+  React.useEffect(() => {
+    if (wallet.status !== 'connected') {
+      connect('injected')
+    }
+  }, [])
 
   return (
     <>
-      <div className="container">
-        <div className="left">
-          <AssetFilter />
-        </div>
-        <div className="right">
-          <ActivityContent />
-        </div>
-      </div>
+      <ProjectProvider>
+        {wallet.status === 'connected' && (
+          <ActivityProvider account={account}>
+            <div className="container">
+              <div className="left">
+                <Filter />
+              </div>
+              <div className="right">
+                <ActivityContent />
+              </div>
+            </div>
+          </ActivityProvider>
+        )}
+      </ProjectProvider>
       <style jsx>{`
         .container {
           display: flex;

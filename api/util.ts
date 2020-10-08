@@ -1,5 +1,7 @@
 import ifetch from 'isomorphic-fetch'
 
+import { getCache } from '@/utils/cache'
+
 import { IResponse } from './types'
 
 interface KeyValue<T> {
@@ -11,7 +13,7 @@ type MethodType = 'GET' | 'POST' | 'DELETE' | 'PATCH' | 'PUT'
 export interface IConfig {
   method?: MethodType
   headers?: KeyValue<string>
-  params?: KeyValue<number | string | boolean>
+  params?: KeyValue<any>
   body?: any
   timeout?: number
   cache?: 'default' | 'no-store' | 'reload' | 'no-cache' | 'force-cache' | 'only-if-cached'
@@ -20,7 +22,7 @@ export interface IConfig {
 }
 
 // 按字母顺序从小到大排序，方便后面签名
-const serializeParams = (obj?: KeyValue<number | string | boolean>): string => {
+const serializeParams = (obj?: KeyValue<any>): string => {
   if (!obj) {
     return ''
   }
@@ -146,7 +148,7 @@ class Api {
       ...config,
       headers: {
         'Content-Type': 'application/json',
-        jwt: process.browser ? localStorage.getItem('token') + '' : '',
+        jwt: process.browser ? getCache<string>('token') + '' : '',
         ...config.headers
       }
     }

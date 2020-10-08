@@ -1,10 +1,11 @@
 import { Space } from 'antd'
 import React from 'react'
 
+import Img from '@/components/Img'
 import useTheme from '@/shared/hooks/useTheme'
 
 interface Props {
-  icon?: React.ReactNode
+  icon?: string
   title: React.ReactNode
   extra?: React.ReactNode
 }
@@ -17,7 +18,7 @@ const Item: React.FunctionComponent<Props> = ({ icon, title, extra }) => {
       <div className="item">
         <div className="meta">
           <Space>
-            {typeof icon === 'string' ? <img src={icon} alt={title?.toString() + ''} /> : icon}
+            <Img width={24} height={24} src={icon} alt={title?.toString() + ''} />
             {title}
           </Space>
         </div>

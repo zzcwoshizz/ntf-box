@@ -1,17 +1,25 @@
 import { Space, Tooltip } from 'antd'
 import React from 'react'
 
+import { IAsset } from '@/api/types'
 import PriceSvg from '@/icons/icon_price.svg'
 import TimeSvg from '@/icons/icon_time.svg'
 import TotalSvg from '@/icons/icon_total.svg'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApp } from '@/shared/providers/AppProvider'
 
 interface Props {
   selected?: boolean
+  asset: IAsset
 }
 
-const Cell: React.FunctionComponent<Props> = ({ selected = false }) => {
+const Cell: React.FunctionComponent<Props> = ({ asset, selected = false }) => {
   const theme = useTheme()
+  const { blockNumber, web3 } = useApp()
+
+  if (!asset) {
+    return null
+  }
 
   return (
     <>
@@ -22,7 +30,7 @@ const Cell: React.FunctionComponent<Props> = ({ selected = false }) => {
             Brave Frontier Heroes
             <span>
               <TotalSvg />
-              <label style={{ marginLeft: 4 }}>22</label>
+              <label style={{ marginLeft: 4 }}>{asset.viewNum}</label>
             </span>
           </p>
           <Tooltip title={'Speial Golem ID #12312319223012 30xJacka(Meteotite)'}>
@@ -32,12 +40,16 @@ const Cell: React.FunctionComponent<Props> = ({ selected = false }) => {
             <span>
               <Space>
                 <PriceSvg />
-                <label className="price">0.32E</label>
+                <label className="price">
+                  {asset.price && web3.utils.fromWei(asset.dealPrice + '')}E
+                </label>
               </Space>
             </span>
             <span className="time">
-              <TimeSvg />
-              20Hour 38Min
+              <Space>
+                <TimeSvg />
+                {asset.expirationHeight ? asset.expirationHeight - blockNumber : '--'}
+              </Space>
             </span>
           </div>
         </div>

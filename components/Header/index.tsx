@@ -1,5 +1,6 @@
-import { MenuOutlined } from '@ant-design/icons'
+import { DownOutlined, MenuOutlined } from '@ant-design/icons'
 import { Button, Dropdown, Menu } from 'antd'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -7,6 +8,8 @@ import CnSvg from '@/icons/icon_cn.svg'
 import EnSvg from '@/icons/icon_en.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApp } from '@/shared/providers/AppProvider'
+import { shortenAddress } from '@/utils/string'
 
 import ActiveLink from '../Link/ActiveLink'
 
@@ -48,6 +51,27 @@ const Header: React.FunctionComponent = () => {
   ]
 
   const router = useRouter()
+  const { user, login } = useApp()
+
+  const userMenu = (
+    <Menu>
+      <Menu.Item>
+        <Link href="/account/items">
+          <a>Items</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href="/account/activity">
+          <a>Activity</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href="/account/setting">
+          <a>Setting</a>
+        </Link>
+      </Menu.Item>
+    </Menu>
+  )
 
   return (
     <>
@@ -62,7 +86,17 @@ const Header: React.FunctionComponent = () => {
             ))}
           </nav>
           <div className="right">
-            <Button type="text">My Account</Button>
+            {user ? (
+              <Dropdown overlay={userMenu}>
+                <Button type="text">
+                  {user.nickName ?? shortenAddress(user.address)} <DownOutlined />
+                </Button>
+              </Dropdown>
+            ) : (
+              <Button type="text" onClick={login}>
+                My Account
+              </Button>
+            )}
             <div className="language">
               <Dropdown
                 placement={'bottomLeft'}

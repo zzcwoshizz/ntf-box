@@ -6,26 +6,23 @@ import * as React from 'react'
 import { UseWalletProvider } from 'use-wallet'
 
 import Footer from '@/components/Footer'
-import { AuthProvider } from '@/shared/providers/AuthProvider'
-import { ManagerProvider } from '@/shared/providers/ManagerProvider'
+import { AppProvider } from '@/shared/providers/AppProvider'
+import { ConstantsProvider } from '@/shared/providers/ContantsProvider'
 import { ViewportProvider } from '@/shared/providers/ViewportProvider'
 import ResetCss from '@/styles/Reset'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
-      <UseWalletProvider
-        chainId={process.env.NODE_ENV === 'production' ? 1 : 4}
-        connectors={{
-          walletconnect: {
-            rpcUrl:
-              process.env.NODE_ENV === 'production'
-                ? 'https://mainnet.eth.aragon.network'
-                : 'https://rinkeby.eth.aragon.network/'
-          }
-        }}>
-        <ManagerProvider>
-          <AuthProvider>
+      <ConstantsProvider>
+        <UseWalletProvider
+          chainId={4}
+          connectors={{
+            walletconnect: {
+              rpcUrl: 'https://mainnet.eth.aragon.network'
+            }
+          }}>
+          <AppProvider>
             <ViewportProvider>
               <Head>
                 <title>NTF BOX</title>
@@ -53,9 +50,9 @@ function MyApp({ Component, pageProps }: AppProps) {
                 }
               `}</style>
             </ViewportProvider>
-          </AuthProvider>
-        </ManagerProvider>
-      </UseWalletProvider>
+          </AppProvider>
+        </UseWalletProvider>
+      </ConstantsProvider>
       <ResetCss />
     </>
   )

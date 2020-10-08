@@ -1,8 +1,16 @@
-import { Table } from 'antd'
+import { Space, Table } from 'antd'
+import { ColumnsType } from 'antd/lib/table'
 import React from 'react'
 
+import { IRanking } from '@/api/types'
+import Img from '@/components/Img'
+
+import { useData } from '../context'
+
 const List: React.FunctionComponent = () => {
-  const columns = [
+  const { ranking } = useData()
+
+  const columns: ColumnsType<IRanking> = [
     {
       title: '',
       dataIndex: 'ranking',
@@ -10,8 +18,14 @@ const List: React.FunctionComponent = () => {
     },
     {
       title: 'DAPP',
-      dataIndex: 'dapp',
-      key: 'dapp'
+      dataIndex: 'name',
+      key: 'name',
+      render: (_, record) => (
+        <Space>
+          <Img src={record.logoUrl} />
+          {record.name}
+        </Space>
+      )
     },
     {
       title: 'Transactions',
@@ -20,8 +34,8 @@ const List: React.FunctionComponent = () => {
     },
     {
       title: 'Avg price(ETH)',
-      dataIndex: 'price',
-      key: 'price'
+      dataIndex: 'avgPrice',
+      key: 'avgPrice'
     },
     {
       title: 'Assets',
@@ -40,24 +54,12 @@ const List: React.FunctionComponent = () => {
     },
     {
       title: 'Turnover rate',
-      key: 'rate',
-      dataIndex: 'rate'
+      key: 'turnoverRate',
+      dataIndex: 'turnoverRate'
     }
   ]
 
-  const data = Array.from({ length: 10 }).map((_, index) => ({
-    ranking: index + 1,
-    dapp: 'Rarible',
-    transactions: 434,
-    price: '234.354',
-    assets: '4351',
-    owners: 43242,
-    total: 543656235,
-    rate: 24.43
-  }))
-  console.log(data)
-
-  return <Table columns={columns} dataSource={data} pagination={false} />
+  return <Table<IRanking> columns={columns} dataSource={ranking} pagination={false} />
 }
 
 export default List

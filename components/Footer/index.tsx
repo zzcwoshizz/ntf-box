@@ -8,13 +8,11 @@ import Reddit from '@/icons/reddit.svg'
 import Telegram from '@/icons/telegram.svg'
 import Twitter from '@/icons/twitter.svg'
 import useContainer from '@/shared/hooks/useContainer'
-import useTheme from '@/shared/hooks/useTheme'
 
 const { Title } = Typography
 
 const Footer: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const theme = useTheme()
 
   const linkSpan = {
     xs: { span: 12 },

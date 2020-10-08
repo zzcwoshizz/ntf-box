@@ -1,9 +1,9 @@
-import { Checkbox, Col, Input, Menu, Row, Slider, Typography } from 'antd'
+import { Checkbox, Input, Menu, Row, Slider } from 'antd'
 import Link from 'next/link'
-import { useRouter } from 'next/router'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
+import { IProject } from '@/api/types'
 import { AssetItem } from '@/components/Asset'
 import CloseSvg from '@/icons/close.svg'
 import SearchSvg from '@/icons/icon_search.svg'
@@ -11,11 +11,15 @@ import useTheme from '@/shared/hooks/useTheme'
 
 const { SubMenu } = Menu
 
-const Filter: React.FunctionComponent = () => {
-  const theme = useTheme()
-  const router = useRouter()
+export interface Props<FT = any> {
+  projects: IProject[]
+  filter: any
+  toogleFilter: FT
+}
 
-  const { name } = router.query
+const ActivityFilter: React.FunctionComponent<Props> = ({ projects, filter, toogleFilter }) => {
+  const theme = useTheme()
+  console.log(filter)
 
   return (
     <>
@@ -25,12 +29,19 @@ const Filter: React.FunctionComponent = () => {
           <Input
             prefix={<SearchSvg />}
             placeholder="Search"
-            suffix={name && <CloseSvg style={{ cursor: 'pointer' }} />}
-            value={name}
+            suffix={
+              filter.id && (
+                <CloseSvg
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => toogleFilter({ ...filter, id: undefined, name: undefined })}
+                />
+              )
+            }
+            value={filter.name}
           />
         </div>
         <div className="list">
-          {name ? (
+          {filter.id ? (
             <Menu mode="inline">
               <SubMenu key="sub1" title="A selection-type">
                 <div className="menu-child">
@@ -74,156 +85,20 @@ const Filter: React.FunctionComponent = () => {
             </Menu>
           ) : (
             <PerfectScrollbar style={{ height: '100%' }}>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
-              <Link href="/market/test">
-                <a>
-                  <AssetItem icon="" title="ETH Town" extra="78" />
-                </a>
-              </Link>
+              {projects.map((project, index) => (
+                <Link
+                  as={{ pathname: '/market', query: { id: project.id, name: project.name } }}
+                  href="/market"
+                  key={index}>
+                  <a
+                    onClick={(e) => {
+                      e.preventDefault()
+                      toogleFilter({ ...filter, id: project.id, name: project.name })
+                    }}>
+                    <AssetItem icon={project.logoUrl} title={project.name} extra="78" />
+                  </a>
+                </Link>
+              ))}
             </PerfectScrollbar>
           )}
         </div>
@@ -307,4 +182,4 @@ const Filter: React.FunctionComponent = () => {
   )
 }
 
-export default Filter
+export default ActivityFilter
