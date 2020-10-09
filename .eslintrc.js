@@ -46,6 +46,7 @@ module.exports = {
     'jsx-a11y/label-has-associated-control': 'off',
     'jsx-a11y/no-noninteractive-element-interactions': 'off',
     'react/display-name': 'off',
-    'import/no-unresolved': 'off'
+    'import/no-unresolved': 'off',
+    'import/named': 'off'
   }
 }
