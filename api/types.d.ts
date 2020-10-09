@@ -52,23 +52,22 @@ export interface IBanner {
 }
 
 export interface IAsset {
-  contractAdd?: string
-  createHeight?: number
+  contractAdd: string
+  createHeight?: string
   createTime?: string
-  dealPrice?: number
-  expirationHeight?: number
+  dealPrice?: string
+  expirationHeight?: string
   id?: number
   operator?: string
   orderHash?: string
-  orderId?: number
-  orderType?: number
-  platformFee?: number
-  price?: number
-  salt?: number
-  sha3?: string
+  orderId?: string
+  orderType?: string
+  platformFee?: string
+  price?: string
+  salt?: string
   side?: string
   status?: number
-  tokenId?: number
+  tokenId: string
   txid?: string
   viewNum?: number
 }
@@ -107,7 +106,7 @@ export type AssetType =
 
 export interface IRanking {
   assets: number
-  avgPrice: number
+  avgPrice: string
   createTime: string
   id: number
   logoUrl: string
@@ -125,21 +124,21 @@ export type ActivityType = 0 | 1 | 2 | 3 | 4 //0全部 1上架物品 2定价出�
 
 export interface IActivity {
   contractAdd: string
-  createHeight: number
+  createHeight: string
   createTime: string
-  dealPrice: number
-  expirationHeight: number
+  dealPrice: string
+  expirationHeight: string
   id: number
   operator: string
   orderHash: string
   orderId: string
-  orderType: number
-  platformFee: number
-  price: number
-  salt: number
+  orderType: string
+  platformFee: string
+  price: string
+  salt: string
   seller?: string
   side: 'BUY' | 'SELL'
   status: number
-  tokenId: number
+  tokenId: string
   txid: string
 }

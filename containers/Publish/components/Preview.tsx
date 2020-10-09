@@ -1,13 +1,16 @@
-import { Button, Space, Typography } from 'antd'
+import { Button, Form, Space, Typography } from 'antd'
 import React from 'react'
 
 import FhSvg from '@/icons/icon_fh.svg'
 import useTheme from '@/shared/hooks/useTheme'
 
+import { useData } from '../context'
+
 const { Text, Title } = Typography
 
 const Preview: React.FunctionComponent = () => {
   const theme = useTheme()
+  const { loading } = useData()
 
   return (
     <>
@@ -32,9 +35,11 @@ const Preview: React.FunctionComponent = () => {
             <span>The deal / Self removal is the end</span>
           </div>
         </div>
-        <Button type="primary" size="large">
-          Confirm and put on the shelf
-        </Button>
+        <Form.Item>
+          <Button type="primary" size="large" htmlType="submit" loading={loading}>
+            Confirm and put on the shelf
+          </Button>
+        </Form.Item>
         <div className="tip">
           <Title level={5}>Cost:</Title>
           <Text type="secondary">
@@ -47,6 +52,7 @@ const Preview: React.FunctionComponent = () => {
       <style jsx>{`
         .container {
           position: relative;
+          height: 100%;
         }
 
         .title {

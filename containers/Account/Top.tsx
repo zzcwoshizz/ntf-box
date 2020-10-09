@@ -22,7 +22,7 @@ const AccountTop: React.FunctionComponent = () => {
           <div className="info">
             <img src={AVATAR_URL + user?.nickName ?? user?.address ?? account} alt="account" />
             <div>
-              <h6>{shortenAddress(user?.nickName ?? user?.address ?? account)}</h6>
+              <h6>{user?.nickName ? user?.nickName : shortenAddress(user?.address ?? account)}</h6>
               <Text copyable>{user?.address ?? account}</Text>
             </div>
           </div>

@@ -1,13 +1,14 @@
-import { Carousel } from 'antd'
+import { Carousel, Space } from 'antd'
 import React from 'react'
 
 import RightArrow from '@/icons/icon_right.svg'
 import { AVATAR_URL } from '@/shared/constants'
 import useTheme from '@/shared/hooks/useTheme'
 
+import { useData } from '../../context'
 import Content from './Content'
 
-const Cell: React.FunctionComponent<{ icon: string; name: string; price: string }> = ({
+const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string }> = ({
   icon,
   name,
   price
@@ -17,13 +18,15 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price: string 
   return (
     <>
       <div className="cell">
-        <img src={icon} alt={name} />
-        <div>
-          <h6>{name}</h6>
-          <p>
-            Last price: <span>{price}</span>
-          </p>
-        </div>
+        <Space>
+          <img src={icon} alt={name} />
+          <div>
+            <h6>{name}</h6>
+            <p>
+              Last price: <span>{price}</span>
+            </p>
+          </div>
+        </Space>
       </div>
       <style jsx>{`
         .cell {
@@ -66,6 +69,7 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price: string 
 
 const Items: React.FunctionComponent = () => {
   const theme = useTheme()
+  const { assets } = useData()
 
   return (
     <Content title="Items on the shelf" extra="12 piece">
@@ -97,10 +101,14 @@ const Items: React.FunctionComponent = () => {
                 }
               }
             ]}>
-            <Cell icon={AVATAR_URL + 'item'} name="Item name" price="0.23ETH" />
-            <Cell icon={AVATAR_URL + 'item'} name="Item name" price="0.23ETH" />
-            <Cell icon={AVATAR_URL + 'item'} name="Item name" price="0.23ETH" />
-            <Cell icon={AVATAR_URL + 'item'} name="Item name" price="0.23ETH" />
+            {assets.map((asset, index) => (
+              <Cell
+                key={index}
+                icon={AVATAR_URL + asset.contractAdd + asset.tokenId}
+                name="Item name"
+                price={asset.dealPrice}
+              />
+            ))}
           </Carousel>
         </div>
       </div>

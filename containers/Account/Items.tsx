@@ -30,7 +30,7 @@ const Items: React.FunctionComponent = () => {
                 <Filter />
               </div>
               <div className="right">
-                <Content />
+                <Content canSelect />
               </div>
             </div>
           </AssetProvider>

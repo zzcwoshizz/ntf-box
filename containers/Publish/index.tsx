@@ -6,6 +6,7 @@ import useTheme from '@/shared/hooks/useTheme'
 
 import Info from './components/Info'
 import Preview from './components/Preview'
+import { DataProvider } from './context'
 
 const Publish: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
@@ -14,14 +15,16 @@ const Publish: React.FunctionComponent = () => {
   return (
     <>
       <Header />
-      <div className="container">
-        <div className="left">
-          <Info />
+      <DataProvider>
+        <div className="container">
+          <div className="left">
+            <Info />
+          </div>
+          <div className="right">
+            <Preview />
+          </div>
         </div>
-        <div className="right">
-          <Preview />
-        </div>
-      </div>
+      </DataProvider>
       <style jsx>{`
         .container {
           display: flex;

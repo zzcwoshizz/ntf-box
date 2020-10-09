@@ -11,9 +11,10 @@ import { useApp } from '@/shared/providers/AppProvider'
 interface Props {
   selected?: boolean
   asset: IAsset
+  onClick?(): void
 }
 
-const Cell: React.FunctionComponent<Props> = ({ asset, selected = false }) => {
+const Cell: React.FunctionComponent<Props> = ({ asset, selected = false, onClick }) => {
   const theme = useTheme()
   const { blockNumber, web3 } = useApp()
 
@@ -23,7 +24,7 @@ const Cell: React.FunctionComponent<Props> = ({ asset, selected = false }) => {
 
   return (
     <>
-      <div className={'cell' + (selected ? ' cell-select' : '')}>
+      <div className={'cell' + (selected ? ' cell-select' : '')} onClick={() => onClick?.()}>
         <img src="" alt="asset" />
         <div className="content">
           <p>
@@ -41,14 +42,14 @@ const Cell: React.FunctionComponent<Props> = ({ asset, selected = false }) => {
               <Space>
                 <PriceSvg />
                 <label className="price">
-                  {asset.price && web3.utils.fromWei(asset.dealPrice + '')}E
+                  {asset.dealPrice && web3.utils.fromWei(asset.dealPrice)}E
                 </label>
               </Space>
             </span>
             <span className="time">
               <Space>
                 <TimeSvg />
-                {asset.expirationHeight ? asset.expirationHeight - blockNumber : '--'}
+                {asset.expirationHeight ? Number(asset.expirationHeight) - blockNumber : '--'}
               </Space>
             </span>
           </div>

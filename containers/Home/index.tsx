@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 
 import { getHotGoods, getLatestGoods } from '@/api'
@@ -13,6 +14,7 @@ import Hero from './components/Hero'
 import Intro from './components/Intro'
 
 const Home: React.FunctionComponent = () => {
+  const router = useRouter()
   const [hot, setHot] = React.useState<IAsset[]>([])
   const [latest, setLatest] = React.useState<IAsset[]>([])
   React.useEffect(() => {
@@ -37,7 +39,19 @@ const Home: React.FunctionComponent = () => {
           extra={<MoreLink href="/" />}>
           <AssetContainer>
             {hot.map((asset, index) => (
-              <AssetCell key={index} asset={asset} />
+              <AssetCell
+                key={index}
+                asset={asset}
+                onClick={() => {
+                  router.push({
+                    pathname: '/asset',
+                    query: {
+                      address: asset.contractAdd,
+                      tokenId: asset.tokenId
+                    }
+                  })
+                }}
+              />
             ))}
           </AssetContainer>
         </AssetList>
@@ -50,7 +64,19 @@ const Home: React.FunctionComponent = () => {
           extra={<MoreLink href="/" />}>
           <AssetContainer>
             {latest.map((asset, index) => (
-              <AssetCell key={index} asset={asset} />
+              <AssetCell
+                key={index}
+                asset={asset}
+                onClick={() => {
+                  router.push({
+                    pathname: '/asset',
+                    query: {
+                      address: asset.contractAdd,
+                      tokenId: asset.tokenId
+                    }
+                  })
+                }}
+              />
             ))}
           </AssetContainer>
         </AssetList>

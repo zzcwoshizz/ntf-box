@@ -44,18 +44,14 @@ export const putUser = (body: IUserPayload) => {
 
 /**
  * 获取订单信息
- * @param entrustInfos
- * @param expirationHeight 过期高度
- * @param price 价格
- * @param type //0 单个商品，直接出售挂单 不可还价,1 单个商品，直接出售挂单 可还价, 2 单个商品，拍卖,3 捆绑商品，直接出售挂单 不可还价,4 捆绑商品，直接出售挂单 可还价,5 捆绑商品，进行拍卖,6 转赠,可用值:SINGLE_ENTRUST_NO_PRICE,SINGLE_ENTRUST_PRICE,SINGLE_AUCTION_PRICE,MULTIPLE__ENTRUST_NO_PRICE,MULTIPLE__ENTRUST_PRICE,MULTIPLE__AUCTION_PRICE
  */
 export const getOrder = (
-  entrustInfos: { approval: boolean; contractAdd: string; tokenId: number }[],
+  entrustInfos: { approval: boolean; contractAdd: string; tokenId: string }[],
   expirationHeight: string,
   price: string,
   type: 0 | 1 | 2 | 3 | 4 | 5 | 6
 ) => {
-  return api.post<any>('/order', {
+  return api.post<IResponse<any>>('/order', {
     body: {
       entrustInfos,
       expirationHeight,
@@ -66,11 +62,19 @@ export const getOrder = (
 }
 
 /**
- * 获取购买订单信息
- * @param sha3 string
+ * 下单校验
  */
-export const buy = (sha3: string) => {
-  return api.post<any>(`/order/${sha3}`)
+export const verifyOrder = (body: { orderId: string; signature: string }) => {
+  return api.post<IResponse<any>>('/verify/order', {
+    body
+  })
+}
+
+/**
+ * 获取购买订单信息
+ */
+export const buy = (orderId: string) => {
+  return api.post<IResponse<any>>(`/order/${orderId}`)
 }
 
 /**
@@ -123,4 +127,13 @@ export const getActivity = (
   return api.get<IListResponse<IActivity>>('/activity', {
     params
   })
+}
+
+export const getAssetDetail = (body: { contractAdd: string[]; tokenId: string[] }) => {
+  return api.post<IListResponse<IAsset>>('/goods/detail', { body })
+}
+
+// 修改价钱
+export const modifyPrice = (body: { orderId: string; price: string; signature: string }) => {
+  return api.put('/order/price', { body })
 }

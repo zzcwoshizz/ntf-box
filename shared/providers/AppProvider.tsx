@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAsync, useInterval } from 'react-use'
-import { Connectors, useWallet } from 'use-wallet'
+import { Connectors, useWallet, Wallet } from 'use-wallet'
 import Web3 from 'web3'
 
 import { getUser, login as loginApi, putUser } from '@/api'
@@ -124,7 +124,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         account,
         balance,
         web3,
-        blockNumber: blockNumber,
+        blockNumber,
         user,
         connect,
         login,

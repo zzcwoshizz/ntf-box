@@ -21,7 +21,7 @@ const useERC721 = (erc721Address: string) => {
   }
 
   const setApprovalForAll = async (address: string, approved = true): Promise<any> => {
-    if (account) {
+    if (!account) {
       return
     }
 

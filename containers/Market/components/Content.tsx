@@ -1,4 +1,5 @@
-import { Col, Row, Select, Spin } from 'antd'
+import { Button, Col, Row, Select, Space, Spin } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
@@ -8,9 +9,21 @@ import { useAsset } from '@/shared/providers/AssetProvider'
 
 const { Option } = Select
 
-const Content: React.FunctionComponent = () => {
+const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect = false }) => {
   const theme = useTheme()
+  const [selected, setSelected] = React.useState<number[]>([])
+  const router = useRouter()
+
   const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset()
+
+  const toogleSelected = (index: number) => {
+    const hasIndex = selected.indexOf(index)
+    if (hasIndex > -1) {
+      setSelected(selected.slice(0, hasIndex).concat(selected.slice(hasIndex + 1)))
+    } else {
+      setSelected([...selected, index])
+    }
+  }
 
   return (
     <>
@@ -65,10 +78,43 @@ const Content: React.FunctionComponent = () => {
               }}>
               <AssetContainer>
                 {assets.map((asset, index) => (
-                  <AssetCell key={index} asset={asset} />
+                  <AssetCell
+                    key={index}
+                    asset={asset}
+                    selected={canSelect && selected.indexOf(index) > -1}
+                    onClick={() => {
+                      if (canSelect) {
+                        toogleSelected(index)
+                      }
+                    }}
+                  />
                 ))}
               </AssetContainer>
             </PerfectScrollbar>
+            {canSelect && selected.length > 0 && (
+              <div className="action">
+                <span>{selected.length} item selected</span>
+                <span>
+                  <Space>
+                    <Button onClick={() => setSelected([])}>Cancel</Button>
+                    {selected.length === 1 && <Button>Transfer</Button>}
+                    <Button
+                      type="primary"
+                      onClick={() => {
+                        router.push({
+                          pathname: '/publish',
+                          query: {
+                            address: selected.map((index) => assets[index].contractAdd),
+                            tokenId: selected.map((index) => assets[index].tokenId)
+                          }
+                        })
+                      }}>
+                      Determine
+                    </Button>
+                  </Space>
+                </span>
+              </div>
+            )}
           </div>
         </Spin>
       </div>
@@ -111,6 +157,21 @@ const Content: React.FunctionComponent = () => {
         .list {
           height: 500px;
           padding: 16px;
+        }
+
+        .action {
+          position: absolute;
+          left: 0;
+          right: 0;
+          bottom: 0;
+
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          height: 56px;
+          padding: 0 16px;
+
+          background-color: #fff;
         }
       `}</style>
     </>
