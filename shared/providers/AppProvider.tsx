@@ -1,11 +1,10 @@
 import React from 'react'
-import { useAsyncRetry, useInterval, usePrevious } from 'react-use'
-import { Connectors, useWallet } from 'use-wallet'
+import { useAsyncRetry, useInterval } from 'react-use'
+import { useWallet } from 'use-wallet'
 import Web3 from 'web3'
 
 import { getUser, login as loginApi, putUser } from '@/api'
 import { IUser, IUserPayload } from '@/api/types'
-import { isEqualIgnoreCase } from '@/utils/string'
 
 import { RPC_URLS, SIGN_TEXT } from '../constants'
 import useCache from '../hooks/useCache'
@@ -16,7 +15,6 @@ const appContext = React.createContext<{
   web3: Web3
   blockNumber: number
   user?: IUser
-  connect(type: keyof Connectors): Promise<void>
   login(): Promise<void>
   toogleUserInfo(payload: IUserPayload): Promise<void>
 }>({} as any)
@@ -40,20 +38,15 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
     if (wallet.status === 'connected') {
       wallet.account && setAccount(wallet.account)
       setBalance(wallet.balance + '')
+    } else {
+      setAccount('')
+      setBalance('')
     }
   }, [wallet])
 
-  const connect = async (type: keyof Connectors): Promise<void> => {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        wallet.connect(type).then(resolve, reject)
-      }, 200)
-    })
-  }
-
   React.useEffect(() => {
     if (account) {
-      connect('injected')
+      wallet.connect('injected')
     }
   }, [])
 
@@ -95,6 +88,9 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   }
   React.useEffect(() => {
     ;(async () => {
+      if (!web3.eth.currentProvider) {
+        return
+      }
       const accounts = await web3.eth.getAccounts()
       if (user || userLoding) {
         return
@@ -134,7 +130,6 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         web3,
         blockNumber,
         user,
-        connect,
         login,
         toogleUserInfo
       }}>
