@@ -71,6 +71,10 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   const { value: user, loading: userLoding, retry } = useAsyncRetry(async () => {
     if (account && token) {
       const { data } = await getUser({ address: account })
+      if (data.address !== account) {
+        setToken('')
+        return
+      }
       setTimeout(() => {
         loginLoading.current && (loginLoading.current = false)
       })
@@ -91,13 +95,13 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   }
   React.useEffect(() => {
     ;(async () => {
+      const accounts = await web3.eth.getAccounts()
       if (user || userLoding) {
         return
       }
       if (!account) {
         return
       }
-      const accounts = await web3.eth.getAccounts()
       if (accounts.length === 0) {
         return
       }
@@ -108,25 +112,6 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
       login()
     })()
   }, [user, account, web3])
-  React.useEffect(() => {
-    ;(async () => {
-      if (isEqualIgnoreCase(user?.address + '', account + '')) {
-        return
-      }
-      if (!account) {
-        return
-      }
-      const accounts = await web3.eth.getAccounts()
-      if (accounts.length === 0) {
-        return
-      }
-      if (loginLoading.current) {
-        return
-      }
-
-      login()
-    })()
-  }, [user?.address, account, web3])
 
   const toogleUserInfo = async (payload: IUserPayload) => {
     if (account && token) {
