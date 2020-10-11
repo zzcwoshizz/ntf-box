@@ -78,7 +78,7 @@ const Hero: React.FunctionComponent = () => {
           margin-top: 40px;
         }
 
-        @media screen and (max-width: 1200px) {
+        @media screen and (max-width: 1600px) {
           .hero {
             padding: 40px 40px 0 40px;
           }
@@ -86,7 +86,20 @@ const Hero: React.FunctionComponent = () => {
             border-radius: 36px 36px 0 0;
           }
         }
-        @media screen and (max-width: 992px) {
+
+        @media screen and (max-width: 1320px) {
+          .hero {
+            padding: 40px 20px 0 20px;
+          }
+        }
+
+        @media screen and (max-width: 1280px) {
+          .hero {
+            padding: 40px 10px 0 10px;
+          }
+        }
+
+        @media screen and (max-width: 1200px) {
           .hero {
             padding: 32px 32px 0 32px;
           }
@@ -94,7 +107,7 @@ const Hero: React.FunctionComponent = () => {
             border-radius: 32px 32px 0 0;
           }
         }
-        @media screen and (max-width: 768px) {
+        @media screen and (max-width: 992px) {
           .hero {
             padding: 24px 24px 0 24px;
           }
@@ -102,7 +115,7 @@ const Hero: React.FunctionComponent = () => {
             border-radius: 28px 28px 0 0;
           }
         }
-        @media screen and (max-width: 576px) {
+        @media screen and (max-width: 768px) {
           .hero {
             padding: 16px 16px 0 16px;
           }
