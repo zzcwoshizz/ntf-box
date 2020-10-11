@@ -89,7 +89,6 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     false
   )
   const loadMoreTokenOwner = () => {
-    console.log(state)
     if (state.hasMore && state.list.length > 0 && !state.fetching) {
       action.setPagination({
         ...state.pagination,

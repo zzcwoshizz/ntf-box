@@ -1,4 +1,4 @@
-import { Button, Form, Space, Typography } from 'antd'
+import { Form, Space, Typography } from 'antd'
 import React from 'react'
 
 import EnableButton from '@/components/Button/EnableButton'
@@ -11,7 +11,7 @@ const { Text, Title } = Typography
 
 const Preview: React.FunctionComponent = () => {
   const theme = useTheme()
-  const { loading } = useData()
+  const { loading, disabled } = useData()
 
   return (
     <>
@@ -37,7 +37,12 @@ const Preview: React.FunctionComponent = () => {
           </div>
         </div>
         <Form.Item>
-          <EnableButton type="primary" size="large" htmlType="submit" loading={loading} disabled>
+          <EnableButton
+            type="primary"
+            size="large"
+            htmlType="submit"
+            loading={loading}
+            disabled={disabled}>
             Confirm and put on the shelf
           </EnableButton>
         </Form.Item>

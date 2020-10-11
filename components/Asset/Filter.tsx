@@ -19,7 +19,6 @@ export interface Props<FT = any> {
 
 const ActivityFilter: React.FunctionComponent<Props> = ({ projects, filter, toogleFilter }) => {
   const theme = useTheme()
-  console.log(filter)
 
   return (
     <>
