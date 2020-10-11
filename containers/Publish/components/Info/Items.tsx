@@ -69,7 +69,7 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string
 
 const Items: React.FunctionComponent = () => {
   const theme = useTheme()
-  const { assets } = useData()
+  const { tokens } = useData()
 
   return (
     <Content title="Items on the shelf" extra="12 piece">
@@ -101,12 +101,12 @@ const Items: React.FunctionComponent = () => {
                 }
               }
             ]}>
-            {assets.map((asset, index) => (
+            {tokens.map((t, index) => (
               <Cell
                 key={index}
-                icon={AVATAR_URL + asset.contractAdd + asset.tokenId}
-                name="Item name"
-                price={asset.dealPrice}
+                icon={t.images?.[0] || AVATAR_URL + t.contractAdd + t.tokenId}
+                name={t.name || '- -'}
+                price=""
               />
             ))}
           </Carousel>

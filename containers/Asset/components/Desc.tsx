@@ -1,86 +1,97 @@
-import { Button, Carousel, Col, Divider, Input, Row, Space, Typography } from 'antd'
+import { Carousel, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
 import React from 'react'
 
+import LoggedButton from '@/components/Button/LoggedButton'
 import Img from '@/components/Img'
 import PriceSvg from '@/icons/icon_price.svg'
 import { AVATAR_URL } from '@/shared/constants'
-import useMarket from '@/shared/hooks/useMarket'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApp } from '@/shared/providers/AppProvider'
+import { shortenAddress } from '@/utils/string'
 
-const contentStyle: React.CSSProperties = {
-  height: '100%',
-  color: '#fff',
-  lineHeight: '300px',
-  textAlign: 'center',
-  background: '#364d79'
-}
+import { useData } from '../context'
 
 const { Title } = Typography
 
 const Desc: React.FunctionComponent = () => {
   const theme = useTheme()
-  const market = useMarket(
-    '0x4eB7c32b63345240b11A42dD3F421bf5Ecfdab1C',
-    '0xDE0cD69362be870c53429e6511990741037970b5'
-  )
+  const { web3 } = useApp()
+  const { asset, token, isMine, fetching, holders, loading, changePrice, buy } = useData()
+  const [price, setPrice] = React.useState('')
 
   return (
     <>
-      <div className="container">
-        <Row>
-          <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 20 }}>
-            <Carousel effect="fade">
-              <div>
-                <h3 style={contentStyle}>1</h3>
+      <Spin spinning={fetching}>
+        <div className="container">
+          <Row>
+            <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 20 }}>
+              <Carousel effect="fade">
+                {(asset.tokens[0]?.images ?? ['https://error']).map((image, index) => (
+                  <div key={index}>
+                    <Img width="100%" src={image} />
+                  </div>
+                ))}
+              </Carousel>
+            </Col>
+            <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 20 }}>
+              <Title level={3}>William Doutito 2019-20 ‘Super Rare 5/10</Title>
+              <Divider />
+              <div className="name">
+                <Space align="center">
+                  <Img
+                    width={32}
+                    src={AVATAR_URL + (token.name ?? shortenAddress(token.contractAdd))}
+                  />
+                  <b>{token.name ?? shortenAddress(token.contractAdd)}</b>
+                  <span>Holders {holders}</span>
+                </Space>
               </div>
-              <div>
-                <h3 style={contentStyle}>2</h3>
+              <div className="intro">
+                Only 10 of the cards are available quarterly,Only 10 of the cards are available
+                quarterly,Only 10 of the cards are available quarterly
               </div>
-              <div>
-                <h3 style={contentStyle}>3</h3>
+              <div className="price">
+                <Space align="center">
+                  <PriceSvg />
+                  {web3.utils.fromWei(asset.dealPrice ?? '0')} ETH
+                </Space>
               </div>
-              <div>
-                <h3 style={contentStyle}>4</h3>
-              </div>
-            </Carousel>
-          </Col>
-          <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 20 }}>
-            <Title level={3}>William Doutito 2019-20 ‘Super Rare 5/10</Title>
-            <Divider />
-            <div className="name">
-              <Space align="center">
-                <Img width={32} src={AVATAR_URL + 'avat'} />
-                <b>Alta Roy</b>
-                <span>More holders 30+</span>
-              </Space>
-            </div>
-            <div className="intro">
-              Only 10 of the cards are available quarterly,Only 10 of the cards are available
-              quarterly,Only 10 of the cards are available quarterly
-            </div>
-            <div className="price">
-              <Space align="center">
-                <PriceSvg />
-                0.32 ETH
-              </Space>
-            </div>
-            <div className="form">
-              <Input
-                style={{ width: '100%', marginTop: 10 }}
-                placeholder="Revise the appropriate price"
-              />
-              <Button
-                style={{ marginTop: 16 }}
-                type="primary"
-                onClick={() => {
-                  market.changePrice('512081857308012544', '0.054321')
-                }}>
-                MODIFY PRICE
-              </Button>
-            </div>
-          </Col>
-        </Row>
-      </div>
+              {isMine && (
+                <div className="form">
+                  <Input
+                    style={{ width: '100%', marginTop: 10 }}
+                    placeholder="Revise the appropriate price"
+                    value={price}
+                    onChange={(e) => setPrice(e.target.value)}
+                  />
+                  <LoggedButton
+                    style={{ marginTop: 16 }}
+                    type="primary"
+                    loading={loading}
+                    onClick={() =>
+                      changePrice(price).finally(() => {
+                        setPrice('')
+                      })
+                    }>
+                    MODIFY PRICE
+                  </LoggedButton>
+                </div>
+              )}
+              {!isMine && (
+                <div className="form">
+                  <LoggedButton
+                    style={{ marginTop: 16 }}
+                    type="primary"
+                    loading={loading}
+                    onClick={buy}>
+                    BUY NOW
+                  </LoggedButton>
+                </div>
+              )}
+            </Col>
+          </Row>
+        </div>
+      </Spin>
       <style jsx>{`
         .container {
           padding: 20px;

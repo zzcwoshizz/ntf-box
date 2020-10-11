@@ -22,7 +22,6 @@ const appContext = React.createContext<{
 
 const AppProvider: React.FunctionComponent = ({ children }) => {
   const wallet = useWallet<any>()
-  const walletRef = React.useRef(wallet)
 
   const [account, setAccount] = useCache<string>('account')
   const [balance, setBalance] = React.useState('')
@@ -33,7 +32,6 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
       return new Web3(RPC_URLS[wallet.chainId + ''])
     }
   }, [wallet])
-  const web3Ref = React.useRef(web3)
   const [blockNumber, setBlockNumber] = React.useState(0)
   const [token, setToken] = useCache<string>('token', '')
   // 更新用户变量
@@ -45,16 +43,6 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
       setBalance(wallet.balance + '')
     }
   }, [wallet])
-
-  // 保存最新wallet
-  React.useEffect(() => {
-    walletRef.current = wallet
-  }, [wallet])
-
-  // 保存最新web3
-  React.useEffect(() => {
-    web3Ref.current = web3
-  }, [web3])
 
   const connect = async (type: keyof Connectors): Promise<void> => {
     return new Promise((resolve, reject) => {
@@ -81,20 +69,9 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
 
   // 登录
   const login = async () => {
-    if (wallet.status === 'disconnected') {
-      await connect('injected')
-    }
-    setTimeout(async () => {
-      if (walletRef.current.account) {
-        const signature = await web3Ref.current.eth.personal.sign(
-          SIGN_TEXT,
-          walletRef.current.account,
-          ''
-        )
-        const { data } = await loginApi({ address: walletRef.current.account, signature })
-        setToken(data)
-      }
-    }, 0)
+    const signature = await web3.eth.personal.sign(SIGN_TEXT, account + '', '')
+    const { data } = await loginApi({ address: account + '', signature })
+    setToken(data)
   }
 
   // 用户信息

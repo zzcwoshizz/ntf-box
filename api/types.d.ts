@@ -51,25 +51,24 @@ export interface IBanner {
   imageUrl: string
 }
 
-export interface IAsset {
+export interface IToken {
   contractAdd: string
-  createHeight?: string
-  createTime?: string
-  dealPrice?: string
-  expirationHeight?: string
-  id?: number
-  operator?: string
-  orderHash?: string
-  orderId?: string
-  orderType?: string
-  platformFee?: string
-  price?: string
-  salt?: string
-  side?: string
-  status?: number
+  des?: string
+  images?: string[]
+  name?: string
+  orderIds?: []
+  propertys?: any
   tokenId: string
-  txid?: string
-  viewNum?: number
+}
+
+export interface IAsset {
+  dealPrice?: string
+  operator: string
+  expirationHeight?: string
+  orderId?: string
+  orderType: number
+  tokens: IToken[]
+  viewNum: number
 }
 
 export interface PageParam {
@@ -120,7 +119,10 @@ export interface IRanking {
   types: AssetType[]
 }
 
-export type ActivityType = 0 | 1 | 2 | 3 | 4 //0全部 1上架物品 2定价出售 3拍卖出售 4转赠
+/**
+ * 0全部 1上架物品 2定价出售 3拍卖出售 4转赠
+ */
+export type ActivityType = 0 | 1 | 2 | 3 | 4
 
 export interface IActivity {
   contractAdd: string
@@ -141,4 +143,25 @@ export interface IActivity {
   status: number
   tokenId: string
   txid: string
+}
+
+export interface INetActivity {
+  contractAdd: string
+  data: string
+  fromAdd: string
+  height: string
+  id: number
+  logJson: string
+  toAdd: string
+  tokenId: string
+  txid: string
+}
+
+export interface ITokenOwner {
+  createTime: string
+  dealPrice: string
+  orderId: string
+  owner: string
+  tokenId: string
+  userName: string
 }

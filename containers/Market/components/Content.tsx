@@ -85,6 +85,13 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                     onClick={() => {
                       if (canSelect) {
                         toogleSelected(index)
+                      } else {
+                        router.push({
+                          pathname: '/asset',
+                          query: {
+                            orderId: asset.orderId
+                          }
+                        })
                       }
                     }}
                   />
@@ -104,8 +111,8 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                         router.push({
                           pathname: '/publish',
                           query: {
-                            address: selected.map((index) => assets[index].contractAdd),
-                            tokenId: selected.map((index) => assets[index].tokenId)
+                            address: selected.map((index) => assets[index].tokens[0].contractAdd),
+                            tokenId: selected.map((index) => assets[index].tokens[0].tokenId)
                           }
                         })
                       }}>

@@ -5,9 +5,12 @@ import {
   IAsset,
   IBanner,
   IListResponse,
+  INetActivity,
   IProject,
   IRanking,
   IResponse,
+  IToken,
+  ITokenOwner,
   IUser,
   IUserPayload,
   PageParam
@@ -129,11 +132,35 @@ export const getActivity = (
   })
 }
 
-export const getAssetDetail = (body: { contractAdd: string[]; tokenId: string[] }) => {
-  return api.post<IListResponse<IAsset>>('/goods/detail', { body })
+export const getToken = (params: { contractAdd: string; tokenId: string }) => {
+  return api.get<IResponse<IToken>>('/token/detail', { params })
 }
 
 // 修改价钱
 export const modifyPrice = (body: { orderId: string; price: string; signature: string }) => {
   return api.put('/order/price', { body })
+}
+
+export const getAsset = (params: { orderId: string }) => {
+  return api.get<IResponse<IAsset>>('/order/detail', { params })
+}
+
+// 获取物品的拥有者
+export const getTokenOwner = (
+  params: PageParam & {
+    tokenId: string
+    contractAdd: string
+  }
+) => {
+  return api.get<IListResponse<ITokenOwner>>('/token/owner', { params })
+}
+
+// 获取Token全网交易记录
+export const getNetActivity = (
+  params: PageParam & {
+    tokenId: string
+    contractAdd: string
+  }
+) => {
+  return api.get<IListResponse<INetActivity>>('/token/activity', { params })
 }

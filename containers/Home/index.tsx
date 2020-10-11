@@ -46,8 +46,7 @@ const Home: React.FunctionComponent = () => {
                   router.push({
                     pathname: '/asset',
                     query: {
-                      address: asset.contractAdd,
-                      tokenId: asset.tokenId
+                      orderId: asset.orderId
                     }
                   })
                 }}
@@ -71,8 +70,7 @@ const Home: React.FunctionComponent = () => {
                   router.push({
                     pathname: '/asset',
                     query: {
-                      address: asset.contractAdd,
-                      tokenId: asset.tokenId
+                      orderId: asset.orderId
                     }
                   })
                 }}

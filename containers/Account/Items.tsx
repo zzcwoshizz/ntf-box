@@ -11,19 +11,19 @@ import Filter from './components/AssetFilter'
 
 const Items: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const { connect, account } = useApp()
+  const { account } = useApp()
   const wallet = useWallet()
 
   React.useEffect(() => {
-    if (wallet.status !== 'connected') {
-      connect('injected')
+    if (!account) {
+      wallet.connect('injected')
     }
   }, [])
 
   return (
     <>
       <ProjectProvider>
-        {wallet.status === 'connected' && (
+        {account && (
           <AssetProvider account={account}>
             <div className="container">
               <div className="left">

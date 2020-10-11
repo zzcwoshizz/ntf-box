@@ -5,48 +5,57 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useAsync } from 'react-use'
 
-import { getAssetDetail } from '@/api'
-import { IAsset } from '@/api/types'
+import { getToken } from '@/api'
+import { IToken } from '@/api/types'
 import useMarket from '@/shared/hooks/useMarket'
 import { useApp } from '@/shared/providers/AppProvider'
 
 const dataContext = React.createContext<{
-  assets: IAsset[]
+  tokens: IToken[]
   fetching: boolean
   loading: boolean
+  disabled: boolean
 }>({} as any)
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const router = useRouter()
   const { web3 } = useApp()
-  const market = useMarket(
-    '0x4eB7c32b63345240b11A42dD3F421bf5Ecfdab1C',
-    '0xDE0cD69362be870c53429e6511990741037970b5'
-  )
   const [loading, setLoading] = React.useState(false)
 
-  const { address, tokenId } = router.query as { address: string[]; tokenId: string[] }
+  const { address, tokenId } = router.query
 
-  const {
-    value: assets = [
-      {
-        contractAdd: address[0],
-        tokenId: tokenId[0]
-      },
-      {
-        contractAdd: address[0],
-        tokenId: tokenId[0]
-      }
-    ],
-    loading: fetching
-  } = useAsync(async () => {
-    const { list } = await getAssetDetail({ contractAdd: address, tokenId })
+  const { value: tokens = [], loading: fetching } = useAsync(async () => {
+    if (!address || !tokenId) {
+      return []
+    }
 
-    return list
+    if (Array.isArray(address) && Array.isArray(tokenId)) {
+      const res = await Promise.all(
+        address.map((add, index) => getToken({ contractAdd: add, tokenId: tokenId[index] }))
+      )
+      return res.map(({ data }) => data)
+    }
+
+    if (!Array.isArray(address) && !Array.isArray(tokenId)) {
+      const res = await getToken({ contractAdd: address, tokenId })
+      return [res.data]
+    }
   }, [address, tokenId])
 
+  const disabled = React.useMemo(() => {
+    let disabled = false
+    tokens.forEach((token) => {
+      if (token.orderIds && token.orderIds.length > 0) {
+        disabled = true
+      }
+    })
+    return disabled
+  }, [JSON.stringify(tokens)])
+
+  const market = useMarket(tokens)
+
   return (
-    <dataContext.Provider value={{ assets, fetching, loading }}>
+    <dataContext.Provider value={{ tokens, fetching, loading, disabled }}>
       <Form
         onFinish={async (data: { price: string; expiredTime: Moment }) => {
           setLoading(true)
@@ -58,16 +67,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
           } else {
             expirationHeight = '999999999999999999'
           }
-          await market.makeOrder(
-            assets.map((asset) => ({
-              approval: true,
-              contractAdd: asset.contractAdd,
-              tokenId: asset.tokenId
-            })),
-            expirationHeight,
-            data.price,
-            assets.length > 1 ? 3 : 0
-          )
+          await market.makeOrder(expirationHeight, data.price, tokens.length > 1 ? 3 : 0)
           setLoading(false)
         }}>
         {children}

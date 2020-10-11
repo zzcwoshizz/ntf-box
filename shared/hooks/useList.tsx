@@ -48,11 +48,12 @@ function reducer<T1, T2>(state: StateType<T1, T2>, action: any): StateType<T1, T
   }
 }
 
-export const useList = <T1, T2>(
+export const useList = <T1, T2 = { [key: string]: any }>(
   getList: (params: IPage & T2) => Promise<{ list: T1[]; total: number; hasMore: boolean }>,
   _filter: T2,
   _pagination?: IPage,
-  deps: any[] = []
+  deps: any[] = [],
+  syncUrl = true
 ) => {
   const initialState: StateType<T1, T2> = {
     list: [],
@@ -80,12 +81,14 @@ export const useList = <T1, T2>(
   }, [state])
 
   React.useEffect(() => {
-    replace({
-      pathname,
-      search: serialize({
-        ...state.filter
+    if (syncUrl) {
+      replace({
+        pathname,
+        search: serialize({
+          ...state.filter
+        })
       })
-    })
+    }
   }, [state.filter])
 
   React.useEffect(() => {
