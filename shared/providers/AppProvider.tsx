@@ -1,10 +1,11 @@
 import React from 'react'
-import { useAsync, useInterval } from 'react-use'
-import { Connectors, useWallet, Wallet } from 'use-wallet'
+import { useAsyncRetry, useInterval, usePrevious } from 'react-use'
+import { Connectors, useWallet } from 'use-wallet'
 import Web3 from 'web3'
 
 import { getUser, login as loginApi, putUser } from '@/api'
 import { IUser, IUserPayload } from '@/api/types'
+import { isEqualIgnoreCase } from '@/utils/string'
 
 import { RPC_URLS, SIGN_TEXT } from '../constants'
 import useCache from '../hooks/useCache'
@@ -34,8 +35,6 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   }, [wallet])
   const [blockNumber, setBlockNumber] = React.useState(0)
   const [token, setToken] = useCache<string>('token', '')
-  // 更新用户变量
-  const [updateUser, setUpdateUser] = React.useState(1)
 
   React.useEffect(() => {
     if (wallet.status === 'connected') {
@@ -67,20 +66,67 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
     }
   }, 10000)
 
-  // 登录
-  const login = async () => {
-    const signature = await web3.eth.personal.sign(SIGN_TEXT, account + '', '')
-    const { data } = await loginApi({ address: account + '', signature })
-    setToken(data)
-  }
-
+  const loginLoading = React.useRef(false)
   // 用户信息
-  const { value: user } = useAsync(async () => {
+  const { value: user, loading: userLoding, retry } = useAsyncRetry(async () => {
     if (account && token) {
       const { data } = await getUser({ address: account })
+      setTimeout(() => {
+        loginLoading.current && (loginLoading.current = false)
+      })
       return data
     }
-  }, [account, token, updateUser])
+  }, [account, token])
+
+  // 登录
+  const login = async () => {
+    loginLoading.current = true
+    try {
+      const signature = await web3.eth.personal.sign(SIGN_TEXT, account + '', '')
+      const { data } = await loginApi({ address: account + '', signature })
+      setToken(data)
+    } catch (e) {
+      loginLoading.current = false
+    }
+  }
+  React.useEffect(() => {
+    ;(async () => {
+      if (user || userLoding) {
+        return
+      }
+      if (!account) {
+        return
+      }
+      const accounts = await web3.eth.getAccounts()
+      if (accounts.length === 0) {
+        return
+      }
+      if (loginLoading.current) {
+        return
+      }
+
+      login()
+    })()
+  }, [user, account, web3])
+  React.useEffect(() => {
+    ;(async () => {
+      if (isEqualIgnoreCase(user?.address + '', account + '')) {
+        return
+      }
+      if (!account) {
+        return
+      }
+      const accounts = await web3.eth.getAccounts()
+      if (accounts.length === 0) {
+        return
+      }
+      if (loginLoading.current) {
+        return
+      }
+
+      login()
+    })()
+  }, [user?.address, account, web3])
 
   const toogleUserInfo = async (payload: IUserPayload) => {
     if (account && token) {
@@ -91,7 +137,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         userName: user?.nickName,
         ...payload
       })
-      setUpdateUser(updateUser + 1)
+      retry()
     }
   }
 

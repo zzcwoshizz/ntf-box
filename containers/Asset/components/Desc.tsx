@@ -1,7 +1,7 @@
 import { Carousel, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
 import React from 'react'
 
-import LoggedButton from '@/components/Button/LoggedButton'
+import EnableButton from '@/components/Button/EnableButton'
 import Img from '@/components/Img'
 import PriceSvg from '@/icons/icon_price.svg'
 import { AVATAR_URL } from '@/shared/constants'
@@ -64,7 +64,7 @@ const Desc: React.FunctionComponent = () => {
                     value={price}
                     onChange={(e) => setPrice(e.target.value)}
                   />
-                  <LoggedButton
+                  <EnableButton
                     style={{ marginTop: 16 }}
                     type="primary"
                     loading={loading}
@@ -74,18 +74,18 @@ const Desc: React.FunctionComponent = () => {
                       })
                     }>
                     MODIFY PRICE
-                  </LoggedButton>
+                  </EnableButton>
                 </div>
               )}
               {!isMine && (
                 <div className="form">
-                  <LoggedButton
+                  <EnableButton
                     style={{ marginTop: 16 }}
                     type="primary"
                     loading={loading}
                     onClick={buy}>
                     BUY NOW
-                  </LoggedButton>
+                  </EnableButton>
                 </div>
               )}
             </Col>

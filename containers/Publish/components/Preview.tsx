@@ -1,7 +1,7 @@
 import { Button, Form, Space, Typography } from 'antd'
 import React from 'react'
 
-import LoggedButton from '@/components/Button/LoggedButton'
+import EnableButton from '@/components/Button/EnableButton'
 import FhSvg from '@/icons/icon_fh.svg'
 import useTheme from '@/shared/hooks/useTheme'
 
@@ -37,9 +37,9 @@ const Preview: React.FunctionComponent = () => {
           </div>
         </div>
         <Form.Item>
-          <LoggedButton type="primary" size="large" htmlType="submit" loading={loading} disabled>
+          <EnableButton type="primary" size="large" htmlType="submit" loading={loading} disabled>
             Confirm and put on the shelf
-          </LoggedButton>
+          </EnableButton>
         </Form.Item>
         <div className="tip">
           <Title level={5}>Cost:</Title>

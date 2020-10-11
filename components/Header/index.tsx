@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import LoggedButton from '@/components/Button/LoggedButton'
+import EnableButton from '@/components/Button/EnableButton'
 import CnSvg from '@/icons/icon_cn.svg'
 import EnSvg from '@/icons/icon_en.svg'
 import useContainer from '@/shared/hooks/useContainer'
@@ -94,9 +94,9 @@ const Header: React.FunctionComponent = () => {
                 </Button>
               </Dropdown>
             ) : (
-              <LoggedButton type="text" onClick={login}>
+              <EnableButton type="text" onClick={login}>
                 My Account
-              </LoggedButton>
+              </EnableButton>
             )}
             <div className="language">
               <Dropdown
