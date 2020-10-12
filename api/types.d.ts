@@ -28,15 +28,15 @@ export interface IListResponse<T> {
 
 export interface IUser {
   address: string
-  createTime: string
-  email: string
-  id: number
-  newAlert: number
-  nickName: string
-  tradeAlert: number
-  updateTime: string
-  userId: number
-  userLevel: number
+  createTime?: string
+  email?: string
+  id?: number
+  newAlert?: number
+  nickName?: string
+  tradeAlert?: number
+  updateTime?: string
+  userId?: number
+  userLevel?: number
 }
 
 export interface IUserPayload {

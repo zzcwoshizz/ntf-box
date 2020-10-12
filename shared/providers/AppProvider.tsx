@@ -9,6 +9,9 @@ import { IUser, IUserPayload } from '@/api/types'
 import { RPC_URLS, SIGN_TEXT } from '../constants'
 import useCache from '../hooks/useCache'
 
+/**
+ * TODO: Login flow need to refactor
+ */
 const appContext = React.createContext<{
   account?: string
   balance: string
@@ -25,7 +28,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   const [account, setAccount] = useCache<string>('account')
   const [balance, setBalance] = React.useState('')
   const web3 = React.useMemo(() => {
-    if (wallet.status === 'connected') {
+    if (wallet.ethereum) {
       return new Web3(wallet.ethereum)
     } else {
       return new Web3(RPC_URLS[wallet.chainId + ''])
@@ -35,11 +38,11 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   const [token, setToken] = useCache<string>('token', '')
 
   React.useEffect(() => {
-    if (wallet.status === 'connected') {
+    if (wallet.ethereum) {
       wallet.account && setAccount(wallet.account)
       setBalance(wallet.balance + '')
     } else {
-      setAccount('')
+      setAccount(account ?? '')
       setBalance('')
     }
   }, [wallet])
