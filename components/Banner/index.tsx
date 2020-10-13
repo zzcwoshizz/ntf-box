@@ -58,7 +58,11 @@ const Banner: React.FunctionComponent<Props> = (props) => {
             <div key={index}>
               <div className="cell">
                 {arr.map((banner) => (
-                  <a target="_blank" rel="noopener noreferrer" key={banner.id}>
+                  <a
+                    href={banner.officialWebsite}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    key={banner.id}>
                     <img src={banner.imageUrl} alt={banner.imageUrl} />
                   </a>
                 ))}

@@ -49,6 +49,7 @@ export interface IUserPayload {
 export interface IBanner {
   id: number
   imageUrl: string
+  officialWebsite: string
 }
 
 export interface IToken {
@@ -82,6 +83,7 @@ export interface IProject {
   createTime?: string
   des?: string
   id: number
+  num: number
   imageUrl: string
   images?: string[]
   logoUrl: string

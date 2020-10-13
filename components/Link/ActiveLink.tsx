@@ -11,12 +11,12 @@ const ActiveLink: React.FunctionComponent<Props> = ({
   activeClassName = 'active',
   ...props
 }) => {
-  const { asPath } = useRouter()
+  const { pathname } = useRouter()
   const child: any = Children.only(children)
   const childClassName = child.props.className || ''
 
   const className =
-    asPath === props.href || asPath === props.as
+    pathname === props.href || pathname === props.as
       ? `${childClassName} ${activeClassName}`.trim()
       : childClassName
 

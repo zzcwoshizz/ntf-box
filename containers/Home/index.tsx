@@ -36,7 +36,7 @@ const Home: React.FunctionComponent = () => {
               <HotSvg style={{ marginRight: 4 }} /> Hot
             </>
           }
-          extra={<MoreLink href="/" />}>
+          extra={<MoreLink href="/market" />}>
           <AssetContainer>
             {hot.map((asset, index) => (
               <AssetCell
@@ -60,7 +60,7 @@ const Home: React.FunctionComponent = () => {
               <NewSvg style={{ marginRight: 4 }} /> Newest
             </>
           }
-          extra={<MoreLink href="/" />}>
+          extra={<MoreLink href="/market" />}>
           <AssetContainer>
             {latest.map((asset, index) => (
               <AssetCell

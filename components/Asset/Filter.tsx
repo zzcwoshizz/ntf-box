@@ -40,49 +40,48 @@ const ActivityFilter: React.FunctionComponent<Props> = ({ projects, filter, toog
           />
         </div>
         <div className="list">
-          {filter.id ? (
-            <Menu mode="inline">
-              <SubMenu key="sub1" title="A selection-type">
-                <div className="menu-child">
-                  <Checkbox.Group>
-                    <Row>
-                      <Checkbox value="A">A</Checkbox>
-                    </Row>
-                    <Row>
-                      <Checkbox value="B">B</Checkbox>
-                    </Row>
-                    <Row>
-                      <Checkbox value="C">C</Checkbox>
-                    </Row>
-                    <Row>
-                      <Checkbox value="D">D</Checkbox>
-                    </Row>
-                    <Row>
-                      <Checkbox value="E">E</Checkbox>
-                    </Row>
-                  </Checkbox.Group>
-                </div>
-              </SubMenu>
-              <SubMenu key="sub2" title="B rating-progress">
-                <div className="menu-child">
-                  <Slider range step={1} defaultValue={[20, 50]} />
-                  <div className="range">
-                    <div>
-                      <label>Minimum</label>
-                      <br />
-                      189,219,287
-                    </div>
-                    <span>-</span>
-                    <div>
-                      <label>Maximum</label>
-                      <br />
-                      189,219,287
-                    </div>
-                  </div>
-                </div>
-              </SubMenu>
-            </Menu>
-          ) : (
+          {filter.id ? null : (
+            // <Menu mode="inline">
+            //   <SubMenu key="sub1" title="A selection-type">
+            //     <div className="menu-child">
+            //       <Checkbox.Group>
+            //         <Row>
+            //           <Checkbox value="A">A</Checkbox>
+            //         </Row>
+            //         <Row>
+            //           <Checkbox value="B">B</Checkbox>
+            //         </Row>
+            //         <Row>
+            //           <Checkbox value="C">C</Checkbox>
+            //         </Row>
+            //         <Row>
+            //           <Checkbox value="D">D</Checkbox>
+            //         </Row>
+            //         <Row>
+            //           <Checkbox value="E">E</Checkbox>
+            //         </Row>
+            //       </Checkbox.Group>
+            //     </div>
+            //   </SubMenu>
+            //   <SubMenu key="sub2" title="B rating-progress">
+            //     <div className="menu-child">
+            //       <Slider range step={1} defaultValue={[20, 50]} />
+            //       <div className="range">
+            //         <div>
+            //           <label>Minimum</label>
+            //           <br />
+            //           189,219,287
+            //         </div>
+            //         <span>-</span>
+            //         <div>
+            //           <label>Maximum</label>
+            //           <br />
+            //           189,219,287
+            //         </div>
+            //       </div>
+            //     </div>
+            //   </SubMenu>
+            // </Menu>
             <PerfectScrollbar style={{ height: '100%' }}>
               {projects.map((project, index) => (
                 <Link
@@ -94,7 +93,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({ projects, filter, toog
                       e.preventDefault()
                       toogleFilter({ ...filter, id: project.id, name: project.name })
                     }}>
-                    <AssetItem icon={project.logoUrl} title={project.name} extra="78" />
+                    <AssetItem icon={project.logoUrl} title={project.name} extra={project.num} />
                   </a>
                 </Link>
               ))}

@@ -1,4 +1,5 @@
 import { Button, Col, Row, Typography } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 import { getBanner } from '@/api'
@@ -11,6 +12,7 @@ import useContainer from '@/shared/hooks/useContainer'
 const { Title, Text } = Typography
 
 const Hero: React.FunctionComponent = () => {
+  const router = useRouter()
   const [banners, setBanners] = React.useState<IBanner[]>([])
   const { containerWidth } = useContainer()
 
@@ -33,10 +35,10 @@ const Hero: React.FunctionComponent = () => {
                   <Text>Secondary title text introduction text introduction text introduction</Text>
                 </div>
                 <div className="action">
-                  <Button type="primary" size="large">
+                  <Button type="primary" size="large" onClick={() => router.push('/market')}>
                     BUY NOW
                   </Button>
-                  <Button type="link" size="large">
+                  <Button type="link" size="large" onClick={() => router.push('/account/setting')}>
                     Subscribe <JTSvg style={{ marginLeft: 4, verticalAlign: 'middle' }} />
                   </Button>
                 </div>
