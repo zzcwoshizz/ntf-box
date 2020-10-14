@@ -8,6 +8,11 @@ const ResetCss: React.FunctionComponent = () => {
           display: flex;
           align-items: center;
         }
+
+        .ant-collapse {
+          border: none;
+          background-color: transparent;
+        }
       `}</style>
     </>
   )

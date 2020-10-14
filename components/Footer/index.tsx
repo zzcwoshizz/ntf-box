@@ -33,14 +33,14 @@ const Footer: React.FunctionComponent = () => {
             <Col {...linkSpan} style={styles}>
               <Title level={5}>About us</Title>
               <li>
-                <Link href="/">
+                <Link href="/account/items">
                   <a target="_blank" rel="noopener noreferrer">
                     My belongings
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/account/activity">
                   <a target="_blank" rel="noopener noreferrer">
                     My record
                   </a>
@@ -57,21 +57,21 @@ const Footer: React.FunctionComponent = () => {
             <Col {...linkSpan} style={styles}>
               <Title level={5}>Learn more</Title>
               <li>
-                <Link href="/">
+                <Link href="/activity">
                   <a target="_blank" rel="noopener noreferrer">
                     Network wide record
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/help">
                   <a target="_blank" rel="noopener noreferrer">
                     Help center
                   </a>
                 </Link>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/ranking">
                   <a target="_blank" rel="noopener noreferrer">
                     Ranking List
                   </a>

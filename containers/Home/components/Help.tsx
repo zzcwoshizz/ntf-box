@@ -1,4 +1,5 @@
 import { Button, Col, Input, Row, Typography } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 import useContainer from '@/shared/hooks/useContainer'
@@ -7,6 +8,9 @@ const { Title, Text } = Typography
 
 const Help: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
+  const router = useRouter()
+
+  const [keys, setKeys] = React.useState('')
 
   return (
     <>
@@ -18,10 +22,15 @@ const Help: React.FunctionComponent = () => {
           </p>
           <Row>
             <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 10 }}>
-              <Input size="large" placeholder="Search for keywords for questions" />
+              <Input
+                size="large"
+                placeholder="Search for keywords for questions"
+                value={keys}
+                onChange={(e) => setKeys(e.target.value)}
+              />
             </Col>
             <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 10 }}>
-              <Button size="large" type="primary">
+              <Button size="large" type="primary" onClick={() => router.push(`/help?keys=${keys}`)}>
                 Ask for help
               </Button>
             </Col>

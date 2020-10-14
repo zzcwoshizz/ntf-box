@@ -149,6 +149,7 @@ class Api {
       headers: {
         'Content-Type': 'application/json',
         jwt: process.browser ? getCache<string>('token') + '' : '',
+        lan: 'zh',
         ...config.headers
       }
     }

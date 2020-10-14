@@ -171,3 +171,10 @@ export interface ITokenOwner {
   tokenId: string
   userName: string
 }
+
+export interface IHelp {
+  createTime: string
+  des: string
+  id: number
+  title: string
+}

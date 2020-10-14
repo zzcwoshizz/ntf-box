@@ -4,6 +4,7 @@ import {
   IActivity,
   IAsset,
   IBanner,
+  IHelp,
   IListResponse,
   INetActivity,
   IProject,
@@ -163,4 +164,10 @@ export const getNetActivity = (
   }
 ) => {
   return api.get<IListResponse<INetActivity>>('/token/activity', { params })
+}
+
+export const getHelp = (params: PageParam) => {
+  return api.get<IListResponse<IHelp>>('/help', {
+    params
+  })
 }
