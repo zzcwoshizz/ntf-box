@@ -22,7 +22,7 @@ const Items: React.FunctionComponent = () => {
 
   return (
     <>
-      <ProjectProvider>
+      <ProjectProvider address={account}>
         {account && (
           <AssetProvider account={account}>
             <div className="container">

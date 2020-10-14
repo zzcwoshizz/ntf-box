@@ -22,7 +22,7 @@ const Activity: React.FunctionComponent = () => {
 
   return (
     <>
-      <ProjectProvider>
+      <ProjectProvider address={account}>
         {account && (
           <ActivityProvider account={account}>
             <div className="container">

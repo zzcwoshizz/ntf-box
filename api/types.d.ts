@@ -90,6 +90,10 @@ export interface IProject {
   name: string
   status: number
   type: string
+  telegram: string
+  twitter: string
+  discord: string
+  website: string
   weight: number
 }
 

@@ -25,17 +25,17 @@ const Cell: React.FunctionComponent<Props> = ({ asset, selected = false, onClick
   return (
     <>
       <div className={'cell' + (selected ? ' cell-select' : '')} onClick={() => onClick?.()}>
-        <img src="" alt="asset" />
+        <img src={asset.tokens?.[0]?.images?.[0]} alt="asset" />
         <div className="content">
           <p>
-            Brave Frontier Heroes
+            {asset.tokens?.[0]?.name ?? '- -'}
             <span>
               <TotalSvg />
               <label style={{ marginLeft: 4 }}>{asset.viewNum}</label>
             </span>
           </p>
-          <Tooltip title={'Speial Golem ID #12312319223012 30xJacka(Meteotite)'}>
-            <h6>Speial Golem ID #12312319223012 30xJacka(Meteotite)</h6>
+          <Tooltip title={asset.tokens?.[0].des ?? '--'}>
+            <h6>{asset.tokens?.[0].des ?? '--'}</h6>
           </Tooltip>
           <div className="detail">
             <span>

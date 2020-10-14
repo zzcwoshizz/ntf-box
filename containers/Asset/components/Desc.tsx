@@ -34,7 +34,7 @@ const Desc: React.FunctionComponent = () => {
               </Carousel>
             </Col>
             <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 20 }}>
-              <Title level={3}>William Doutito 2019-20 ‘Super Rare 5/10</Title>
+              <Title level={3}>{token.name}</Title>
               <Divider />
               <div className="name">
                 <Space align="center">
@@ -46,10 +46,7 @@ const Desc: React.FunctionComponent = () => {
                   <span>Holders {holders}</span>
                 </Space>
               </div>
-              <div className="intro">
-                Only 10 of the cards are available quarterly,Only 10 of the cards are available
-                quarterly,Only 10 of the cards are available quarterly
-              </div>
+              <div className="intro">{token.des}</div>
               <div className="price">
                 <Space align="center">
                   <PriceSvg />

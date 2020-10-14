@@ -7,6 +7,8 @@ import { IAsset } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import { IPage } from '@/types'
 
+import { useProject } from './ProjectProvider'
+
 type FilterType = { orderType: string; itemOrder: string; id?: number; name?: string }
 
 const assetContext = React.createContext<{
@@ -19,6 +21,8 @@ const assetContext = React.createContext<{
 }>({} as any)
 
 const AssetProvider: React.FunctionComponent<{ account?: string }> = ({ children, account }) => {
+  const { selectProject } = useProject()
+
   const { query } = useRouter()
   const defaultFilter: FilterType = {
     orderType: (query.orderType as string) ?? '0',
@@ -57,6 +61,10 @@ const AssetProvider: React.FunctionComponent<{ account?: string }> = ({ children
   const toogleFilter = (filter: FilterType) => {
     action.setFilter(filter)
   }
+
+  React.useEffect(() => {
+    selectProject(state.filter.id)
+  }, [state.filter.id])
 
   return (
     <assetContext.Provider

@@ -29,7 +29,17 @@ const useERC721 = () => {
           })
         }
 
-        return { isApprovedForAll, setApprovalForAll }
+        const safeTransferFrom = async (to: string, tokenId: string): Promise<any> => {
+          if (!account) {
+            return
+          }
+
+          return erc721.methods.safeTransferFrom(account, to, tokenId).send({
+            from: account
+          })
+        }
+
+        return { isApprovedForAll, setApprovalForAll, safeTransferFrom }
       }
     }),
     [account, web3]

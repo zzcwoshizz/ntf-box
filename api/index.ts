@@ -105,8 +105,8 @@ export const getAssetList = (
   })
 }
 
-export const getProjectList = () => {
-  return api.get<IResponse<IProject[]>>('/projects')
+export const getProjectList = (params: { address?: string }) => {
+  return api.get<IResponse<IProject[]>>('/projects', { params })
 }
 
 // 排行榜
