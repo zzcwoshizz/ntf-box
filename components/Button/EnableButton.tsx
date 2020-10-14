@@ -22,14 +22,16 @@ const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
   if (account && user) {
     onClick = props.onClick
   } else if (!account) {
-    onClick = () => {
+    onClick = (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault()
       setLoading(true)
       wallet.connect('injected').finally(() => {
         setLoading(false)
       })
     }
   } else if (!user) {
-    onClick = () => {
+    onClick = (e: React.MouseEvent<HTMLElement>) => {
+      e.preventDefault()
       setLoading(true)
       login().finally(() => {
         setLoading(false)

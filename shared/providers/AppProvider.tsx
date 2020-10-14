@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAsyncRetry, useInterval } from 'react-use'
+import { useAsyncRetry, useInterval, useLocalStorage } from 'react-use'
 import { useWallet } from 'use-wallet'
 import Web3 from 'web3'
 
@@ -42,7 +42,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
       wallet.account && setAccount(wallet.account)
       setBalance(wallet.balance + '')
     } else {
-      setAccount(account ?? '')
+      setAccount('')
       setBalance('')
     }
   }, [wallet])
@@ -107,10 +107,13 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
       if (loginLoading.current) {
         return
       }
+      if (token) {
+        return
+      }
 
       login()
     })()
-  }, [user, account, web3])
+  }, [user, account, web3, token])
 
   const toogleUserInfo = async (payload: IUserPayload) => {
     if (account && token) {
