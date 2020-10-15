@@ -43,12 +43,8 @@ const Home: React.FunctionComponent = () => {
                 key={index}
                 asset={asset}
                 onClick={() => {
-                  router.push({
-                    pathname: '/asset',
-                    query: {
-                      orderId: asset.orderId
-                    }
-                  })
+                  // TODO 捆绑
+                  router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`)
                 }}
               />
             ))}
@@ -67,12 +63,8 @@ const Home: React.FunctionComponent = () => {
                 key={index}
                 asset={asset}
                 onClick={() => {
-                  router.push({
-                    pathname: '/asset',
-                    query: {
-                      orderId: asset.orderId
-                    }
-                  })
+                  // TODO 捆绑
+                  router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`)
                 }}
               />
             ))}

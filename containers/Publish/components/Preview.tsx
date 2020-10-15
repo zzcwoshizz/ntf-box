@@ -11,7 +11,7 @@ const { Text, Title } = Typography
 
 const Preview: React.FunctionComponent = () => {
   const theme = useTheme()
-  const { loading, disabled } = useData()
+  const { loading, disabled, tokens, price } = useData()
 
   return (
     <>
@@ -25,11 +25,11 @@ const Preview: React.FunctionComponent = () => {
         <div className="list">
           <div className="item">
             <span>Goods:</span>
-            <span>3 piece</span>
+            <span>{tokens.length} piece</span>
           </div>
           <div className="item">
             <span>Price:</span>
-            <span>0.32 ETH</span>
+            <span>{price} ETH</span>
           </div>
           <div className="item">
             <span>End Block:</span>
@@ -64,6 +64,7 @@ const Preview: React.FunctionComponent = () => {
         .title {
           display: flex;
           align-items: center;
+          margin-bottom: 16px;
 
           font-size: 20px;
           font-weight: 500;

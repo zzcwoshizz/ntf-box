@@ -24,18 +24,20 @@ const Activity: React.FunctionComponent = () => {
 
   return (
     <>
-      <ProjectProvider address={account}>
-        <ActivityProvider account={account}>
-          <div className="container">
-            <div className="left">
-              <Filter />
+      {account && (
+        <ProjectProvider address={account}>
+          <ActivityProvider account={account}>
+            <div className="container">
+              <div className="left">
+                <Filter />
+              </div>
+              <div className="right">
+                <ActivityContent />
+              </div>
             </div>
-            <div className="right">
-              <ActivityContent />
-            </div>
-          </div>
-        </ActivityProvider>
-      </ProjectProvider>
+          </ActivityProvider>
+        </ProjectProvider>
+      )}
       <style jsx>{`
         .container {
           display: flex;

@@ -5,7 +5,7 @@ import useContainer from '@/shared/hooks/useContainer'
 import { AssetProvider } from '@/shared/providers/AssetProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
-import Content from './components/Content'
+import { AssetContent } from '../../components/Asset'
 import Filter from './components/Filter'
 
 const Market: React.FunctionComponent = () => {
@@ -21,7 +21,7 @@ const Market: React.FunctionComponent = () => {
               <Filter />
             </div>
             <div className="right">
-              <Content />
+              <AssetContent />
             </div>
           </div>
         </AssetProvider>

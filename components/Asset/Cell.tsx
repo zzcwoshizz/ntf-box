@@ -5,16 +5,25 @@ import { IAsset } from '@/api/types'
 import PriceSvg from '@/icons/icon_price.svg'
 import TimeSvg from '@/icons/icon_time.svg'
 import TotalSvg from '@/icons/icon_total.svg'
+import SelectSvg from '@/icons/icon_xz.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
 
 interface Props {
-  selected?: boolean
+  showSelect?: boolean // 是否显示选择框
+  selected?: boolean // 选中状态
   asset: IAsset
   onClick?(): void
+  onSelect?(): void
 }
 
-const Cell: React.FunctionComponent<Props> = ({ asset, selected = false, onClick }) => {
+const Cell: React.FunctionComponent<Props> = ({
+  asset,
+  showSelect = false,
+  selected = false,
+  onClick,
+  onSelect
+}) => {
   const theme = useTheme()
   const { blockNumber, web3 } = useApp()
 
@@ -24,14 +33,27 @@ const Cell: React.FunctionComponent<Props> = ({ asset, selected = false, onClick
 
   return (
     <>
-      <div className={'cell' + (selected ? ' cell-select' : '')} onClick={() => onClick?.()}>
+      <div
+        className={'cell' + (showSelect && selected ? ' cell-select' : '')}
+        onClick={() => onClick?.()}>
+        {showSelect && (
+          <div
+            style={{ display: selected ? 'block' : undefined }}
+            className="cell__select"
+            onClick={(e) => {
+              e.stopPropagation()
+              onSelect?.()
+            }}>
+            <SelectSvg />
+          </div>
+        )}
         <img src={asset.tokens?.[0]?.images?.[0]} alt="asset" />
         <div className="content">
           <p>
             {asset.tokens?.[0]?.name ?? '- -'}
             <span>
               <TotalSvg />
-              <label style={{ marginLeft: 4 }}>{asset.viewNum}</label>
+              <label style={{ marginLeft: 4 }}>{asset.tokens.length}</label>
             </span>
           </p>
           <Tooltip title={asset.tokens?.[0].des ?? '--'}>
@@ -46,17 +68,21 @@ const Cell: React.FunctionComponent<Props> = ({ asset, selected = false, onClick
                 </label>
               </Space>
             </span>
-            <span className="time">
-              <Space>
-                <TimeSvg />
-                {asset.expirationHeight ? Number(asset.expirationHeight) - blockNumber : '--'}
-              </Space>
-            </span>
+            {asset.expirationHeight && (
+              <span className="time">
+                <Space>
+                  <TimeSvg />
+                  {asset.expirationHeight ? Number(asset.expirationHeight) - blockNumber : '--'}
+                </Space>
+              </span>
+            )}
           </div>
         </div>
       </div>
       <style jsx>{`
         .cell {
+          position: relative;
+
           width: 100%;
           height: 260px;
           border: 1px solid ${theme['@border-color-base']};
@@ -66,11 +92,31 @@ const Cell: React.FunctionComponent<Props> = ({ asset, selected = false, onClick
           border-radius: 4px;
 
           overflow: hidden;
-          cursor: pointer;
+          cursor: ${onClick ? 'pointer' : 'default'};
         }
         .cell-select {
           border: 2px solid #99bbff;
           background: rgba(69, 114, 204, 0.2);
+        }
+
+        .cell__select {
+          position: absolute;
+          right: 0;
+          top: 0;
+          display: none;
+          cursor: pointer;
+        }
+        .cell__select > :global(svg rect) {
+          fill: ${selected ? theme['@primary-color'] + ' !important' : theme['@primary-color']};
+          stroke-width: ${selected ? undefined : '1px'};
+          stroke: ${selected ? undefined : '#000'};
+          opacity: ${selected ? 1 + ' !important' : 0.15};
+        }
+        .cell__select > :global(svg:hover rect) {
+          opacity: 0.5;
+        }
+        .cell:hover .cell__select {
+          display: block;
         }
 
         .cell > img {

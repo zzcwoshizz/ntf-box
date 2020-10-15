@@ -1,12 +1,15 @@
-import { Button, Space, Spin } from 'antd'
+import { Button, Space, Spin, Tabs } from 'antd'
 import React from 'react'
 
 import NetActivityTable from '@/components/Table/NetActivityTable'
 import TokenOwnerTable from '@/components/Table/TokenOwnerTable'
+import Features from '@/components/Token/Features'
 import ActivitySvg from '@/icons/icon_acticity.svg'
 import useTheme from '@/shared/hooks/useTheme'
 
 import { useData } from '../context'
+
+const { TabPane } = Tabs
 
 const Title: React.FunctionComponent<{ icon: React.ReactNode }> = ({ icon, children }) => {
   const theme = useTheme()
@@ -33,6 +36,7 @@ const Title: React.FunctionComponent<{ icon: React.ReactNode }> = ({ icon, child
 
 const Infos: React.FunctionComponent = () => {
   const {
+    token,
     fetching,
     tokenOwner,
     activities,
@@ -46,9 +50,19 @@ const Infos: React.FunctionComponent = () => {
     <>
       <Spin spinning={fetching}>
         <div className="container">
-          <div className="content">
+          <div className="head">
+            <Tabs
+              onChange={(key) => {
+                window.location.hash = '#' + key
+              }}>
+              <TabPane tab="Holding address" key="asset-hold-address" />
+              <TabPane tab="Features" key="asset-features" />
+              <TabPane tab="Activity record" key="asset-activity-record" />
+            </Tabs>
+          </div>
+          <div className="content" id="asset-hold-address">
             <Title icon={<ActivitySvg />}>Holding address</Title>
-            <TokenOwnerTable data={tokenOwner} />
+            <TokenOwnerTable address={token.contractAdd} data={tokenOwner} />
             {hasMoreTokenOwner && (
               <Button
                 style={{ display: 'block', margin: '24px auto 0 auto' }}
@@ -57,7 +71,11 @@ const Infos: React.FunctionComponent = () => {
               </Button>
             )}
           </div>
-          <div className="content">
+          <div className="content" id="asset-features">
+            <Title icon={<ActivitySvg />}>Features</Title>
+            <Features token={token} />
+          </div>
+          <div className="content" id="asset-activity-record">
             <Title icon={<ActivitySvg />}>Activity record</Title>
             <NetActivityTable data={activities} />
             {hasMoreActivities && (
@@ -73,8 +91,11 @@ const Infos: React.FunctionComponent = () => {
       <style jsx>{`
         .container {
           margin-top: 16px;
-          padding: 24px;
+          padding: 0 24px 24px 24px;
           background-color: #fff;
+        }
+        .head :global(.ant-tabs-nav) {
+          padding: 10px 0;
         }
 
         .content {

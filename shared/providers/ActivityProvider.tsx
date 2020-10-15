@@ -7,6 +7,8 @@ import { ActivityType, IActivity } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import { IPage } from '@/types'
 
+import { useProject } from './ProjectProvider'
+
 type FilterType = { type: ActivityType; id?: number; name?: string }
 
 const activityContext = React.createContext<{
@@ -22,6 +24,8 @@ const ActivityProvider: React.FunctionComponent<{ account?: string | null }> = (
   children,
   account
 }) => {
+  const { selectProject } = useProject()
+
   const { query } = useRouter()
   const defaultFilter: FilterType = {
     type: Number(query.type ?? 0) as ActivityType,
@@ -58,6 +62,10 @@ const ActivityProvider: React.FunctionComponent<{ account?: string | null }> = (
   const toogleFilter = (filter: FilterType) => {
     action.setFilter(filter)
   }
+
+  React.useEffect(() => {
+    selectProject(state.filter.id)
+  }, [state.filter.id])
 
   return (
     <activityContext.Provider

@@ -110,6 +110,10 @@ export const getProjectList = (params: { address?: string }) => {
   return api.get<IResponse<IProject[]>>('/projects', { params })
 }
 
+export const getProject = (id: number) => {
+  return api.get<IResponse<IProject>>(`/project/${id}`)
+}
+
 // 排行榜
 export const getRanking = (
   params: PageParam & {
@@ -166,7 +170,7 @@ export const getNetActivity = (
   return api.get<IListResponse<INetActivity>>('/token/activity', { params })
 }
 
-export const getHelp = (params: PageParam) => {
+export const getHelp = (params: PageParam & { search?: string }) => {
   return api.get<IListResponse<IHelp>>('/help', {
     params
   })

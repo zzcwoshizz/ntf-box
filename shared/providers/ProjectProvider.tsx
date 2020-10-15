@@ -1,6 +1,7 @@
 import React from 'react'
+import { useAsync } from 'react-use'
 
-import { getProjectList } from '@/api'
+import { getProject, getProjectList } from '@/api'
 import { IProject } from '@/api/types'
 
 const projectContext = React.createContext<{
@@ -22,15 +23,14 @@ const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
     })
   }, [address])
 
-  const project = React.useMemo(() => {
-    for (const project of projects) {
-      if (project.id === projectId) {
-        return project
-      }
+  const { value: project } = useAsync(async () => {
+    if (!projectId) {
+      return
     }
 
-    return undefined
-  }, [projectId, projects])
+    const { data } = await getProject(projectId)
+    return data
+  }, [projectId])
 
   const selectProject = (id?: number) => {
     setProjectId(id)

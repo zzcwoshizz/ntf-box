@@ -7,7 +7,6 @@ import { useWallet } from 'use-wallet'
 import { INetActivity } from '@/api/types'
 import Img from '@/components/Img'
 import { AVATAR_URL, SCAN_URLS } from '@/shared/constants'
-import { useApp } from '@/shared/providers/AppProvider'
 import { shortenAddress } from '@/utils/string'
 
 const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?: boolean }> = ({
@@ -31,12 +30,9 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
         <>
           <div>
             <Space>
-              <Img width={24} src={AVATAR_URL + record.contractAdd} />
-              <a
-                href={SCAN_URLS[wallet.chainId + ''] + '/contract/' + record.contractAdd}
-                target="_blank"
-                rel="noopener noreferrer">
-                {shortenAddress(record.contractAdd)}
+              <Img width={24} src={record.nftProjectDO?.logoUrl} />
+              <a href={record.nftProjectDO?.website} target="_blank" rel="noopener noreferrer">
+                {record.nftProjectDO?.name}
               </a>
             </Space>
           </div>

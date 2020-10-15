@@ -19,6 +19,9 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
   const { project } = useProject()
   const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset()
 
+  const { query } = router
+  const { selType } = query as { selType?: string }
+
   const toogleSelected = (index: number) => {
     const hasIndex = selected.indexOf(index)
     if (hasIndex > -1) {
@@ -89,18 +92,16 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                   <AssetCell
                     key={index}
                     asset={asset}
-                    selected={canSelect && selected.indexOf(index) > -1}
+                    showSelect={canSelect}
+                    selected={selected.indexOf(index) > -1}
                     onClick={() => {
-                      if (canSelect) {
-                        toogleSelected(index)
-                      } else {
-                        router.push({
-                          pathname: '/asset',
-                          query: {
-                            orderId: asset.orderId
-                          }
-                        })
-                      }
+                      // TODO 捆绑
+                      router.push(
+                        `/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`
+                      )
+                    }}
+                    onSelect={() => {
+                      toogleSelected(index)
                     }}
                   />
                 ))}
@@ -112,7 +113,7 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                 <span>
                   <Space>
                     <Button onClick={() => setSelected([])}>Cancel</Button>
-                    {selected.length === 1 && (
+                    {selected.length === 1 && selType === 'transfer' && (
                       <Button
                         onClick={() => {
                           router.push({
@@ -126,19 +127,21 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                         Transfer
                       </Button>
                     )}
-                    <Button
-                      type="primary"
-                      onClick={() => {
-                        router.push({
-                          pathname: '/publish',
-                          query: {
-                            address: selected.map((index) => assets[index].tokens[0].contractAdd),
-                            tokenId: selected.map((index) => assets[index].tokens[0].tokenId)
-                          }
-                        })
-                      }}>
-                      Determine
-                    </Button>
+                    {selType === 'sell' && (
+                      <Button
+                        type="primary"
+                        onClick={() => {
+                          router.push({
+                            pathname: '/publish',
+                            query: {
+                              address: selected.map((index) => assets[index].tokens[0].contractAdd),
+                              tokenId: selected.map((index) => assets[index].tokens[0].tokenId)
+                            }
+                          })
+                        }}>
+                        Determine
+                      </Button>
+                    )}
                   </Space>
                 </span>
               </div>

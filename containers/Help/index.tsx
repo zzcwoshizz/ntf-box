@@ -1,4 +1,5 @@
 import { Card, Collapse, Input, Typography } from 'antd'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 import { getHelp } from '@/api'
@@ -11,16 +12,19 @@ import { hex2rgba } from '@/utils/color'
 
 const { Title } = Typography
 const { Panel } = Collapse
+const { Search } = Input
 
 const Help: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
   const theme = useTheme()
+  const { query } = useRouter()
 
-  const { state } = useList<IHelp>(
+  const { state, action } = useList<IHelp, { keys?: string }>(
     async (params) => {
       const { list, hasNextPage, total } = await getHelp({
         page: params.page,
-        pageSize: params.pageSize
+        pageSize: params.pageSize,
+        search: params.keys
       })
 
       return {
@@ -29,7 +33,7 @@ const Help: React.FunctionComponent = () => {
         total
       }
     },
-    {},
+    { keys: query.keys as string },
     { page: 1, pageSize: 20 }
   )
 
@@ -40,8 +44,15 @@ const Help: React.FunctionComponent = () => {
         <Title>Help</Title>
         <div className="content">
           <Card
+            loading={state.fetching}
             title={<div className="title">{state.pagination.total} messages</div>}
-            extra={<Input placeholder="Search" />}>
+            extra={
+              <Search
+                placeholder="Input search text"
+                onSearch={(value) => action.setFilter({ keys: value })}
+                style={{ width: 200 }}
+              />
+            }>
             <Collapse>
               {state.list.map((help) => (
                 <Panel header={help.title} showArrow={false} key={help.id}>
@@ -76,6 +87,8 @@ const Help: React.FunctionComponent = () => {
           font-size: 14px;
           color: ${theme['@text-color-tertiary']};
           line-height: 22px;
+
+          background-color: ${theme['@body-background']};
         }
       `}</style>
     </>

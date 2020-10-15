@@ -72,7 +72,7 @@ export const useList = <T1, T2 = { [key: string]: any }>(
     StateType<T1, T2>
   >(reducer, initialState, (state: StateType<T1, T2>) => state)
 
-  const { pathname, replace } = useRouter()
+  const { replace } = useRouter()
   const search = toSearch(state.pagination, state.filter)
 
   const newState = React.useRef(state)
@@ -83,7 +83,7 @@ export const useList = <T1, T2 = { [key: string]: any }>(
   React.useEffect(() => {
     if (syncUrl) {
       replace({
-        pathname,
+        pathname: window.location.pathname,
         search: serialize({
           ...state.filter
         })

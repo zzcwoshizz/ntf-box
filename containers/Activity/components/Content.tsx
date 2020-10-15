@@ -7,12 +7,14 @@ import ActivityTable from '@/components/Table/ActivityTable'
 import useTheme from '@/shared/hooks/useTheme'
 import { useActivity } from '@/shared/providers/ActivityProvider'
 import { useConstants } from '@/shared/providers/ContantsProvider'
+import { useProject } from '@/shared/providers/ProjectProvider'
 
 const { Option } = Select
 const { Text } = Typography
 
 const Content: React.FunctionComponent = () => {
   const theme = useTheme()
+  const { project } = useProject()
   const { filter, toogleFilter } = useActivity()
   const { ACTIVITY_TYPES } = useConstants()
   const { activities, fetching, onScrollBottom } = useActivity()
@@ -20,6 +22,9 @@ const Content: React.FunctionComponent = () => {
   return (
     <>
       <div className="container">
+        <div className="head">
+          <h4>{project ? project.name : 'Real time activity recording'}</h4>
+        </div>
         <div className="select">
           <Row align="middle">
             <Col span={8} style={{ paddingRight: 16 }}>
@@ -64,6 +69,23 @@ const Content: React.FunctionComponent = () => {
           border-radius: 4px;
         }
 
+        .head {
+          position: relative;
+          display: flex;
+          align-items: center;
+          height: 55px;
+          padding: 6px 15px;
+
+          box-shadow: 0px 2px 8px 0px rgba(60, 77, 111, 0.1);
+        }
+        .head > h4 {
+          margin: 0;
+          font-size: 20px;
+          font-weight: 500;
+          color: ${theme['@text-color']};
+          line-height: 25px;
+        }
+
         .select {
           padding: 18px 15px 0 15px;
         }
@@ -73,7 +95,7 @@ const Content: React.FunctionComponent = () => {
         }
 
         .list {
-          height: 555px;
+          height: 500px;
           padding: 16px;
         }
       `}</style>

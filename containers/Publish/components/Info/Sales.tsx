@@ -8,13 +8,12 @@ const Sales: React.FunctionComponent = () => {
   return (
     <Content title="Sales method">
       <Select value="1" options={[{ value: '1', title: 'Fix a price' }]}></Select>
-      <Form.Item name="price" rules={[{ required: true }]}>
-        <Input
-          style={{ width: '48%', marginTop: 16 }}
-          prefix="Price"
-          addonAfter="ETH"
-          placeholder="Please input price"
-        />
+      <Form.Item
+        style={{ width: '48%', marginTop: 16 }}
+        name="price"
+        label="Price"
+        rules={[{ required: true }]}>
+        <Input addonAfter="ETH" placeholder="Please input price" />
       </Form.Item>
     </Content>
   )

@@ -1,7 +1,8 @@
+import { useRouter } from 'next/router'
 import React from 'react'
 import { useWallet } from 'use-wallet'
 
-import Content from '@/containers/Market/components/Content'
+import { AssetContent } from '@/components/Asset'
 import useContainer from '@/shared/hooks/useContainer'
 import { useApp } from '@/shared/providers/AppProvider'
 import { AssetProvider } from '@/shared/providers/AssetProvider'
@@ -16,24 +17,30 @@ const Items: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     if (!account) {
-      wallet.connect('injected')
+      setTimeout(() => {
+        wallet.connect('injected')
+      }, 1000)
     }
   }, [account])
 
+  const { query } = useRouter()
+
   return (
     <>
-      <ProjectProvider address={account}>
-        <AssetProvider account={account}>
-          <div className="container">
-            <div className="left">
-              <Filter />
+      {account && (
+        <ProjectProvider address={account}>
+          <AssetProvider account={account}>
+            <div className="container">
+              <div className="left">
+                <Filter />
+              </div>
+              <div className="right">
+                <AssetContent canSelect={!!query.selType} />
+              </div>
             </div>
-            <div className="right">
-              <Content canSelect />
-            </div>
-          </div>
-        </AssetProvider>
-      </ProjectProvider>
+          </AssetProvider>
+        </ProjectProvider>
+      )}
       <style jsx>{`
         .container {
           display: flex;

@@ -47,7 +47,7 @@ const Footer: React.FunctionComponent = () => {
                 </Link>
               </li>
               <li>
-                <Link href="/">
+                <Link href="/account/items">
                   <a target="_blank" rel="noopener noreferrer">
                     Transfer of goods
                   </a>

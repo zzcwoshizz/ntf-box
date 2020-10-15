@@ -1,4 +1,4 @@
-import { Checkbox, Input, Menu, Row, Slider } from 'antd'
+import { Checkbox, Input, List, Menu, Row, Slider, Space } from 'antd'
 import Link from 'next/link'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
@@ -6,82 +6,98 @@ import PerfectScrollbar from 'react-perfect-scrollbar'
 import { IProject } from '@/api/types'
 import { AssetItem } from '@/components/Asset'
 import CloseSvg from '@/icons/close.svg'
+import FhWhiteSvg from '@/icons/icon_fh_white.svg'
 import SearchSvg from '@/icons/icon_search.svg'
 import useTheme from '@/shared/hooks/useTheme'
 
+import Img from '../Img'
+
 const { SubMenu } = Menu
 
-export interface Props<FT = any> {
+// <Menu mode="inline">
+//   <SubMenu key="sub1" title="A selection-type">
+//     <div className="menu-child">
+//       <Checkbox.Group>
+//         <Row>
+//           <Checkbox value="A">A</Checkbox>
+//         </Row>
+//         <Row>
+//           <Checkbox value="B">B</Checkbox>
+//         </Row>
+//         <Row>
+//           <Checkbox value="C">C</Checkbox>
+//         </Row>
+//         <Row>
+//           <Checkbox value="D">D</Checkbox>
+//         </Row>
+//         <Row>
+//           <Checkbox value="E">E</Checkbox>
+//         </Row>
+//       </Checkbox.Group>
+//     </div>
+//   </SubMenu>
+//   <SubMenu key="sub2" title="B rating-progress">
+//     <div className="menu-child">
+//       <Slider range step={1} defaultValue={[20, 50]} />
+//       <div className="range">
+//         <div>
+//           <label>Minimum</label>
+//           <br />
+//           189,219,287
+//         </div>
+//         <span>-</span>
+//         <div>
+//           <label>Maximum</label>
+//           <br />
+//           189,219,287
+//         </div>
+//       </div>
+//     </div>
+//   </SubMenu>
+// </Menu>
+
+export interface Props {
   projects: IProject[]
-  filter: any
-  toogleFilter: FT
+  project?: IProject
+  showItemExtra?: boolean
+  onSelectProject?(project?: IProject): void
+  renderDetail?(): React.ReactNode
 }
 
-const ActivityFilter: React.FunctionComponent<Props> = ({ projects, filter, toogleFilter }) => {
+const ActivityFilter: React.FunctionComponent<Props> = ({
+  projects,
+  project,
+  showItemExtra = true,
+  onSelectProject,
+  renderDetail
+}) => {
   const theme = useTheme()
 
   return (
     <>
       <div className="container">
-        <div className="title">DAPP Set</div>
+        <div className="title">
+          <Space>
+            <FhWhiteSvg />
+            DAPP Set
+          </Space>
+        </div>
         <div className="search">
           <Input
-            prefix={<SearchSvg />}
+            prefix={project ? <Img width={16} src={project.logoUrl} /> : <SearchSvg />}
             placeholder="Search"
             suffix={
-              filter.id && (
-                <CloseSvg
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => toogleFilter({ ...filter, id: undefined, name: undefined })}
-                />
+              project && (
+                <CloseSvg style={{ cursor: 'pointer' }} onClick={() => onSelectProject?.()} />
               )
             }
-            value={filter.name}
+            value={project?.name}
           />
         </div>
         <div className="list">
-          {filter.id ? null : (
-            // <Menu mode="inline">
-            //   <SubMenu key="sub1" title="A selection-type">
-            //     <div className="menu-child">
-            //       <Checkbox.Group>
-            //         <Row>
-            //           <Checkbox value="A">A</Checkbox>
-            //         </Row>
-            //         <Row>
-            //           <Checkbox value="B">B</Checkbox>
-            //         </Row>
-            //         <Row>
-            //           <Checkbox value="C">C</Checkbox>
-            //         </Row>
-            //         <Row>
-            //           <Checkbox value="D">D</Checkbox>
-            //         </Row>
-            //         <Row>
-            //           <Checkbox value="E">E</Checkbox>
-            //         </Row>
-            //       </Checkbox.Group>
-            //     </div>
-            //   </SubMenu>
-            //   <SubMenu key="sub2" title="B rating-progress">
-            //     <div className="menu-child">
-            //       <Slider range step={1} defaultValue={[20, 50]} />
-            //       <div className="range">
-            //         <div>
-            //           <label>Minimum</label>
-            //           <br />
-            //           189,219,287
-            //         </div>
-            //         <span>-</span>
-            //         <div>
-            //           <label>Maximum</label>
-            //           <br />
-            //           189,219,287
-            //         </div>
-            //       </div>
-            //     </div>
-            //   </SubMenu>
-            // </Menu>
+          {project ? (
+            renderDetail?.()
+          ) : (
             <PerfectScrollbar style={{ height: '100%' }}>
               {projects.map((project, index) => (
                 <Link
@@ -91,9 +107,13 @@ const ActivityFilter: React.FunctionComponent<Props> = ({ projects, filter, toog
                   <a
                     onClick={(e) => {
                       e.preventDefault()
-                      toogleFilter({ ...filter, id: project.id, name: project.name })
+                      onSelectProject?.(project)
                     }}>
-                    <AssetItem icon={project.logoUrl} title={project.name} extra={project.num} />
+                    <AssetItem
+                      icon={project.logoUrl}
+                      title={project.name}
+                      extra={showItemExtra ? project.num : null}
+                    />
                   </a>
                 </Link>
               ))}

@@ -60,6 +60,9 @@ export interface IToken {
   orderIds?: []
   propertys?: any
   tokenId: string
+  birth?: string
+  type: 'ERC1155' | 'ERC721'
+  projectDO?: IProject
 }
 
 export interface IAsset {
@@ -79,7 +82,7 @@ export interface PageParam {
 
 export interface IProject {
   alias: string
-  contractAdds: string[]
+  contractAdds?: string[]
   createTime?: string
   des?: string
   id: number
@@ -95,6 +98,9 @@ export interface IProject {
   discord: string
   website: string
   weight: number
+  avgPrice?: string
+  owners?: string
+  total?: string
 }
 
 export type AssetType =
@@ -149,6 +155,7 @@ export interface IActivity {
   status: number
   tokenId: string
   txid: string
+  projectDO?: IProject
 }
 
 export interface INetActivity {
@@ -161,6 +168,7 @@ export interface INetActivity {
   toAdd: string
   tokenId: string
   txid: string
+  nftProjectDO?: IProject
 }
 
 export interface ITokenOwner {

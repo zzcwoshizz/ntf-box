@@ -1,5 +1,6 @@
 import { Button, Input, Modal, Switch } from 'antd'
 import React from 'react'
+import { useWallet } from 'use-wallet'
 
 import FhSvg from '@/icons/icon_fh.svg'
 import useContainer from '@/shared/hooks/useContainer'
@@ -7,6 +8,8 @@ import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
 
 const Setting: React.FunctionComponent = () => {
+  const { account } = useApp()
+  const wallet = useWallet()
   const { containerWidth } = useContainer()
   const theme = useTheme()
   const { user, toogleUserInfo } = useApp()
@@ -15,6 +18,14 @@ const Setting: React.FunctionComponent = () => {
   const [name, setName] = React.useState('')
   const [nameVisible, setNameVisible] = React.useState(false)
   const [loading, setLoading] = React.useState(false)
+
+  React.useEffect(() => {
+    if (!account) {
+      setTimeout(() => {
+        wallet.connect('injected')
+      }, 1000)
+    }
+  }, [account])
 
   return (
     <>

@@ -10,11 +10,13 @@ import Img from '@/components/Img'
 import { AVATAR_URL } from '@/shared/constants'
 import useContainer from '@/shared/hooks/useContainer'
 import useERC721 from '@/shared/hooks/useERC721'
+import useTheme from '@/shared/hooks/useTheme'
 
 const { Title } = Typography
 
 const Transfer: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
+  const theme = useTheme()
 
   const { query } = useRouter()
   const { tokenId, address } = query as { tokenId: string; address: string }
@@ -22,6 +24,7 @@ const Transfer: React.FunctionComponent = () => {
   const { value: token, loading } = useAsync(async () => {
     return (await getToken({ contractAdd: address, tokenId })).data
   }, [tokenId, address])
+  const [toAddress, setToAddress] = React.useState('')
 
   const { getMethods } = useERC721()
 
@@ -35,6 +38,9 @@ const Transfer: React.FunctionComponent = () => {
           <Img width={156} src={AVATAR_URL + token?.contractAdd} />
           <Title>{token?.name}</Title>
           <Form<{ amount?: string; address: string }>
+            onValuesChange={(values) => {
+              setToAddress(values.address)
+            }}
             style={{ width: '60%' }}
             onFinish={(data) => {
               if (!token) {
@@ -57,6 +63,9 @@ const Transfer: React.FunctionComponent = () => {
               rules={[{ required: true }]}>
               <Input placeholder="Please input address" />
             </Form.Item>
+            <p>
+              “{token?.name}” will be transferred to {toAddress}
+            </p>
             <Form.Item>
               <EnableButton
                 style={{ width: '100%' }}
@@ -84,6 +93,17 @@ const Transfer: React.FunctionComponent = () => {
           padding: 66px 0;
 
           background-color: #fff;
+        }
+
+        p {
+          width: 60%;
+          margin: 0 auto 24px auto;
+
+          text-align: center;
+          font-size: 14px;
+          font-weight: 500;
+          color: ${theme['@text-color']};
+          line-height: 20px;
         }
       `}</style>
     </>

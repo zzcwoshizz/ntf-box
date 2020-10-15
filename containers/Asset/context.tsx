@@ -1,8 +1,8 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useAsyncRetry } from 'react-use'
+import { useAsync, useAsyncRetry } from 'react-use'
 
-import { getAsset, getNetActivity, getTokenOwner } from '@/api'
+import { getAsset, getNetActivity, getToken, getTokenOwner } from '@/api'
 import { IAsset, INetActivity, IToken, ITokenOwner } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import useMarket from '@/shared/hooks/useMarket'
@@ -10,7 +10,7 @@ import { useApp } from '@/shared/providers/AppProvider'
 import { isEqualIgnoreCase } from '@/utils/string'
 
 const dataContext = React.createContext<{
-  asset: IAsset
+  asset?: IAsset
   activities: INetActivity[]
   token: IToken
   fetching: boolean
@@ -31,38 +31,49 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   const { account } = useApp()
   const [loading, setLoading] = React.useState(false)
 
-  const { orderId } = router.query as { orderId: string }
+  const { address, tokenId } = router.query as { address: string; tokenId: string }
 
   const {
-    value: asset = {
-      orderType: 1,
-      tokens: [],
-      viewNum: 0,
-      operator: ''
+    value: token = {
+      contractAdd: '',
+      tokenId: '0',
+      type: 'ERC721'
     },
-    loading: fetching,
-    retry
-  } = useAsyncRetry(async () => {
-    if (orderId) {
-      const { data } = await getAsset({ orderId })
-      return data
-    }
-  }, [orderId])
+    loading: tokenLoading
+  } = useAsync(async () => {
+    const { data } = await getToken({ contractAdd: address, tokenId })
+    return data
+  }, [address, tokenId])
 
-  const token: IToken = React.useMemo(() => {
-    return asset.tokens.length > 0
-      ? asset.tokens[0]
-      : {
-          contractAdd: '',
-          tokenId: '0'
-        }
-  }, [JSON.stringify(asset)])
+  const orderIds = token.orderIds?.map((id) => id) ?? []
+
+  const { value: assets = [], loading: assetLoading, retry } = useAsyncRetry(
+    async () => {
+      let assets: IAsset[] = []
+      if (orderIds.length > 0) {
+        const res = await Promise.all(orderIds.map((orderId) => getAsset({ orderId })))
+        assets = res.map(({ data }) => data)
+      }
+      return assets
+    },
+    orderIds.map((id) => id)
+  )
+
+  const asset: IAsset | undefined = assets[0]
+  const orderId = orderIds[0] ?? ''
 
   const market = useMarket([token])
 
   // 持有人列表
   const { state, action } = useList<ITokenOwner>(
     async (params) => {
+      if (token.type === 'ERC721') {
+        return {
+          list: [],
+          total: 0,
+          hasMore: false
+        }
+      }
       if (!token.contractAdd) {
         return {
           list: [],
@@ -135,7 +146,10 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   }
 
   // 是否是本人物品
-  const isMine = isEqualIgnoreCase(asset.operator, account + '')
+  let isMine = isEqualIgnoreCase(asset?.operator, account + '')
+  state.list.forEach((token) => {
+    isMine = isEqualIgnoreCase(token.owner, account + '')
+  })
 
   const changePrice = async (price: string) => {
     if (!account) {
@@ -169,7 +183,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
         asset,
         activities: activityState.list,
         token,
-        fetching,
+        fetching: tokenLoading || assetLoading,
         holders: state.pagination.total ?? 0,
         tokenOwner: state.list,
         isMine,

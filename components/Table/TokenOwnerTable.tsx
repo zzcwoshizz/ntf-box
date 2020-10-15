@@ -10,10 +10,11 @@ import { AVATAR_URL } from '@/shared/constants'
 import { useApp } from '@/shared/providers/AppProvider'
 import { shortenAddress } from '@/utils/string'
 
-const TokenOwnerTable: React.FunctionComponent<{ data: ITokenOwner[]; loading?: boolean }> = ({
-  data,
-  loading = false
-}) => {
+const TokenOwnerTable: React.FunctionComponent<{
+  data: ITokenOwner[]
+  address: string
+  loading?: boolean
+}> = ({ data, address, loading = false }) => {
   const { web3 } = useApp()
   const router = useRouter()
 
@@ -45,17 +46,13 @@ const TokenOwnerTable: React.FunctionComponent<{ data: ITokenOwner[]; loading?: 
       title: 'Operation',
       dataIndex: 'orderId',
       key: 'orderId',
-      render: (orderId) =>
+      render: (orderId, record) =>
         orderId && (
           <Button
             type="primary"
             onClick={() => {
-              router.push({
-                pathname: '/asset',
-                query: {
-                  orderId
-                }
-              })
+              // TODO 捆绑
+              router.push(`/asset/${address}/${record.tokenId}`)
             }}>
             BUY NOW
           </Button>

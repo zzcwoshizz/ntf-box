@@ -10,17 +10,23 @@ import { IToken } from '@/api/types'
 import useMarket from '@/shared/hooks/useMarket'
 import { useApp } from '@/shared/providers/AppProvider'
 
+type FormData = { price: string; expiredTime: Moment }
+
 const dataContext = React.createContext<{
   tokens: IToken[]
   fetching: boolean
   loading: boolean
   disabled: boolean
+  price: string
+  expiredTime?: Moment
 }>({} as any)
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const router = useRouter()
   const { web3 } = useApp()
   const [loading, setLoading] = React.useState(false)
+  const [price, setPrice] = React.useState('')
+  const [expiredTime, setExpiredTime] = React.useState<Moment>()
 
   const { address, tokenId } = router.query
 
@@ -55,9 +61,13 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   const market = useMarket(tokens)
 
   return (
-    <dataContext.Provider value={{ tokens, fetching, loading, disabled }}>
-      <Form
-        onFinish={async (data: { price: string; expiredTime: Moment }) => {
+    <dataContext.Provider value={{ tokens, fetching, loading, disabled, price, expiredTime }}>
+      <Form<FormData>
+        onValuesChange={(values) => {
+          setPrice(values.price)
+          setExpiredTime(values.expiredTime)
+        }}
+        onFinish={async (data) => {
           setLoading(true)
           const blockNumber = await web3.eth.getBlockNumber()
           let expirationHeight: string

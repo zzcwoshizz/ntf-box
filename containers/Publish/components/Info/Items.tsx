@@ -1,6 +1,7 @@
 import { Carousel, Space } from 'antd'
 import React from 'react'
 
+import Img from '@/components/Img'
 import RightArrow from '@/icons/icon_right.svg'
 import { AVATAR_URL } from '@/shared/constants'
 import useTheme from '@/shared/hooks/useTheme'
@@ -19,11 +20,11 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string
     <>
       <div className="cell">
         <Space>
-          <img src={icon} alt={name} />
+          <Img width={40} height={40} style={{ overflow: 'hidden', borderRadius: 20 }} src={icon} />
           <div>
             <h6>{name}</h6>
             <p>
-              Last price: <span>{price}</span>
+              Last price: <span>{price ?? '--'}</span>
             </p>
           </div>
         </Space>
@@ -39,11 +40,6 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string
 
           background: #ffffff;
           border-radius: 4px;
-        }
-
-        img {
-          width: 40px;
-          height: 40px;
         }
 
         h6 {
@@ -72,7 +68,7 @@ const Items: React.FunctionComponent = () => {
   const { tokens } = useData()
 
   return (
-    <Content title="Items on the shelf" extra="12 piece">
+    <Content title="Items on the shelf" extra={tokens.length + ' piece'}>
       <div className="items" style={{ width: '100%', padding: '0 32px 0 48px' }}>
         <div style={{ width: '100%' }}>
           <Carousel

@@ -1,8 +1,11 @@
-import { Carousel, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
+import { Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
+import moment from 'moment'
+import { useRouter } from 'next/router'
 import React from 'react'
 
 import EnableButton from '@/components/Button/EnableButton'
 import Img from '@/components/Img'
+import BornSvg from '@/icons/icon_born.svg'
 import PriceSvg from '@/icons/icon_price.svg'
 import { AVATAR_URL } from '@/shared/constants'
 import useTheme from '@/shared/hooks/useTheme'
@@ -10,12 +13,14 @@ import { useApp } from '@/shared/providers/AppProvider'
 import { shortenAddress } from '@/utils/string'
 
 import { useData } from '../context'
+import Images from './Images'
 
 const { Title } = Typography
 
 const Desc: React.FunctionComponent = () => {
   const theme = useTheme()
   const { web3 } = useApp()
+  const router = useRouter()
   const { asset, token, isMine, fetching, holders, loading, changePrice, buy } = useData()
   const [price, setPrice] = React.useState('')
 
@@ -25,17 +30,12 @@ const Desc: React.FunctionComponent = () => {
         <div className="container">
           <Row>
             <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 20 }}>
-              <Carousel effect="fade">
-                {(asset.tokens[0]?.images ?? ['https://error']).map((image, index) => (
-                  <div key={index}>
-                    <Img width="100%" src={image} />
-                  </div>
-                ))}
-              </Carousel>
+              <Images images={token.images} />
             </Col>
             <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 20 }}>
+              <span style={{ color: theme['@text-color-tertiary'] }}>{token.projectDO?.name}</span>
               <Title level={3}>{token.name}</Title>
-              <Divider />
+              <Divider style={{ margin: '16px 0' }} />
               <div className="name">
                 <Space align="center">
                   <Img
@@ -47,31 +47,54 @@ const Desc: React.FunctionComponent = () => {
                 </Space>
               </div>
               <div className="intro">{token.des}</div>
-              <div className="price">
-                <Space align="center">
-                  <PriceSvg />
-                  {web3.utils.fromWei(asset.dealPrice ?? '0')} ETH
-                </Space>
-              </div>
+              {asset && (
+                <div className="price">
+                  <Space align="center">
+                    <PriceSvg />
+                    {web3.utils.fromWei(asset.dealPrice ?? '--')} ETH
+                  </Space>
+                </div>
+              )}
               {isMine && (
                 <div className="form">
-                  <Input
-                    style={{ width: '100%', marginTop: 10 }}
-                    placeholder="Revise the appropriate price"
-                    value={price}
-                    onChange={(e) => setPrice(e.target.value)}
-                  />
-                  <EnableButton
-                    style={{ marginTop: 16 }}
-                    type="primary"
-                    loading={loading}
-                    onClick={() =>
-                      changePrice(price).finally(() => {
-                        setPrice('')
-                      })
-                    }>
-                    MODIFY PRICE
-                  </EnableButton>
+                  {asset && (
+                    <Input
+                      style={{ width: '100%', marginTop: 10 }}
+                      placeholder="Revise the appropriate price"
+                      value={price}
+                      onChange={(e) => setPrice(e.target.value)}
+                    />
+                  )}
+                  {asset && (
+                    <EnableButton
+                      style={{ marginTop: 16 }}
+                      type="primary"
+                      loading={loading}
+                      onClick={() =>
+                        changePrice(price).finally(() => {
+                          setPrice('')
+                        })
+                      }>
+                      MODIFY PRICE
+                    </EnableButton>
+                  )}
+                  {!asset && (
+                    <EnableButton
+                      style={{ marginTop: 16 }}
+                      type="primary"
+                      loading={loading}
+                      onClick={() =>
+                        router.push({
+                          pathname: '/publish',
+                          query: {
+                            address: token.contractAdd,
+                            tokenId: token.tokenId
+                          }
+                        })
+                      }>
+                      SELL
+                    </EnableButton>
+                  )}
                 </div>
               )}
               {!isMine && (
@@ -85,6 +108,12 @@ const Desc: React.FunctionComponent = () => {
                   </EnableButton>
                 </div>
               )}
+              <div className="birth">
+                <Space>
+                  <BornSvg />
+                  Born on {moment(token.birth).format('YYYY/MM/DD HH:mm:ss')}
+                </Space>
+              </div>
             </Col>
           </Row>
         </div>
@@ -125,6 +154,13 @@ const Desc: React.FunctionComponent = () => {
           font-weight: bold;
           color: ${theme['@primary-color']};
           line-height: 20px;
+        }
+
+        .birth {
+          margin-top: 16px;
+          font-size: 12px;
+          color: ${theme['@text-color-tertiary']};
+          line-height: 12px;
         }
       `}</style>
     </>

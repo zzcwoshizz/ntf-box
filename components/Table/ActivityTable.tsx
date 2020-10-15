@@ -32,12 +32,9 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
         <>
           <div>
             <Space>
-              <Img width={24} src={AVATAR_URL + record.contractAdd} />
-              <a
-                href={SCAN_URLS[wallet.chainId + ''] + '/contract/' + record.contractAdd}
-                target="_blank"
-                rel="noopener noreferrer">
-                {shortenAddress(record.contractAdd)}
+              <Img width={24} src={record.projectDO?.logoUrl} />
+              <a href={record.projectDO?.website} target="_blank" rel="noopener noreferrer">
+                {record.projectDO?.name}
               </a>
             </Space>
           </div>

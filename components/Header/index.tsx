@@ -66,6 +66,18 @@ const Header: React.FunctionComponent = () => {
           <a>Activity</a>
         </Link>
       </Menu.Item>
+      <Menu.Divider />
+      <Menu.Item>
+        <Link href="/account/items/sell">
+          <a>Sell</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Item>
+        <Link href="/account/items/transfer">
+          <a>Transfer</a>
+        </Link>
+      </Menu.Item>
+      <Menu.Divider />
       <Menu.Item>
         <Link href="/account/setting">
           <a>Setting</a>
@@ -78,7 +90,11 @@ const Header: React.FunctionComponent = () => {
     <>
       <header>
         <div className="container">
-          <img className="logo" src="/imgs/logo.png" alt="logo" />
+          <Link href="/">
+            <a>
+              <img className="logo" src="/imgs/logo.png" alt="logo" />
+            </a>
+          </Link>
           <nav>
             {navs.map((nav, index) => (
               <ActiveLink href={nav.href} key={index}>
