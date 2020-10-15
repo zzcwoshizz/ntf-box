@@ -20,7 +20,10 @@ const assetContext = React.createContext<{
   onScrollBottom(): void
 }>({} as any)
 
-const AssetProvider: React.FunctionComponent<{ account?: string }> = ({ children, account }) => {
+const AssetProvider: React.FunctionComponent<{ account?: string | null }> = ({
+  children,
+  account
+}) => {
   const { selectProject } = useProject()
 
   const { query } = useRouter()
@@ -39,7 +42,7 @@ const AssetProvider: React.FunctionComponent<{ account?: string }> = ({ children
         orderType: params.orderType,
         itemOrder: params.itemOrder,
         projectId: params.id ? params.id : undefined,
-        address: account
+        address: account ?? undefined
       })
       return {
         list: res.list,

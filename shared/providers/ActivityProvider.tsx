@@ -18,7 +18,10 @@ const activityContext = React.createContext<{
   onScrollBottom(): void
 }>({} as any)
 
-const ActivityProvider: React.FunctionComponent<{ account?: string }> = ({ children, account }) => {
+const ActivityProvider: React.FunctionComponent<{ account?: string | null }> = ({
+  children,
+  account
+}) => {
   const { query } = useRouter()
   const defaultFilter: FilterType = {
     type: Number(query.type ?? 0) as ActivityType,
@@ -33,7 +36,7 @@ const ActivityProvider: React.FunctionComponent<{ account?: string }> = ({ child
         pageSize: params.pageSize,
         type: params.type,
         projectId: params.id ? params.id : undefined,
-        address: account
+        address: account ?? undefined
       })
       return {
         list: res.list,

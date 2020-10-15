@@ -16,25 +16,25 @@ const Activity: React.FunctionComponent = () => {
 
   React.useEffect(() => {
     if (!account) {
-      wallet.connect('injected')
+      setTimeout(() => {
+        wallet.connect('injected')
+      }, 1000)
     }
-  }, [])
+  }, [account])
 
   return (
     <>
       <ProjectProvider address={account}>
-        {account && (
-          <ActivityProvider account={account}>
-            <div className="container">
-              <div className="left">
-                <Filter />
-              </div>
-              <div className="right">
-                <ActivityContent />
-              </div>
+        <ActivityProvider account={account}>
+          <div className="container">
+            <div className="left">
+              <Filter />
             </div>
-          </ActivityProvider>
-        )}
+            <div className="right">
+              <ActivityContent />
+            </div>
+          </div>
+        </ActivityProvider>
       </ProjectProvider>
       <style jsx>{`
         .container {

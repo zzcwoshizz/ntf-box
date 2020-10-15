@@ -9,12 +9,15 @@ const projectContext = React.createContext<{
   selectProject(id?: number): void
 }>({} as any)
 
-const ProjectProvider: React.FunctionComponent<{ address?: string }> = ({ children, address }) => {
+const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
+  children,
+  address
+}) => {
   const [projects, setProjects] = React.useState<IProject[]>([])
   const [projectId, setProjectId] = React.useState<number>()
 
   React.useEffect(() => {
-    getProjectList({ address }).then(({ data }) => {
+    getProjectList({ address: address ?? undefined }).then(({ data }) => {
       setProjects(data)
     })
   }, [address])

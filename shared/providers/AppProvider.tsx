@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAsyncRetry, useInterval, useLocalStorage } from 'react-use'
+import { useAsyncRetry, useInterval } from 'react-use'
 import { useWallet } from 'use-wallet'
 import Web3 from 'web3'
 
@@ -13,7 +13,7 @@ import useCache from '../hooks/useCache'
  * TODO: Login flow need to refactor
  */
 const appContext = React.createContext<{
-  account?: string
+  account: string | null
   balance: string
   web3: Web3
   blockNumber: number
@@ -24,34 +24,26 @@ const appContext = React.createContext<{
 
 const AppProvider: React.FunctionComponent = ({ children }) => {
   const wallet = useWallet<any>()
-
-  const [account, setAccount] = useCache<string>('account')
-  const [balance, setBalance] = React.useState('')
-  const web3 = React.useMemo(() => {
+  const provider = React.useMemo(() => {
     if (wallet.ethereum) {
-      return new Web3(wallet.ethereum)
+      return wallet.ethereum
     } else {
-      return new Web3(RPC_URLS[wallet.chainId + ''])
+      return new Web3.providers.HttpProvider(RPC_URLS[wallet.chainId + ''])
     }
   }, [wallet])
+
+  const [account, setAccount] = React.useState<string | null>(null)
+  const [balance, setBalance] = React.useState('')
+  const web3 = React.useMemo(() => {
+    return new Web3(provider)
+  }, [provider])
   const [blockNumber, setBlockNumber] = React.useState(0)
   const [token, setToken] = useCache<string>('token', '')
 
   React.useEffect(() => {
-    if (wallet.ethereum) {
-      wallet.account && setAccount(wallet.account)
-      setBalance(wallet.balance + '')
-    } else {
-      setAccount('')
-      setBalance('')
-    }
+    setAccount(wallet.account)
+    setBalance(wallet.balance + '')
   }, [wallet])
-
-  React.useEffect(() => {
-    if (account) {
-      wallet.connect('injected')
-    }
-  }, [])
 
   // 获取当前区块号
   useInterval(() => {

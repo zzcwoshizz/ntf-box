@@ -18,23 +18,21 @@ const Items: React.FunctionComponent = () => {
     if (!account) {
       wallet.connect('injected')
     }
-  }, [])
+  }, [account])
 
   return (
     <>
       <ProjectProvider address={account}>
-        {account && (
-          <AssetProvider account={account}>
-            <div className="container">
-              <div className="left">
-                <Filter />
-              </div>
-              <div className="right">
-                <Content canSelect />
-              </div>
+        <AssetProvider account={account}>
+          <div className="container">
+            <div className="left">
+              <Filter />
             </div>
-          </AssetProvider>
-        )}
+            <div className="right">
+              <Content canSelect />
+            </div>
+          </div>
+        </AssetProvider>
       </ProjectProvider>
       <style jsx>{`
         .container {
