@@ -28,7 +28,7 @@ const ActivityProvider: React.FunctionComponent<{ address?: string | null }> = (
 
   const { query } = useRouter()
   const defaultFilter: FilterType = {
-    type: Number(query.type ?? 0) as ActivityType,
+    type: (query.type ?? '0') as ActivityType,
     id: query.id ? Number(query.id) : undefined,
     name: query.name as string
   }

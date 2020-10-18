@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { AssetFilter } from '@/components/Asset'
+import { ProjectFilter } from '@/components/Asset'
 import ProjectData from '@/components/Project/ProjectData'
 import { useAsset } from '@/shared/providers/AssetProvider'
 import { useProject } from '@/shared/providers/ProjectProvider'
@@ -11,7 +11,7 @@ const Filter: React.FunctionComponent = () => {
 
   return (
     <>
-      <AssetFilter
+      <ProjectFilter
         projects={projects}
         project={project}
         onSelectProject={(project) => {

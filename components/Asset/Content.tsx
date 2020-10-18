@@ -3,10 +3,13 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import PerfectScrollbar from 'react-perfect-scrollbar'
 
+import { ItemOrder, OrderType } from '@/api/types'
 import { AssetCell, AssetContainer } from '@/components/Asset'
 import ProjectInfo from '@/components/Project/ProjectInfo'
 import useTheme from '@/shared/hooks/useTheme'
 import { useAsset } from '@/shared/providers/AssetProvider'
+import { useConstants } from '@/shared/providers/ConstantsProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { useProject } from '@/shared/providers/ProjectProvider'
 
 const { Option } = Select
@@ -15,9 +18,11 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
   const theme = useTheme()
   const [selected, setSelected] = React.useState<number[]>([])
   const router = useRouter()
+  const { t } = useLanguage()
 
   const { project } = useProject()
   const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset()
+  const { ORDER_TYPE, ITEM_ORDER } = useConstants()
 
   const { query } = router
   const { selType } = query as { selType?: string }
@@ -35,8 +40,8 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
     <>
       <div className="container">
         <div className="head">
-          <h4>All items</h4>
-          <p>On the shelf {page.total}</p>
+          <h4>{t('asset.content.title')}</h4>
+          <p>{t('asset.content.title', { count: page.total })}</p>
           {project && (
             <div className="right">
               <ProjectInfo project={project} />
@@ -48,32 +53,35 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
             <Col xs={{ span: 12 }} lg={{ span: 8 }} style={{ paddingRight: 16 }}>
               <Select
                 value={filter.orderType}
-                placeholder="Select type"
+                placeholder={t('asset.content.selectType')}
                 onChange={(value) => {
                   toogleFilter({
                     ...filter,
                     orderType: value
                   })
                 }}>
-                <Option value="0">All items</Option>
-                <Option value="1">Single items</Option>
-                <Option value="2">Bundles</Option>
+                {Object.keys(ORDER_TYPE).map((key) => (
+                  <Option key={key} value={key}>
+                    {ORDER_TYPE[key as OrderType]}
+                  </Option>
+                ))}
               </Select>
             </Col>
             <Col xs={{ span: 12 }} lg={{ span: 8 }}>
               <Select
                 value={filter.itemOrder}
-                placeholder="Sort by"
+                placeholder={t('asset.content.sort')}
                 onChange={(value) =>
                   toogleFilter({
                     ...filter,
                     itemOrder: value
                   })
                 }>
-                <Option value="0">Recently Created</Option>
-                <Option value="1">Expiring Soon</Option>
-                <Option value="2">Lowest Price</Option>
-                <Option value="3">Highest Price</Option>
+                {Object.keys(ITEM_ORDER).map((key) => (
+                  <Option key={key} value={key}>
+                    {ITEM_ORDER[key as ItemOrder]}
+                  </Option>
+                ))}
               </Select>
             </Col>
           </Row>
@@ -113,10 +121,10 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
             </PerfectScrollbar>
             {canSelect && selected.length > 0 && (
               <div className="action">
-                <span>{selected.length} item selected</span>
+                <span>{t('asset.content.selectedCount', { count: selected.length })}</span>
                 <span>
                   <Space>
-                    <Button onClick={() => setSelected([])}>Cancel</Button>
+                    <Button onClick={() => setSelected([])}>{t('asset.content.cancel')}</Button>
                     {selected.length === 1 && selType === 'transfer' && (
                       <Button
                         onClick={() => {
@@ -128,7 +136,7 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                             }
                           })
                         }}>
-                        Transfer
+                        {t('asset.content.transfer')}
                       </Button>
                     )}
                     {selType === 'sell' && (
@@ -143,7 +151,7 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                             }
                           })
                         }}>
-                        Determine
+                        {t('asset.content.sell')}
                       </Button>
                     )}
                   </Space>

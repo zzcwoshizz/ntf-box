@@ -2,11 +2,13 @@ import { Col, Row, Typography } from 'antd'
 import React from 'react'
 
 import useContainer from '@/shared/hooks/useContainer'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const { Title, Text } = Typography
 
 const Intro: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
+  const { t } = useLanguage()
 
   return (
     <>
@@ -16,11 +18,8 @@ const Intro: React.FunctionComponent = () => {
             <img className="desc" src="/imgs/home/intro.png" alt="ntf box" />
           </Col>
           <Col xs={{ span: 24 }} lg={{ span: 11, offset: 1 }} style={{ padding: 10 }}>
-            <Title level={3}>Introduce the original intention and vision of the platform</Title>
-            <Text type="secondary">
-              You should know how much wealth you idle. You should know how much wealth you idle.
-              You should know how much wealth you idle. You should know how much wealth you idle
-            </Text>
+            <Title level={3}>{t('home.intro.title')}</Title>
+            <Text type="secondary">{t('home.intro.desc')}</Text>
           </Col>
         </Row>
       </div>

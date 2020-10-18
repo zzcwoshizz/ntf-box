@@ -2,13 +2,14 @@ import { Tabs } from 'antd'
 import React from 'react'
 
 import { AssetType } from '@/api/types'
-import { ASSET_TYPES } from '@/shared/constants'
+import { useConstants } from '@/shared/providers/ConstantsProvider'
 
 import { useData } from '../context'
 
 const { TabPane } = Tabs
 
 const Filter: React.FunctionComponent = () => {
+  const { ASSET_TYPES } = useConstants()
   const { filter, toogleFilter } = useData()
 
   return (

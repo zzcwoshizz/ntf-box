@@ -4,6 +4,7 @@ import React from 'react'
 import EnableButton from '@/components/Button/EnableButton'
 import FhSvg from '@/icons/icon_fh.svg'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 import { useData } from '../context'
 
@@ -11,6 +12,7 @@ const { Text, Title } = Typography
 
 const Preview: React.FunctionComponent = () => {
   const theme = useTheme()
+  const { t } = useLanguage()
   const { loading, disabled, tokens, price } = useData()
 
   return (
@@ -19,21 +21,21 @@ const Preview: React.FunctionComponent = () => {
         <div className="title">
           <Space align="center">
             <FhSvg />
-            Order information
+            {t('publish.preview.title')}
           </Space>
         </div>
         <div className="list">
           <div className="item">
-            <span>Goods:</span>
-            <span>{tokens.length} piece</span>
+            <span>{t('publish.preview.goods')}:</span>
+            <span>{t('publish.preview.count', { count: tokens.length })}</span>
           </div>
           <div className="item">
-            <span>Price:</span>
+            <span>{t('publish.preview.price')}:</span>
             <span>{price} ETH</span>
           </div>
           <div className="item">
-            <span>End Block:</span>
-            <span>The deal / Self removal is the end</span>
+            <span>{t('publish.preview.end')}:</span>
+            <span>{t('publish.preview.endDesc')}</span>
           </div>
         </div>
         <Form.Item>
@@ -43,15 +45,13 @@ const Preview: React.FunctionComponent = () => {
             htmlType="submit"
             loading={loading}
             disabled={disabled}>
-            Confirm and put on the shelf
+            {t('publish.preview.submit')}
           </EnableButton>
         </Form.Item>
         <div className="tip">
-          <Title level={5}>Cost:</Title>
+          <Title level={5}>{t('publish.preview.tipTitle')}:</Title>
           <Text type="secondary">
-            The goods on the shelves are free.
-            <br />
-            For purchase or auction, the platform charges 1.5% commission
+            <span dangerouslySetInnerHTML={{ __html: t('publish.preview.tipHtml') }}></span>
           </Text>
         </div>
       </div>

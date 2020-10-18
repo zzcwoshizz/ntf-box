@@ -10,6 +10,7 @@ import EnSvg from '@/icons/icon_en.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { shortenAddress } from '@/utils/string'
 
 import ActiveLink from '../Link/ActiveLink'
@@ -23,31 +24,32 @@ const Header: React.FunctionComponent = () => {
   const [lan] = React.useState<'cn' | 'en'>('cn')
   const theme = useTheme()
   const { containerWidth } = useContainer()
+  const { t } = useLanguage()
 
   const navs = [
     {
       href: '/',
-      title: 'Home'
+      title: t('header.home')
     },
     {
       href: '/ranking',
-      title: 'Ranking'
+      title: t('header.ranking')
     },
     {
       href: '/activity',
-      title: 'Activity'
+      title: t('header.activity')
     },
     {
       href: '/market',
-      title: 'Market'
+      title: t('header.market')
     },
     {
       href: '/help',
-      title: 'Help'
+      title: t('header.help')
     },
     {
       href: '/record',
-      title: 'Record'
+      title: t('header.record')
     }
   ]
 
@@ -58,29 +60,29 @@ const Header: React.FunctionComponent = () => {
     <Menu>
       <Menu.Item>
         <Link href="/account/items">
-          <a>Items</a>
+          <a>{t('header.items')}</a>
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link href="/account/activity">
-          <a>Activity</a>
+          <a>{t('header.activity')}</a>
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item>
         <Link href="/account/items/sell">
-          <a>Sell</a>
+          <a>{t('header.sell')}</a>
         </Link>
       </Menu.Item>
       <Menu.Item>
         <Link href="/account/items/transfer">
-          <a>Transfer</a>
+          <a>{t('header.transfer')}</a>
         </Link>
       </Menu.Item>
       <Menu.Divider />
       <Menu.Item>
         <Link href="/account/setting">
-          <a>Setting</a>
+          <a>{t('header.setting')}</a>
         </Link>
       </Menu.Item>
     </Menu>
@@ -111,7 +113,7 @@ const Header: React.FunctionComponent = () => {
               </Dropdown>
             ) : (
               <EnableButton type="text" onClick={login}>
-                My Account
+                {t('header.myAccount')}
               </EnableButton>
             )}
             <div className="language">

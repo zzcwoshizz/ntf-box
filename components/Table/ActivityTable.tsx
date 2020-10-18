@@ -9,6 +9,7 @@ import { IActivity } from '@/api/types'
 import Img from '@/components/Img'
 import { SCAN_URLS } from '@/shared/constants'
 import { useApp } from '@/shared/providers/AppProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
@@ -18,16 +19,17 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
 }) => {
   const { web3 } = useApp()
   const wallet = useWallet()
+  const { t } = useLanguage()
 
   const columns: ColumnsType<IActivity> = [
     {
-      title: 'Time',
+      title: t('activity.columns.time'),
       dataIndex: 'createTime',
       key: 'createTime',
       render: (value) => moment(value).format('YYYY/MM/DD HH:mm:ss')
     },
     {
-      title: 'Commodity',
+      title: t('activity.columns.commodity'),
       dataIndex: 'commodity',
       key: 'commodity',
       render: (_, record) => (
@@ -56,7 +58,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       )
     },
     {
-      title: 'Change details',
+      title: t('activity.columns.changeDetail'),
       dataIndex: 'address',
       key: 'address',
       render: (_, record) => (
@@ -70,7 +72,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                     <a>{shortenAddress(record.operator)}</a>
                   </Link>
                 </Space>
-                Buy
+                {t('activity.buy')}
                 <Space>
                   <Img width={24} src={generateAvatar(record?.seller)} />
                   <Link href={`/user/${record?.seller}/items`}>
@@ -86,7 +88,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                     <a>{shortenAddress(record.operator)}</a>
                   </Link>
                 </Space>
-                Sell
+                {t('activity.sell')}
               </Space>
             )}
           </div>
@@ -100,13 +102,13 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       )
     },
     {
-      title: 'Price(ETH)',
+      title: t('activity.columns.price'),
       dataIndex: 'price',
       key: 'price',
       render: (_, record) => <span>{web3.utils.fromWei(record.dealPrice + '')}</span>
     },
     {
-      title: 'Txid',
+      title: t('activity.columns.txid'),
       key: 'txid',
       render: (_, record) => (
         <div>

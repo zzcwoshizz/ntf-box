@@ -10,10 +10,12 @@ import {
   IProject,
   IRanking,
   IResponse,
+  ItemOrder,
   IToken,
   ITokenOwner,
   IUser,
   IUserPayload,
+  OrderType,
   PageParam
 } from './types'
 import api from './util'
@@ -99,7 +101,12 @@ export const getLatestGoods = () => {
  * 获取商品
  */
 export const getAssetList = (
-  params: PageParam & { projectId?: number; orderType: string; itemOrder: string; address?: string }
+  params: PageParam & {
+    projectId?: number
+    orderType: OrderType
+    itemOrder: ItemOrder
+    address?: string
+  }
 ) => {
   return api.get<IListResponse<IAsset>>('/asset', {
     params
@@ -118,7 +125,7 @@ export const getProject = (id: number) => {
 export const getRanking = (
   params: PageParam & {
     type: AssetType
-    itemOrder: string
+    itemOrder: ItemOrder
     order: 'desc' | 'asc'
   }
 ) => {

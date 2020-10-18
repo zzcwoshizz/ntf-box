@@ -7,6 +7,7 @@ import { AssetCell, AssetContainer } from '@/components/Asset'
 import MoreLink from '@/components/Link/MoreLink'
 import HotSvg from '@/icons/icon_hot.svg'
 import NewSvg from '@/icons/icon_new.svg'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 import AssetList from './components/AssetList'
 import Help from './components/Help'
@@ -17,6 +18,8 @@ const Home: React.FunctionComponent = () => {
   const router = useRouter()
   const [hot, setHot] = React.useState<IAsset[]>([])
   const [latest, setLatest] = React.useState<IAsset[]>([])
+  const { t } = useLanguage()
+
   React.useEffect(() => {
     getHotGoods().then((res) => {
       setHot(res.data)
@@ -33,7 +36,7 @@ const Home: React.FunctionComponent = () => {
         <AssetList
           title={
             <>
-              <HotSvg style={{ marginRight: 4 }} /> Hot
+              <HotSvg style={{ marginRight: 4 }} /> {t('home.hot')}
             </>
           }
           extra={<MoreLink href="/market" />}>
@@ -53,7 +56,7 @@ const Home: React.FunctionComponent = () => {
         <AssetList
           title={
             <>
-              <NewSvg style={{ marginRight: 4 }} /> Newest
+              <NewSvg style={{ marginRight: 4 }} /> {t('home.newest')}
             </>
           }
           extra={<MoreLink href="/market" />}>

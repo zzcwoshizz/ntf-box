@@ -8,6 +8,7 @@ import { useWallet } from 'use-wallet'
 import { INetActivity } from '@/api/types'
 import Img from '@/components/Img'
 import { SCAN_URLS } from '@/shared/constants'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
@@ -16,16 +17,17 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
   loading = false
 }) => {
   const wallet = useWallet()
+  const { t } = useLanguage()
 
   const columns: ColumnsType<INetActivity> = [
     {
-      title: 'Time',
+      title: t('activity.columns.time'),
       dataIndex: 'createTime',
       key: 'createTime',
       render: (value) => moment(value).format('YYYY/MM/DD HH:mm:ss')
     },
     {
-      title: 'Commodity',
+      title: t('activity.columns.commodity'),
       dataIndex: 'contractAdd',
       key: 'contractAdd',
       render: (_, record) => (
@@ -54,7 +56,7 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
       )
     },
     {
-      title: 'Change details',
+      title: t('activity.columns.changeDetail'),
       dataIndex: 'address',
       key: 'address',
       render: (_, record) => (
@@ -85,7 +87,7 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
       )
     },
     {
-      title: 'Txid',
+      title: t('activity.columns.txid'),
       key: 'txid',
       render: (_, record) => (
         <div>

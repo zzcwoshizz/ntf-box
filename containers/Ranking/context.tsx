@@ -3,11 +3,11 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { getRanking } from '@/api'
-import { AssetType } from '@/api/types'
+import { AssetType, ItemOrder } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import { IPage } from '@/types'
 
-type FilterType = { type: AssetType; itemOrder: string; order: 'desc' | 'asc' }
+type FilterType = { type: AssetType; itemOrder: ItemOrder; order: 'desc' | 'asc' }
 
 const dataContext = React.createContext<{
   ranking: any[]
@@ -22,7 +22,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   const { query } = useRouter()
   const defaultFilter: FilterType = {
     type: (query.type as AssetType) ?? 'HOT',
-    itemOrder: (query.itemOrder as string) ?? '0',
+    itemOrder: (query.itemOrder as ItemOrder) ?? '0',
     order: (query.order as 'desc' | 'asc') ?? 'desc'
   }
 

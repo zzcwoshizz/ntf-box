@@ -6,12 +6,15 @@ import FhSvg from '@/icons/icon_fh.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const Setting: React.FunctionComponent = () => {
   const { account } = useApp()
   const wallet = useWallet()
   const { containerWidth } = useContainer()
   const theme = useTheme()
+  const { t } = useLanguage()
+
   const { user, toogleUserInfo } = useApp()
   const [email, setEmail] = React.useState('')
   const [emailVisible, setEmailVisible] = React.useState(false)
@@ -31,7 +34,7 @@ const Setting: React.FunctionComponent = () => {
     <>
       <Modal
         visible={emailVisible}
-        title="Set Email"
+        title={t('account.emailModal.title')}
         confirmLoading={loading}
         onOk={() => {
           toogleUserInfo({
@@ -46,7 +49,7 @@ const Setting: React.FunctionComponent = () => {
         }}>
         <Input
           type="email"
-          placeholder="Please input your email"
+          placeholder={t('account.emailModal.inputEmail')}
           value={email}
           onChange={(e) => {
             setEmail(e.target.value)
@@ -55,7 +58,7 @@ const Setting: React.FunctionComponent = () => {
       </Modal>
       <Modal
         visible={nameVisible}
-        title="Set Nickname"
+        title={t('account.nameModal.title')}
         confirmLoading={loading}
         onOk={() => {
           toogleUserInfo({
@@ -70,7 +73,7 @@ const Setting: React.FunctionComponent = () => {
         }}>
         <Input
           type="text"
-          placeholder="Please input your nickname"
+          placeholder={t('account.nameModal.inputName')}
           value={name}
           onChange={(e) => {
             setName(e.target.value)
@@ -87,25 +90,21 @@ const Setting: React.FunctionComponent = () => {
         </div>
         <div className="item">
           <span>E-mail</span>
-          <span style={{ color: theme['@text-color-tertiary'] }}>
-            Exception alert, subscribe to the latest news, etc
-          </span>
+          <span style={{ color: theme['@text-color-tertiary'] }}>{t('account.emailDesc')}</span>
           <span>{user?.email}</span>
           <span style={{ textAlign: 'right' }}>
             <Button type="link" size="small" onClick={() => setEmailVisible(true)}>
-              Set up
+              {t('account.setUp')}
             </Button>
           </span>
         </div>
         <div className="item">
           <span>User Name</span>
-          <span style={{ color: theme['@text-color-tertiary'] }}>
-            Convenient for transaction inquiry
-          </span>
+          <span style={{ color: theme['@text-color-tertiary'] }}>{t('account.nameDesc')}</span>
           <span>{user?.nickName}</span>
           <span style={{ textAlign: 'right' }}>
             <Button type="link" size="small" onClick={() => setNameVisible(true)}>
-              Set up
+              {t('account.setUp')}
             </Button>
           </span>
         </div>
@@ -113,11 +112,11 @@ const Setting: React.FunctionComponent = () => {
       <div className="container">
         <div className="title">
           <FhSvg style={{ marginRight: 8 }} />
-          Subscribe
+          {t('account.subscribe')}
         </div>
         <div className="item">
           <span>
-            New reminder
+            {t('account.reminder')}
             <Switch
               style={{ marginLeft: 16 }}
               checked={Boolean(user?.newAlert)}
@@ -131,7 +130,7 @@ const Setting: React.FunctionComponent = () => {
         </div>
         <div className="item">
           <span>
-            Security information
+            {t('account.security')}
             <Switch
               style={{ marginLeft: 16 }}
               checked={Boolean(user?.tradeAlert)}

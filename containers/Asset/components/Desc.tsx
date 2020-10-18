@@ -9,6 +9,7 @@ import BornSvg from '@/icons/icon_born.svg'
 import PriceSvg from '@/icons/icon_price.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
@@ -21,6 +22,7 @@ const Desc: React.FunctionComponent = () => {
   const theme = useTheme()
   const { web3 } = useApp()
   const router = useRouter()
+  const { t } = useLanguage()
   const { asset, token, isMine, fetching, holders, loading, changePrice, buy } = useData()
   const [price, setPrice] = React.useState('')
 
@@ -40,7 +42,9 @@ const Desc: React.FunctionComponent = () => {
                 <Space align="center">
                   <Img width={32} src={generateAvatar(token.name ?? token.contractAdd)} />
                   <b>{token.name ?? shortenAddress(token.contractAdd)}</b>
-                  <span>Holders {holders}</span>
+                  <span>
+                    {t('asset.detail.holders')} {holders}
+                  </span>
                 </Space>
               </div>
               <div className="intro">{token.des}</div>
@@ -57,7 +61,7 @@ const Desc: React.FunctionComponent = () => {
                   {asset && (
                     <Input
                       style={{ width: '100%', marginTop: 10 }}
-                      placeholder="Revise the appropriate price"
+                      placeholder={t('asset.detail.inputPrice')}
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
                     />
@@ -72,7 +76,7 @@ const Desc: React.FunctionComponent = () => {
                           setPrice('')
                         })
                       }>
-                      MODIFY PRICE
+                      {t('asset.detail.modifyPrice')}
                     </EnableButton>
                   )}
                   {!asset && (
@@ -89,7 +93,7 @@ const Desc: React.FunctionComponent = () => {
                             }
                           })
                         }>
-                        SELL
+                        {t('asset.detail.sell')}
                       </EnableButton>
                       <Button
                         onClick={() => {
@@ -101,7 +105,7 @@ const Desc: React.FunctionComponent = () => {
                             }
                           })
                         }}>
-                        GIFT
+                        {t('asset.detail.gift')}
                       </Button>
                     </Space>
                   )}
@@ -114,14 +118,16 @@ const Desc: React.FunctionComponent = () => {
                     type="primary"
                     loading={loading}
                     onClick={buy}>
-                    BUY NOW
+                    {t('asset.detail.buy')}
                   </EnableButton>
                 </div>
               )}
               <div className="birth">
                 <Space>
                   <BornSvg />
-                  Born on {moment(token.birth).format('YYYY/MM/DD HH:mm:ss')}
+                  {t('asset.detail.born', {
+                    time: moment(token.birth).format('YYYY/MM/DD HH:mm:ss')
+                  })}
                 </Space>
               </div>
             </Col>

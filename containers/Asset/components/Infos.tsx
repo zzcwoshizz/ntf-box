@@ -6,6 +6,7 @@ import TokenOwnerTable from '@/components/Table/TokenOwnerTable'
 import Features from '@/components/Token/Features'
 import ActivitySvg from '@/icons/icon_acticity.svg'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 import { useData } from '../context'
 
@@ -35,6 +36,8 @@ const Title: React.FunctionComponent<{ icon: React.ReactNode }> = ({ icon, child
 }
 
 const Infos: React.FunctionComponent = () => {
+  const { t } = useLanguage()
+
   const {
     token,
     fetching,
@@ -55,34 +58,34 @@ const Infos: React.FunctionComponent = () => {
               onChange={(key) => {
                 window.location.hash = '#' + key
               }}>
-              <TabPane tab="Holding address" key="asset-hold-address" />
-              <TabPane tab="Features" key="asset-features" />
-              <TabPane tab="Activity record" key="asset-activity-record" />
+              <TabPane tab={t('asset.detail.holdAddress')} key="asset-hold-address" />
+              <TabPane tab={t('asset.detail.features')} key="asset-features" />
+              <TabPane tab={t('asset.detail.features')} key="asset-activity-record" />
             </Tabs>
           </div>
           <div className="content" id="asset-hold-address">
-            <Title icon={<ActivitySvg />}>Holding address</Title>
+            <Title icon={<ActivitySvg />}>{t('asset.detail.holdAddress')}</Title>
             <TokenOwnerTable address={token.contractAdd} data={tokenOwner} />
             {hasMoreTokenOwner && (
               <Button
                 style={{ display: 'block', margin: '24px auto 0 auto' }}
                 onClick={loadMoreTokenOwner}>
-                MORE
+                {t('asset.detail.more')}
               </Button>
             )}
           </div>
           <div className="content" id="asset-features">
-            <Title icon={<ActivitySvg />}>Features</Title>
+            <Title icon={<ActivitySvg />}>{t('asset.detail.features')}</Title>
             <Features token={token} />
           </div>
           <div className="content" id="asset-activity-record">
-            <Title icon={<ActivitySvg />}>Activity record</Title>
+            <Title icon={<ActivitySvg />}>{t('asset.detail.activityRecord')}</Title>
             <NetActivityTable data={activities} />
             {hasMoreActivities && (
               <Button
                 style={{ display: 'block', margin: '24px auto 0 auto' }}
                 onClick={loadMoreActivity}>
-                MORE
+                {t('asset.detail.more')}
               </Button>
             )}
           </div>

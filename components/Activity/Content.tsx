@@ -6,7 +6,8 @@ import { ActivityType } from '@/api/types'
 import ActivityTable from '@/components/Table/ActivityTable'
 import useTheme from '@/shared/hooks/useTheme'
 import { useActivity } from '@/shared/providers/ActivityProvider'
-import { useConstants } from '@/shared/providers/ContantsProvider'
+import { useConstants } from '@/shared/providers/ConstantsProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { useProject } from '@/shared/providers/ProjectProvider'
 
 const { Option } = Select
@@ -14,6 +15,7 @@ const { Text } = Typography
 
 const Content: React.FunctionComponent = () => {
   const theme = useTheme()
+  const { t } = useLanguage()
   const { project } = useProject()
   const { filter, toogleFilter } = useActivity()
   const { ACTIVITY_TYPES } = useConstants()
@@ -30,20 +32,20 @@ const Content: React.FunctionComponent = () => {
             <Col span={8} style={{ paddingRight: 16 }}>
               <Select
                 value={filter.type}
-                placeholder="Select type"
+                placeholder={t('activity.selectType')}
                 onChange={(value) => {
                   toogleFilter({ ...filter, type: value })
                 }}>
                 {Object.keys(ACTIVITY_TYPES).map((key) => (
-                  <Option key={key} value={Number(key)}>
-                    {ACTIVITY_TYPES[Number(key) as ActivityType]}
+                  <Option key={key} value={key}>
+                    {ACTIVITY_TYPES[key as ActivityType]}
                   </Option>
                 ))}
               </Select>
             </Col>
             <Col span={4} offset={12} style={{ textAlign: 'right' }}>
               <Text disabled style={{ cursor: 'default' }}>
-                * Realtime
+                {t('activity.realtime')}
               </Text>
             </Col>
           </Row>

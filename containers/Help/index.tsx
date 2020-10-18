@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
 import { useList } from '@/shared/hooks/useList'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { hex2rgba } from '@/utils/color'
 
 const { Title } = Typography
@@ -18,6 +19,7 @@ const Help: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
   const theme = useTheme()
   const { query } = useRouter()
+  const { t } = useLanguage()
 
   const { state, action } = useList<IHelp, { keys?: string }>(
     async (params) => {
@@ -41,14 +43,16 @@ const Help: React.FunctionComponent = () => {
     <>
       <Header />
       <div className="container">
-        <Title>Help</Title>
+        <Title>{t('help.title')}</Title>
         <div className="content">
           <Card
             loading={state.fetching}
-            title={<div className="title">{state.pagination.total} messages</div>}
+            title={
+              <div className="title">{t('help.messages', { count: state.pagination.total })}</div>
+            }
             extra={
               <Search
-                placeholder="Input search text"
+                placeholder={t('help.inputKeys')}
                 onSearch={(value) => action.setFilter({ keys: value })}
                 style={{ width: 200 }}
               />

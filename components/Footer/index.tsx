@@ -8,11 +8,13 @@ import Reddit from '@/icons/reddit.svg'
 import Telegram from '@/icons/telegram.svg'
 import Twitter from '@/icons/twitter.svg'
 import useContainer from '@/shared/hooks/useContainer'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const { Title } = Typography
 
 const Footer: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
+  const { t } = useLanguage()
 
   const linkSpan = {
     xs: { span: 12 },
@@ -31,50 +33,38 @@ const Footer: React.FunctionComponent = () => {
               <img src="/imgs/logo.png" alt="ntf box" />
             </Col>
             <Col {...linkSpan} style={styles}>
-              <Title level={5}>About us</Title>
+              <Title level={5}>{t('footer.aboutUs')}</Title>
               <li>
                 <Link href="/account/items">
-                  <a target="_blank" rel="noopener noreferrer">
-                    My belongings
-                  </a>
+                  <a>{t('footer.myItems')}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/account/activity">
-                  <a target="_blank" rel="noopener noreferrer">
-                    My record
-                  </a>
+                  <a>{t('footer.myActivity')}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/account/items">
-                  <a target="_blank" rel="noopener noreferrer">
-                    Transfer of goods
-                  </a>
+                  <a>{t('footer.gift')}</a>
                 </Link>
               </li>
             </Col>
             <Col {...linkSpan} style={styles}>
-              <Title level={5}>Learn more</Title>
+              <Title level={5}>{t('footer.learnMore')}</Title>
               <li>
                 <Link href="/activity">
-                  <a target="_blank" rel="noopener noreferrer">
-                    Network wide record
-                  </a>
+                  <a>{t('footer.activity')}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/help">
-                  <a target="_blank" rel="noopener noreferrer">
-                    Help center
-                  </a>
+                  <a>{t('footer.helpCenter')}</a>
                 </Link>
               </li>
               <li>
                 <Link href="/ranking">
-                  <a target="_blank" rel="noopener noreferrer">
-                    Ranking List
-                  </a>
+                  <a>{t('footer.ranking')}</a>
                 </Link>
               </li>
             </Col>

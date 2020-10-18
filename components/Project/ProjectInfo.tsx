@@ -8,11 +8,13 @@ import React from 'react'
 
 import { IProject } from '@/api/types'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const { Text } = Typography
 
 const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }) => {
   const theme = useTheme()
+  const { t } = useLanguage()
 
   return (
     <>
@@ -20,7 +22,7 @@ const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }
         {project.website && (
           <div className="item" onClick={() => window.open(project.website)}>
             <WebsiteSvg />
-            Website
+            {t('project.projectInfo.website')}
           </div>
         )}
         {project.alias && (
@@ -31,7 +33,7 @@ const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }
             placement="bottomLeft">
             <div className="item">
               <IntroSvg />
-              Intro
+              {t('project.projectInfo.intro')}
             </div>
           </Popover>
         )}

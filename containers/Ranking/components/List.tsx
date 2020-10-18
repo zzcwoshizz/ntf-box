@@ -4,10 +4,13 @@ import React from 'react'
 
 import { IRanking } from '@/api/types'
 import Img from '@/components/Img'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 import { useData } from '../context'
 
 const List: React.FunctionComponent = () => {
+  const { t } = useLanguage()
+
   const { ranking } = useData()
 
   const columns: ColumnsType<IRanking> = [
@@ -17,7 +20,7 @@ const List: React.FunctionComponent = () => {
       key: 'ranking'
     },
     {
-      title: 'DAPP',
+      title: t('ranking.columns.dapp'),
       dataIndex: 'name',
       key: 'name',
       render: (_, record) => (
@@ -28,32 +31,32 @@ const List: React.FunctionComponent = () => {
       )
     },
     {
-      title: 'Transactions',
+      title: t('ranking.columns.transactions'),
       dataIndex: 'transactions',
       key: 'transactions'
     },
     {
-      title: 'Avg price(ETH)',
+      title: t('ranking.columns.avgPrice'),
       dataIndex: 'avgPrice',
       key: 'avgPrice'
     },
     {
-      title: 'Assets',
+      title: t('ranking.columns.assets'),
       key: 'assets',
       dataIndex: 'assets'
     },
     {
-      title: 'Owners',
+      title: t('ranking.columns.owners'),
       key: 'owners',
       dataIndex: 'owners'
     },
     {
-      title: 'Total(USDT)',
+      title: t('ranking.columns.total'),
       key: 'total',
       dataIndex: 'total'
     },
     {
-      title: 'Turnover rate',
+      title: t('ranking.columns.rate'),
       key: 'turnoverRate',
       dataIndex: 'turnoverRate'
     }

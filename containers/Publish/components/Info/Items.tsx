@@ -4,6 +4,7 @@ import React from 'react'
 import Img from '@/components/Img'
 import RightArrow from '@/icons/icon_right.svg'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 
 import { useData } from '../../context'
@@ -15,6 +16,7 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string
   price
 }) => {
   const theme = useTheme()
+  const { t } = useLanguage()
 
   return (
     <>
@@ -24,7 +26,7 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string
           <div>
             <h6>{name}</h6>
             <p>
-              Last price: <span>{price ?? '--'}</span>
+              {t('publish.price')}: <span>{price ?? '--'}</span>
             </p>
           </div>
         </Space>

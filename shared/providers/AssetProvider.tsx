@@ -3,13 +3,13 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { getAssetList } from '@/api'
-import { IAsset } from '@/api/types'
+import { IAsset, ItemOrder, OrderType } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import { IPage } from '@/types'
 
 import { useProject } from './ProjectProvider'
 
-type FilterType = { orderType: string; itemOrder: string; id?: number; name?: string }
+type FilterType = { orderType: OrderType; itemOrder: ItemOrder; id?: number; name?: string }
 
 const assetContext = React.createContext<{
   assets: IAsset[]
@@ -28,8 +28,8 @@ const AssetProvider: React.FunctionComponent<{ address?: string | null }> = ({
 
   const { query } = useRouter()
   const defaultFilter: FilterType = {
-    orderType: (query.orderType as string) ?? '0',
-    itemOrder: (query.itemOrder as string) ?? '0',
+    orderType: (query.orderType as OrderType) ?? '0',
+    itemOrder: (query.itemOrder as ItemOrder) ?? '0',
     id: query.id ? Number(query.id) : undefined,
     name: query.name as string
   }

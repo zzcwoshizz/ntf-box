@@ -52,6 +52,10 @@ export interface IBanner {
   officialWebsite: string
 }
 
+export type ItemOrder = '0' | '1' | '2' | '3'
+
+export type OrderType = '0' | '1' | '2'
+
 export interface IToken {
   contractAdd: string
   des?: string
@@ -70,7 +74,7 @@ export interface IAsset {
   operator: string
   expirationHeight?: string
   orderId?: string
-  orderType: number
+  orderType: string
   tokens: IToken[]
   viewNum: number
 }
@@ -134,7 +138,7 @@ export interface IRanking {
 /**
  * 0全部 1上架物品 2定价出售 3拍卖出售 4转赠
  */
-export type ActivityType = 0 | 1 | 2 | 3 | 4
+export type ActivityType = '0' | '1' | '2' | '3' | '4'
 
 export interface IActivity {
   contractAdd: string

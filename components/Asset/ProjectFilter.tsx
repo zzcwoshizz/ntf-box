@@ -9,6 +9,7 @@ import CloseSvg from '@/icons/close.svg'
 import FhWhiteSvg from '@/icons/icon_fh_white.svg'
 import SearchSvg from '@/icons/icon_search.svg'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 import Img from '../Img'
 
@@ -72,6 +73,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
   renderDetail
 }) => {
   const theme = useTheme()
+  const { t } = useLanguage()
 
   return (
     <>
@@ -79,7 +81,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
         <div className="title">
           <Space>
             <FhWhiteSvg />
-            DAPP Set
+            {t('asset.filter.title')}
           </Space>
         </div>
         <div className="search">

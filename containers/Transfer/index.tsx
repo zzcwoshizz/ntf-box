@@ -10,6 +10,7 @@ import Img from '@/components/Img'
 import useContainer from '@/shared/hooks/useContainer'
 import useERC721 from '@/shared/hooks/useERC721'
 import useTheme from '@/shared/hooks/useTheme'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 
 const { Title } = Typography
@@ -17,6 +18,7 @@ const { Title } = Typography
 const Transfer: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
   const theme = useTheme()
+  const { t } = useLanguage()
 
   const { query } = useRouter()
   const { tokenId, address } = query as { tokenId: string; address: string }
@@ -54,18 +56,16 @@ const Transfer: React.FunctionComponent = () => {
               })
             }}
             layout="vertical">
-            <Form.Item name="amount" label="QUANTITY">
-              <Input placeholder="Please input amount" />
+            <Form.Item name="amount" label={t('transfer.amountLabel')}>
+              <Input placeholder={t('transfer.inputAmount')} />
             </Form.Item>
             <Form.Item
               name="address"
-              label="WALLET ADDRESS OR ENS NAME"
+              label={t('transfer.addressLabel')}
               rules={[{ required: true }]}>
-              <Input placeholder="Please input address" />
+              <Input placeholder={t('transfer.inputAddress')} />
             </Form.Item>
-            <p>
-              “{token?.name}” will be transferred to {toAddress}
-            </p>
+            <p>{t('transfer.tip', { name: token?.name, address: toAddress })}</p>
             <Form.Item>
               <EnableButton
                 style={{ width: '100%' }}

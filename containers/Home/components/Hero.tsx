@@ -8,6 +8,7 @@ import Banner from '@/components/Banner'
 import Header from '@/components/Header'
 import JTSvg from '@/icons/icon_jt.svg'
 import useContainer from '@/shared/hooks/useContainer'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const { Title, Text } = Typography
 
@@ -15,6 +16,7 @@ const Hero: React.FunctionComponent = () => {
   const router = useRouter()
   const [banners, setBanners] = React.useState<IBanner[]>([])
   const { containerWidth } = useContainer()
+  const { t } = useLanguage()
 
   React.useEffect(() => {
     getBanner().then(({ data }) => {
@@ -31,15 +33,16 @@ const Hero: React.FunctionComponent = () => {
             <Row>
               <Col xs={{ span: 24 }} lg={{ span: 15 }}>
                 <div className="text">
-                  <Title>Decentralized and heterogeneous asset trading platform</Title>
-                  <Text>Secondary title text introduction text introduction text introduction</Text>
+                  <Title>{t('home.title')}</Title>
+                  <Text>{t('home.desc')}</Text>
                 </div>
                 <div className="action">
                   <Button type="primary" size="large" onClick={() => router.push('/market')}>
-                    BUY NOW
+                    {t('home.buyNow')}
                   </Button>
                   <Button type="link" size="large" onClick={() => router.push('/account/setting')}>
-                    Subscribe <JTSvg style={{ marginLeft: 4, verticalAlign: 'middle' }} />
+                    {t('home.subscribe')}{' '}
+                    <JTSvg style={{ marginLeft: 4, verticalAlign: 'middle' }} />
                   </Button>
                 </div>
               </Col>

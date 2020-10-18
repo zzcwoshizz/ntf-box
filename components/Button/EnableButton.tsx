@@ -3,19 +3,21 @@ import React from 'react'
 import { useWallet } from 'use-wallet'
 
 import { useApp } from '@/shared/providers/AppProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
   const { account, user, login } = useApp()
   const wallet = useWallet()
   const [loading, setLoading] = React.useState(false)
+  const { t } = useLanguage()
 
   let text: React.ReactNode
   if (account && user) {
     text = props.children
   } else if (!account) {
-    text = loading ? 'Connecting' : 'Connect wallet'
+    text = loading ? t('common.connecting') : t('common.connectWallet')
   } else if (!user) {
-    text = loading ? 'Logging in' : 'Log in'
+    text = loading ? t('common.logging') : t('common.login')
   }
 
   let onClick

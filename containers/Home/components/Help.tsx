@@ -3,12 +3,14 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import useContainer from '@/shared/hooks/useContainer'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const { Title, Text } = Typography
 
 const Help: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
   const router = useRouter()
+  const { t } = useLanguage()
 
   const [keys, setKeys] = React.useState('')
 
@@ -16,15 +18,15 @@ const Help: React.FunctionComponent = () => {
     <>
       <div className="help">
         <div className="content">
-          <Title level={3}>Novice help - help you solve problems faster</Title>
+          <Title level={3}>{t('home.help.title')}</Title>
           <p>
-            <Text>You should know how much wealth you have left unused</Text>
+            <Text>{t('home.help.desc')}</Text>
           </p>
           <Row>
             <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 10 }}>
               <Input
                 size="large"
-                placeholder="Search for keywords for questions"
+                placeholder={t('home.help.placeholder')}
                 allowClear
                 value={keys}
                 onChange={(e) => setKeys(e.target.value)}
@@ -32,7 +34,7 @@ const Help: React.FunctionComponent = () => {
             </Col>
             <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 10 }}>
               <Button size="large" type="primary" onClick={() => router.push(`/help?keys=${keys}`)}>
-                Ask for help
+                {t('home.help.submit')}
               </Button>
             </Col>
           </Row>

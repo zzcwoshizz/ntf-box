@@ -2,21 +2,23 @@ import { Button } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { AssetFilter } from '@/components/Asset'
+import { ProjectFilter } from '@/components/Asset'
 import ProjectData from '@/components/Project/ProjectData'
 import useTheme from '@/shared/hooks/useTheme'
 import { useActivity } from '@/shared/providers/ActivityProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { useProject } from '@/shared/providers/ProjectProvider'
 
 const Filter: React.FunctionComponent = () => {
   const theme = useTheme()
   const router = useRouter()
+  const { t } = useLanguage()
   const { projects, project } = useProject()
   const { filter, toogleFilter } = useActivity()
 
   return (
     <>
-      <AssetFilter
+      <ProjectFilter
         projects={projects}
         project={project}
         onSelectProject={(project) => {
@@ -34,7 +36,7 @@ const Filter: React.FunctionComponent = () => {
                   onClick={() => {
                     router.push(`/market?id=${filter.id}`)
                   }}>
-                  Go to the market
+                  {t('account.goToMarket')}
                 </Button>
               </div>
               <ProjectData project={project} />
