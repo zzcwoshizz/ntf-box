@@ -1,4 +1,4 @@
-import { Form } from 'antd'
+import { Form, notification } from 'antd'
 import _ from 'lodash'
 import { Moment } from 'moment'
 import { useRouter } from 'next/router'
@@ -9,6 +9,7 @@ import { getToken } from '@/api'
 import { IToken } from '@/api/types'
 import useMarket from '@/shared/hooks/useMarket'
 import { useApp } from '@/shared/providers/AppProvider'
+import { delay } from '@/utils/time'
 
 type FormData = { price: string; expiredTime: Moment }
 
@@ -79,6 +80,19 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
           }
           await market.makeOrder(expirationHeight, data.price, tokens.length > 1 ? 3 : 0)
           setLoading(false)
+          notification.success({ message: 'Transaction success!' })
+          await delay(1000)
+          if (tokens.length > 1) {
+            // TODO 捆绑页面跳转
+          } else {
+            router.push({
+              pathname: '/asset',
+              query: {
+                address: tokens[0].contractAdd,
+                tokenId: tokens[0].tokenId
+              }
+            })
+          }
         }}>
         {children}
       </Form>

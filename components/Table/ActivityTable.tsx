@@ -1,13 +1,15 @@
 import { Space, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import moment from 'moment'
+import Link from 'next/link'
 import React from 'react'
 import { useWallet } from 'use-wallet'
 
 import { IActivity } from '@/api/types'
 import Img from '@/components/Img'
-import { AVATAR_URL, SCAN_URLS } from '@/shared/constants'
+import { SCAN_URLS } from '@/shared/constants'
 import { useApp } from '@/shared/providers/AppProvider'
+import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
 const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: boolean }> = ({
@@ -33,9 +35,15 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
           <div>
             <Space>
               <Img width={24} src={record.projectDO?.logoUrl} />
-              <a href={record.projectDO?.website} target="_blank" rel="noopener noreferrer">
-                {record.projectDO?.name}
-              </a>
+              <Link
+                href={{
+                  pathname: '/market',
+                  query: {
+                    id: record.projectDO?.id
+                  }
+                }}>
+                <a>{record.projectDO?.name}</a>
+              </Link>
             </Space>
           </div>
           <style jsx>{`
@@ -57,35 +65,26 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
             {record.orderType === '9' ? null : record.side === 'BUY' ? (
               <Space>
                 <Space>
-                  <Img width={24} src={AVATAR_URL + record.operator} />
-                  <a
-                    href={SCAN_URLS[wallet.chainId + ''] + '/address/' + record.operator}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {shortenAddress(record.operator)}
-                  </a>
+                  <Img width={24} src={generateAvatar(record.operator)} />
+                  <Link href={`/user/${record.operator}/items`}>
+                    <a>{shortenAddress(record.operator)}</a>
+                  </Link>
                 </Space>
                 Buy
                 <Space>
-                  <Img width={24} src={AVATAR_URL + record?.seller} />
-                  <a
-                    href={SCAN_URLS[wallet.chainId + ''] + '/address/' + record.operator}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {shortenAddress(record?.seller)}
-                  </a>
+                  <Img width={24} src={generateAvatar(record?.seller)} />
+                  <Link href={`/user/${record?.seller}/items`}>
+                    <a>{shortenAddress(record?.seller)}</a>
+                  </Link>
                 </Space>
               </Space>
             ) : (
               <Space>
                 <Space>
-                  <Img width={24} src={AVATAR_URL + record.operator} />
-                  <a
-                    href={SCAN_URLS[wallet.chainId + ''] + '/address/' + record.operator}
-                    target="_blank"
-                    rel="noopener noreferrer">
-                    {shortenAddress(record.operator)}
-                  </a>
+                  <Img width={24} src={generateAvatar(record.operator)} />
+                  <Link href={`/user/${record.operator}/items`}>
+                    <a>{shortenAddress(record.operator)}</a>
+                  </Link>
                 </Space>
                 Sell
               </Space>

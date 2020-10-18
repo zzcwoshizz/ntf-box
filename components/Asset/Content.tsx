@@ -96,9 +96,13 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
                     selected={selected.indexOf(index) > -1}
                     onClick={() => {
                       // TODO 捆绑
-                      router.push(
-                        `/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`
-                      )
+                      if (canSelect) {
+                        toogleSelected(index)
+                      } else {
+                        router.push(
+                          `/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`
+                        )
+                      }
                     }}
                     onSelect={() => {
                       toogleSelected(index)

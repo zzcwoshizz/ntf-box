@@ -3,8 +3,8 @@ import React from 'react'
 
 import Img from '@/components/Img'
 import RightArrow from '@/icons/icon_right.svg'
-import { AVATAR_URL } from '@/shared/constants'
 import useTheme from '@/shared/hooks/useTheme'
+import { generateAvatar } from '@/utils'
 
 import { useData } from '../../context'
 import Content from './Content'
@@ -100,7 +100,7 @@ const Items: React.FunctionComponent = () => {
             {tokens.map((t, index) => (
               <Cell
                 key={index}
-                icon={t.images?.[0] || AVATAR_URL + t.contractAdd + t.tokenId}
+                icon={t.images?.[0] || generateAvatar(t.contractAdd + t.tokenId)}
                 name={t.name || '- -'}
                 price=""
               />

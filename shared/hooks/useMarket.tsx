@@ -64,10 +64,12 @@ const useMarket = (
 
       const signature = await web3.eth.personal.sign(data.orderHash, account, '')
 
-      return verifyOrder({
+      await verifyOrder({
         orderId: data.orderId,
         signature
       })
+
+      return data.orderId
     }
 
     const buy = async (orderId: string) => {

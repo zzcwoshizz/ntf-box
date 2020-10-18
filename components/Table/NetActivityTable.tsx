@@ -1,12 +1,14 @@
 import { Space, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import moment from 'moment'
+import Link from 'next/link'
 import React from 'react'
 import { useWallet } from 'use-wallet'
 
 import { INetActivity } from '@/api/types'
 import Img from '@/components/Img'
-import { AVATAR_URL, SCAN_URLS } from '@/shared/constants'
+import { SCAN_URLS } from '@/shared/constants'
+import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
 const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?: boolean }> = ({
@@ -31,9 +33,15 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
           <div>
             <Space>
               <Img width={24} src={record.nftProjectDO?.logoUrl} />
-              <a href={record.nftProjectDO?.website} target="_blank" rel="noopener noreferrer">
-                {record.nftProjectDO?.name}
-              </a>
+              <Link
+                href={{
+                  pathname: '/market',
+                  query: {
+                    id: record.nftProjectDO?.id
+                  }
+                }}>
+                <a>{record.nftProjectDO?.name}</a>
+              </Link>
             </Space>
           </div>
           <style jsx>{`
@@ -54,23 +62,17 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
           <div>
             From
             <Space>
-              <Img />
-              <a
-                href={SCAN_URLS[wallet.chainId + ''] + '/address/' + record.fromAdd}
-                target="_blank"
-                rel="noopener noreferrer">
-                {shortenAddress(record.fromAdd)}
-              </a>
+              <Img src={generateAvatar(record.fromAdd)} />
+              <Link href={`/user/${record.fromAdd}/items`}>
+                <a>{shortenAddress(record.fromAdd)}</a>
+              </Link>
             </Space>
             to
             <Space>
-              <Img />
-              <a
-                href={SCAN_URLS[wallet.chainId + ''] + '/address/' + record.toAdd}
-                target="_blank"
-                rel="noopener noreferrer">
-                {shortenAddress(record.toAdd)}
-              </a>
+              <Img src={generateAvatar(record.toAdd)} />
+              <Link href={`/user/${record.toAdd}/items`}>
+                <a>{shortenAddress(record.toAdd)}</a>
+              </Link>
             </Space>
           </div>
           <style jsx>{`

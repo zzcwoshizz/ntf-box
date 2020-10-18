@@ -25,6 +25,7 @@ const Help: React.FunctionComponent = () => {
               <Input
                 size="large"
                 placeholder="Search for keywords for questions"
+                allowClear
                 value={keys}
                 onChange={(e) => setKeys(e.target.value)}
               />

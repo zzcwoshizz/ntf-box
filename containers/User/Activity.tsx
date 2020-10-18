@@ -1,50 +1,43 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
-import { AssetContent } from '@/components/Asset'
+import { ActivityContent } from '@/components/Activity'
+import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
-import { useApp } from '@/shared/providers/AppProvider'
-import { AssetProvider } from '@/shared/providers/AssetProvider'
+import { ActivityProvider } from '@/shared/providers/ActivityProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
-import Filter from './components/AssetFilter'
+import Filter from './components/ActivityFilter'
 
-const Items: React.FunctionComponent = () => {
+const Activity: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const { account } = useApp()
-  const wallet = useWallet()
 
-  React.useEffect(() => {
-    if (!account) {
-      setTimeout(() => {
-        wallet.connect('injected')
-      }, 1000)
-    }
-  }, [account])
-
-  const { query } = useRouter()
+  let {
+    query: { address }
+  } = useRouter()
+  address = address as string
 
   return (
     <>
-      {account && (
-        <ProjectProvider address={account}>
-          <AssetProvider address={account}>
+      <Header />
+      {address && (
+        <ProjectProvider address={address}>
+          <ActivityProvider address={address}>
             <div className="container">
               <div className="left">
                 <Filter />
               </div>
               <div className="right">
-                <AssetContent canSelect={!!query.selType} />
+                <ActivityContent />
               </div>
             </div>
-          </AssetProvider>
+          </ActivityProvider>
         </ProjectProvider>
       )}
       <style jsx>{`
         .container {
           display: flex;
-          justify-content: space-between;
+          justify-activitycontent: space-between;
           width: ${containerWidth}px;
           margin: 32px auto;
         }
@@ -60,4 +53,4 @@ const Items: React.FunctionComponent = () => {
   )
 }
 
-export default Items
+export default Activity

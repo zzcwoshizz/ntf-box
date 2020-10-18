@@ -7,10 +7,10 @@ import { getToken } from '@/api'
 import EnableButton from '@/components/Button/EnableButton'
 import Header from '@/components/Header'
 import Img from '@/components/Img'
-import { AVATAR_URL } from '@/shared/constants'
 import useContainer from '@/shared/hooks/useContainer'
 import useERC721 from '@/shared/hooks/useERC721'
 import useTheme from '@/shared/hooks/useTheme'
+import { generateAvatar } from '@/utils'
 
 const { Title } = Typography
 
@@ -35,7 +35,7 @@ const Transfer: React.FunctionComponent = () => {
       <Header />
       <Spin spinning={loading}>
         <div className="container">
-          <Img width={156} src={AVATAR_URL + token?.contractAdd} />
+          <Img width={156} src={generateAvatar(token?.contractAdd)} />
           <Title>{token?.name}</Title>
           <Form<{ amount?: string; address: string }>
             onValuesChange={(values) => {

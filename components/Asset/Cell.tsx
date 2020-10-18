@@ -60,19 +60,19 @@ const Cell: React.FunctionComponent<Props> = ({
             <h6>{asset.tokens?.[0].des ?? '--'}</h6>
           </Tooltip>
           <div className="detail">
-            <span>
-              <Space>
-                <PriceSvg />
-                <label className="price">
-                  {asset.dealPrice && web3.utils.fromWei(asset.dealPrice)}E
-                </label>
-              </Space>
-            </span>
+            {asset.dealPrice && (
+              <span>
+                <Space>
+                  <PriceSvg />
+                  <label className="price">{web3.utils.fromWei(asset.dealPrice)}E</label>
+                </Space>
+              </span>
+            )}
             {asset.expirationHeight && (
               <span className="time">
                 <Space>
                   <TimeSvg />
-                  {asset.expirationHeight ? Number(asset.expirationHeight) - blockNumber : '--'}
+                  {Number(asset.expirationHeight) - blockNumber}
                 </Space>
               </span>
             )}

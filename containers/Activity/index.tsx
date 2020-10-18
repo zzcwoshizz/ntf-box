@@ -1,11 +1,11 @@
 import React from 'react'
 
+import { ActivityContent } from '@/components/Activity'
 import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
 import { ActivityProvider } from '@/shared/providers/ActivityProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
-import Content from './components/Content'
 import Filter from './components/Filter'
 
 const Activity: React.FunctionComponent = () => {
@@ -21,7 +21,7 @@ const Activity: React.FunctionComponent = () => {
               <Filter />
             </div>
             <div className="right">
-              <Content />
+              <ActivityContent />
             </div>
           </div>
         </ActivityProvider>

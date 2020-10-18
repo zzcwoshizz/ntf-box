@@ -6,8 +6,8 @@ import React from 'react'
 
 import { ITokenOwner } from '@/api/types'
 import Img from '@/components/Img'
-import { AVATAR_URL } from '@/shared/constants'
 import { useApp } from '@/shared/providers/AppProvider'
+import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
 const TokenOwnerTable: React.FunctionComponent<{
@@ -25,7 +25,7 @@ const TokenOwnerTable: React.FunctionComponent<{
       key: 'userName',
       render: (value, record) => (
         <Space>
-          <Img width={24} src={AVATAR_URL + value} />
+          <Img width={24} src={generateAvatar(value)} />
           {value ?? shortenAddress(record.owner)}
         </Space>
       )

@@ -1,4 +1,4 @@
-import { Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
+import { Button, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -7,9 +7,9 @@ import EnableButton from '@/components/Button/EnableButton'
 import Img from '@/components/Img'
 import BornSvg from '@/icons/icon_born.svg'
 import PriceSvg from '@/icons/icon_price.svg'
-import { AVATAR_URL } from '@/shared/constants'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
+import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
 import { useData } from '../context'
@@ -38,10 +38,7 @@ const Desc: React.FunctionComponent = () => {
               <Divider style={{ margin: '16px 0' }} />
               <div className="name">
                 <Space align="center">
-                  <Img
-                    width={32}
-                    src={AVATAR_URL + (token.name ?? shortenAddress(token.contractAdd))}
-                  />
+                  <Img width={32} src={generateAvatar(token.name ?? token.contractAdd)} />
                   <b>{token.name ?? shortenAddress(token.contractAdd)}</b>
                   <span>Holders {holders}</span>
                 </Space>
@@ -79,21 +76,34 @@ const Desc: React.FunctionComponent = () => {
                     </EnableButton>
                   )}
                   {!asset && (
-                    <EnableButton
-                      style={{ marginTop: 16 }}
-                      type="primary"
-                      loading={loading}
-                      onClick={() =>
-                        router.push({
-                          pathname: '/publish',
-                          query: {
-                            address: token.contractAdd,
-                            tokenId: token.tokenId
-                          }
-                        })
-                      }>
-                      SELL
-                    </EnableButton>
+                    <Space style={{ marginTop: 16 }}>
+                      <EnableButton
+                        type="primary"
+                        loading={loading}
+                        onClick={() =>
+                          router.push({
+                            pathname: '/publish',
+                            query: {
+                              address: token.contractAdd,
+                              tokenId: token.tokenId
+                            }
+                          })
+                        }>
+                        SELL
+                      </EnableButton>
+                      <Button
+                        onClick={() => {
+                          router.push({
+                            pathname: '/transfer',
+                            query: {
+                              address: token.contractAdd,
+                              tokenId: token.tokenId
+                            }
+                          })
+                        }}>
+                        GIFT
+                      </Button>
+                    </Space>
                   )}
                 </div>
               )}

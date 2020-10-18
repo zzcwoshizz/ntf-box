@@ -1,7 +1,7 @@
 import React from 'react'
 import { useWallet } from 'use-wallet'
 
-import ActivityContent from '@/containers/Activity/components/Content'
+import { ActivityContent } from '@/components/Activity'
 import useContainer from '@/shared/hooks/useContainer'
 import { ActivityProvider } from '@/shared/providers/ActivityProvider'
 import { useApp } from '@/shared/providers/AppProvider'
@@ -26,7 +26,7 @@ const Activity: React.FunctionComponent = () => {
     <>
       {account && (
         <ProjectProvider address={account}>
-          <ActivityProvider account={account}>
+          <ActivityProvider address={account}>
             <div className="container">
               <div className="left">
                 <Filter />

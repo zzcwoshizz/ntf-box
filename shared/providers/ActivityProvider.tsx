@@ -20,9 +20,9 @@ const activityContext = React.createContext<{
   onScrollBottom(): void
 }>({} as any)
 
-const ActivityProvider: React.FunctionComponent<{ account?: string | null }> = ({
+const ActivityProvider: React.FunctionComponent<{ address?: string | null }> = ({
   children,
-  account
+  address
 }) => {
   const { selectProject } = useProject()
 
@@ -40,7 +40,7 @@ const ActivityProvider: React.FunctionComponent<{ account?: string | null }> = (
         pageSize: params.pageSize,
         type: params.type,
         projectId: params.id ? params.id : undefined,
-        address: account ?? undefined
+        address: address ?? undefined
       })
       return {
         list: res.list,
@@ -50,7 +50,7 @@ const ActivityProvider: React.FunctionComponent<{ account?: string | null }> = (
     },
     defaultFilter,
     undefined,
-    [account]
+    [address]
   )
 
   const onScrollBottom = _.debounce(() => {
