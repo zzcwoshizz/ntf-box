@@ -22,7 +22,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             chainId={4}
             connectors={{
               walletconnect: {
-                rpcUrl: RPC_URLS['4']
+                rpcUrl: RPC_URLS['1']
               }
             }}>
             <AppProvider>
