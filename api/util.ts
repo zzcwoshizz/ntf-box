@@ -2,6 +2,7 @@ import ifetch from 'isomorphic-fetch'
 
 import { getCache } from '@/utils/cache'
 
+import { API_URL } from './config'
 import { IResponse } from './types'
 
 interface KeyValue<T> {
@@ -180,9 +181,9 @@ class Api {
 
 let baseURL
 if (process.env.NODE_ENV === 'development') {
-  baseURL = process.browser ? '/api' : 'http://47.240.250.149:8013'
+  baseURL = process.browser ? '/api' : API_URL
 } else {
-  baseURL = process.browser ? '/api' : 'http://172.31.78.105:8013'
+  baseURL = process.browser ? '/api' : API_URL
 }
 
 const api = new Api(baseURL, { timeout: 30000 })

@@ -1,5 +1,7 @@
 import { createProxyMiddleware } from 'http-proxy-middleware'
 
+import { API_URL } from '@/api/config'
+
 export const config = {
   api: {
     bodyParser: false
@@ -7,7 +9,7 @@ export const config = {
 }
 
 export default createProxyMiddleware({
-  target: 'http://47.240.250.149:8013',
+  target: API_URL,
   changeOrigin: true,
   pathRewrite: {
     '/api': ''
