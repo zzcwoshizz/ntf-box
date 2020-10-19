@@ -4,7 +4,7 @@ import React from 'react'
 
 import { ProjectFilter } from '@/components/Asset'
 import ProjectData from '@/components/Project/ProjectData'
-import GoSvg from '@/icons/go.svg'
+import GoSvg from '@/icons/icon_go.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useActivity } from '@/shared/providers/ActivityProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
