@@ -78,20 +78,18 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
           } else {
             expirationHeight = '999999999999999999'
           }
-          await market.makeOrder(expirationHeight, data.price, tokens.length > 1 ? 3 : 0)
+          const orderId = await market.makeOrder(
+            expirationHeight,
+            data.price,
+            tokens.length > 1 ? 3 : 0
+          )
           setLoading(false)
           notification.success({ message: 'Transaction success!' })
           await delay(1000)
           if (tokens.length > 1) {
-            // TODO 捆绑页面跳转
+            router.push(`/bundle/${orderId}`)
           } else {
-            router.push({
-              pathname: '/asset',
-              query: {
-                address: tokens[0].contractAdd,
-                tokenId: tokens[0].tokenId
-              }
-            })
+            router.push(`/asset/${tokens[0].contractAdd}/${tokens[0].tokenId}`)
           }
         }}>
         {children}

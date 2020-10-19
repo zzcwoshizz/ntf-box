@@ -58,7 +58,7 @@ export default {
       cancel: 'Cancel',
       transfer: 'Transfer',
       sell: 'Sell',
-      seletedCount: '{count} item selected'
+      selectedCount: '{count} item selected'
     },
     itemOrder: {
       0: 'Recently Created',

@@ -29,6 +29,14 @@ const Home: React.FunctionComponent = () => {
     })
   }, [])
 
+  const jumpUrl = (asset: IAsset) => {
+    if (asset.tokens.length > 1) {
+      router.push(`/bundle/${asset.orderId}`)
+    } else {
+      router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`)
+    }
+  }
+
   return (
     <div className="container">
       <Hero />
@@ -46,8 +54,7 @@ const Home: React.FunctionComponent = () => {
                 key={index}
                 asset={asset}
                 onClick={() => {
-                  // TODO 捆绑
-                  router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`)
+                  jumpUrl(asset)
                 }}
               />
             ))}
@@ -66,8 +73,7 @@ const Home: React.FunctionComponent = () => {
                 key={index}
                 asset={asset}
                 onClick={() => {
-                  // TODO 捆绑
-                  router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`)
+                  jumpUrl(asset)
                 }}
               />
             ))}

@@ -64,14 +64,14 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
           <div>
             From
             <Space>
-              <Img src={generateAvatar(record.fromAdd)} />
+              <Img width={24} src={generateAvatar(record.fromAdd)} />
               <Link href={`/user/${record.fromAdd}/items`}>
                 <a>{shortenAddress(record.fromAdd)}</a>
               </Link>
             </Space>
             to
             <Space>
-              <Img src={generateAvatar(record.toAdd)} />
+              <Img width={24} src={generateAvatar(record.toAdd)} />
               <Link href={`/user/${record.toAdd}/items`}>
                 <a>{shortenAddress(record.toAdd)}</a>
               </Link>

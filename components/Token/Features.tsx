@@ -6,7 +6,10 @@ import RightArrow from '@/icons/icon_right.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { hex2rgba } from '@/utils/color'
 
-const Features: React.FunctionComponent<{ token: IToken }> = ({ token }) => {
+const Features: React.FunctionComponent<{ token: IToken; size?: number }> = ({
+  token,
+  size = 6
+}) => {
   const theme = useTheme()
 
   return (
@@ -26,8 +29,8 @@ const Features: React.FunctionComponent<{ token: IToken }> = ({ token }) => {
           }
           infinite={false}
           dots={false}
-          slidesToShow={6}
-          slidesToScroll={6}
+          slidesToShow={size}
+          slidesToScroll={size}
           autoplay={false}
           responsive={[
             {

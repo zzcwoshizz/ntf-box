@@ -178,7 +178,12 @@ class Api {
   }
 }
 
-const baseURL = process.browser ? '/api' : 'http://47.240.250.149:8013'
+let baseURL
+if (process.env.NODE_ENV === 'development') {
+  baseURL = process.browser ? '/api' : 'http://47.240.250.149:8013'
+} else {
+  baseURL = process.browser ? '/api' : 'http://172.31.78.105:8013'
+}
 
 const api = new Api(baseURL, { timeout: 30000 })
 

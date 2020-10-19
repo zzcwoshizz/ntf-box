@@ -51,7 +51,6 @@ const TokenOwnerTable: React.FunctionComponent<{
           <Button
             type="primary"
             onClick={() => {
-              // TODO 捆绑
               router.push(`/asset/${address}/${record.tokenId}`)
             }}>
             BUY NOW

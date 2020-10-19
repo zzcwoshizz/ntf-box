@@ -58,7 +58,7 @@ export default {
       cancel: '取消',
       transfer: '转赠',
       sell: '卖出',
-      seletedCount: '共选中 {count} 个'
+      selectedCount: '共选中 {count} 个'
     },
     itemOrder: {
       0: '最新创建',
