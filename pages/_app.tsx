@@ -19,7 +19,7 @@ function MyApp({ Component, pageProps }: AppProps) {
       <LanguageProvider defaultLang={pageProps.acceptLanguages[0]}>
         <ConstantsProvider>
           <UseWalletProvider
-            chainId={4}
+            chainId={1}
             connectors={{
               walletconnect: {
                 rpcUrl: RPC_URLS['1']
