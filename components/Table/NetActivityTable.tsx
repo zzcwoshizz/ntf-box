@@ -12,6 +12,8 @@ import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
+import TimeLeft from '../TimeLeft'
+
 const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?: boolean }> = ({
   data,
   loading = false
@@ -24,7 +26,11 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
       title: t('activity.columns.time'),
       dataIndex: 'createTime',
       key: 'createTime',
-      render: (value) => moment(value).format('YYYY/MM/DD HH:mm:ss')
+      render: (value) => (
+        <>
+          <TimeLeft left={Date.now() - moment(value).valueOf()} /> ago
+        </>
+      )
     },
     {
       title: t('activity.columns.commodity'),

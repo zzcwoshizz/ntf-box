@@ -94,7 +94,7 @@ const Header: React.FunctionComponent = () => {
         <div className="container">
           <Link href="/">
             <a>
-              <img className="logo" src="/imgs/logo.png" alt="logo" />
+              <img className="logo" src="/imgs/logo.svg" alt="logo" />
             </a>
           </Link>
           <nav>

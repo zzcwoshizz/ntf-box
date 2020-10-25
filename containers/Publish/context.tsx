@@ -74,7 +74,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
           let expirationHeight: string
           if (data.expiredTime) {
             expirationHeight =
-              blockNumber + Math.ceil((data.expiredTime.valueOf() - Date.now()) / 1000 / 15) + ''
+              blockNumber + Math.ceil((data.expiredTime.valueOf() - Date.now()) / 1000 / 13) + ''
           } else {
             expirationHeight = '999999999999999999'
           }

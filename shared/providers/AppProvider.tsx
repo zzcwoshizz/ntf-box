@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAsyncRetry, useInterval } from 'react-use'
+import { useAsyncRetry } from 'react-use'
 import { useWallet } from 'use-wallet'
 import Web3 from 'web3'
 
@@ -16,7 +16,6 @@ const appContext = React.createContext<{
   account: string | null
   balance: string
   web3: Web3
-  blockNumber: number
   user?: IUser
   login(): Promise<void>
   toogleUserInfo(payload: IUserPayload): Promise<void>
@@ -37,22 +36,12 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   const web3 = React.useMemo(() => {
     return new Web3(provider)
   }, [provider])
-  const [blockNumber, setBlockNumber] = React.useState(0)
   const [token, setToken] = useCache<string>('token', '')
 
   React.useEffect(() => {
     setAccount(wallet.account)
     setBalance(wallet.balance + '')
   }, [wallet])
-
-  // 获取当前区块号
-  useInterval(() => {
-    if (web3) {
-      web3.eth.getBlockNumber().then((blockNumber) => {
-        setBlockNumber(blockNumber)
-      })
-    }
-  }, 10000)
 
   const loginLoading = React.useRef(false)
   // 用户信息
@@ -126,7 +115,6 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         account,
         balance,
         web3,
-        blockNumber,
         user,
         login,
         toogleUserInfo

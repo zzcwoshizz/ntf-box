@@ -13,6 +13,8 @@ import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
+import TimeLeft from '../TimeLeft'
+
 const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: boolean }> = ({
   data,
   loading = false
@@ -26,7 +28,11 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       title: t('activity.columns.time'),
       dataIndex: 'createTime',
       key: 'createTime',
-      render: (value) => moment(value).format('YYYY/MM/DD HH:mm:ss')
+      render: (value) => (
+        <>
+          <TimeLeft left={Date.now() - moment(value).valueOf()} /> ago
+        </>
+      )
     },
     {
       title: t('activity.columns.commodity'),

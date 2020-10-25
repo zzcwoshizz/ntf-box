@@ -30,7 +30,7 @@ const Footer: React.FunctionComponent = () => {
         <div className="content">
           <Row>
             <Col xs={{ span: 24 }} lg={{ span: 12 }} style={styles}>
-              <img src="/imgs/logo.png" alt="ntf box" />
+              <img src="/imgs/logo_bottom.svg" alt="ntf box" />
             </Col>
             <Col {...linkSpan} style={styles}>
               <Title level={5}>{t('footer.aboutUs')}</Title>

@@ -8,6 +8,9 @@ import TotalSvg from '@/icons/icon_total.svg'
 import SelectSvg from '@/icons/icon_xz.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
+import { useChain } from '@/shared/providers/ChainProvier'
+
+import BlockLeft from '../Chain/BlockLeft'
 
 interface Props {
   showSelect?: boolean // 是否显示选择框
@@ -25,7 +28,8 @@ const Cell: React.FunctionComponent<Props> = ({
   onSelect
 }) => {
   const theme = useTheme()
-  const { blockNumber, web3 } = useApp()
+  const { web3 } = useApp()
+  const { block } = useChain()
 
   if (!asset) {
     return null
@@ -68,11 +72,11 @@ const Cell: React.FunctionComponent<Props> = ({
                 </Space>
               </span>
             )}
-            {asset.expirationHeight && (
+            {asset.expirationHeight && block && (
               <span className="time">
                 <Space>
                   <TimeSvg />
-                  {Number(asset.expirationHeight) - blockNumber}
+                  <BlockLeft block={Number(asset.expirationHeight)} formatType="time" />
                 </Space>
               </span>
             )}
