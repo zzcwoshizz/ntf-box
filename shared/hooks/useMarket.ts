@@ -91,22 +91,21 @@ const useMarket = (tokens: IToken[]) => {
       const s = '0x' + ('0x' + data.sign).slice(66, 130)
       const v = '0x' + ('0x' + data.sign).slice(130, 132)
 
-      return market
-        .dealOrder(
-          data.orderId,
-          data.entrustInfos.map((d: any) => d.contractAdd),
-          [data.buyer, data.seller],
-          data.salt,
-          [data.price, data.dealPrice],
-          data.entrustInfos.map((d: any) => d.tokenId),
-          [data.platformFee + '', '0', '0'],
-          data.createHeight,
-          data.orderType,
-          v,
-          r,
-          s
-        )
-        .send({ from: account, value: data.dealPrice })
+      return market.dealOrder(
+        data.orderId,
+        data.entrustInfos.map((d: any) => d.contractAdd),
+        [data.buyer, data.seller],
+        data.salt,
+        [data.price, data.dealPrice],
+        data.entrustInfos.map((d: any) => d.tokenId),
+        [data.platformFee + '', '0', '0'],
+        data.createHeight,
+        data.orderType,
+        v,
+        r,
+        s,
+        { value: data.dealPrice }
+      )
     }
 
     const changePrice = async (orderId: string, newPrice: string) => {

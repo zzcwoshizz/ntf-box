@@ -17,7 +17,7 @@ const useERC721 = () => {
             return false
           }
 
-          return erc721.isApprovedForAll(account, address).call()
+          return erc721.functions.isApprovedForAll(account, address)
         }
 
         const setApprovalForAll = async (address: string, approved = true): Promise<any> => {
@@ -25,9 +25,7 @@ const useERC721 = () => {
             return
           }
 
-          return erc721.setApprovalForAll(address, approved).send({
-            from: account
-          })
+          return erc721.functions.setApprovalForAll(address, approved)
         }
 
         const safeTransferFrom = async (to: string, tokenId: string): Promise<any> => {
@@ -35,9 +33,7 @@ const useERC721 = () => {
             return
           }
 
-          return erc721.safeTransferFrom(account, to, tokenId).send({
-            from: account
-          })
+          return erc721.functions.safeTransferFrom(account, to, tokenId)
         }
 
         return { isApprovedForAll, setApprovalForAll, safeTransferFrom }

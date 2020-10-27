@@ -4,7 +4,7 @@ import { Web3ReactProvider } from '@web3-react/core'
 import cookies from 'next-cookies'
 import App, { AppContext, AppProps } from 'next/app'
 import Head from 'next/head'
-import React, { StrictMode } from 'react'
+import React from 'react'
 
 import Footer from '@/components/Footer'
 import { ApiProvider } from '@/shared/providers/ApiProvider'
@@ -18,7 +18,7 @@ import getLibrary from '@/utils/getLibrary'
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <StrictMode>
+    <>
       <LanguageProvider defaultLang={pageProps.defaultLang}>
         <ConstantsProvider>
           <Web3ReactProvider getLibrary={getLibrary}>
@@ -59,7 +59,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </ConstantsProvider>
       </LanguageProvider>
       <ResetCss />
-    </StrictMode>
+    </>
   )
 }
 

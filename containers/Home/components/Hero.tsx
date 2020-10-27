@@ -5,6 +5,7 @@ import React from 'react'
 import { IBanner } from '@/api/types'
 import Banner from '@/components/Banner'
 import Header from '@/components/Header'
+import Toolbar from '@/components/Toolbar'
 import JTSvg from '@/icons/icon_jt.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import { useApi } from '@/shared/providers/ApiProvider'
@@ -28,6 +29,7 @@ const Hero: React.FunctionComponent = () => {
   return (
     <>
       <div className="hero">
+        <Toolbar />
         <div className="container">
           <Header />
           <div className="content">
@@ -57,7 +59,7 @@ const Hero: React.FunctionComponent = () => {
       </div>
       <style jsx>{`
         .hero {
-          padding: 52px 52px 0 52px;
+          padding: 0 52px;
           background-color: #001d42;
         }
 
@@ -86,7 +88,7 @@ const Hero: React.FunctionComponent = () => {
 
         @media screen and (max-width: 1600px) {
           .hero {
-            padding: 40px 40px 0 40px;
+            padding: 0 40px;
           }
           .container {
             border-radius: 36px 36px 0 0;
@@ -95,19 +97,19 @@ const Hero: React.FunctionComponent = () => {
 
         @media screen and (max-width: 1320px) {
           .hero {
-            padding: 40px 20px 0 20px;
+            padding: 0 20px;
           }
         }
 
         @media screen and (max-width: 1280px) {
           .hero {
-            padding: 40px 10px 0 10px;
+            padding: 0 10px;
           }
         }
 
         @media screen and (max-width: 1200px) {
           .hero {
-            padding: 32px 32px 0 32px;
+            padding: 0 32px;
           }
           .container {
             border-radius: 32px 32px 0 0;
@@ -115,7 +117,7 @@ const Hero: React.FunctionComponent = () => {
         }
         @media screen and (max-width: 992px) {
           .hero {
-            padding: 24px 24px 0 24px;
+            padding: 0 24px;
           }
           .container {
             border-radius: 28px 28px 0 0;
@@ -123,7 +125,7 @@ const Hero: React.FunctionComponent = () => {
         }
         @media screen and (max-width: 768px) {
           .hero {
-            padding: 16px 16px 0 16px;
+            padding: 0 16px;
           }
           .container {
             border-radius: 24px 24px 0 0;
