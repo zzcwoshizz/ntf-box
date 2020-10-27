@@ -1,12 +1,12 @@
 import { Button, Space, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
+import { utils } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 import { ITokenOwner } from '@/api/types'
 import Img from '@/components/Img'
-import { useApp } from '@/shared/providers/AppProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
@@ -15,7 +15,6 @@ const TokenOwnerTable: React.FunctionComponent<{
   address: string
   loading?: boolean
 }> = ({ data, address, loading = false }) => {
-  const { web3 } = useApp()
   const router = useRouter()
 
   const columns: ColumnsType<ITokenOwner> = [
@@ -40,7 +39,7 @@ const TokenOwnerTable: React.FunctionComponent<{
       title: 'Unit Price(ETH)',
       dataIndex: 'dealPrice',
       key: 'dealPrice',
-      render: (value) => web3.utils.fromWei(value ?? '0')
+      render: (value) => utils.formatEther(value ?? '0')
     },
     {
       title: 'Operation',

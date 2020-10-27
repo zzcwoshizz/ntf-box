@@ -3,11 +3,11 @@ import { ColumnsType } from 'antd/lib/table'
 import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
 import { INetActivity } from '@/api/types'
 import Img from '@/components/Img'
-import { SCAN_URLS } from '@/shared/constants'
+import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants'
+import { useActiveWeb3React } from '@/shared/hooks'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
@@ -18,7 +18,7 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
   data,
   loading = false
 }) => {
-  const wallet = useWallet()
+  const { chainId } = useActiveWeb3React()
   const { t } = useLanguage()
 
   const columns: ColumnsType<INetActivity> = [
@@ -98,7 +98,7 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
       render: (_, record) => (
         <div>
           <a
-            href={SCAN_URLS[wallet.chainId + ''] + '/tx/' + record.txid}
+            href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID] + '/tx/' + record.txid}
             target="_blank"
             rel="noopener noreferrer">
             {record.txid}

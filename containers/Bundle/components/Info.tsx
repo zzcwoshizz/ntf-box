@@ -1,17 +1,16 @@
 import { Affix, Descriptions, Space } from 'antd'
+import { utils } from 'ethers'
 import Link from 'next/link'
 import React from 'react'
 
 import EnableButton from '@/components/Button/EnableButton'
 import Img from '@/components/Img'
-import { useApp } from '@/shared/providers/AppProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
 import { useData } from '../context'
 
 const Info: React.FunctionComponent = () => {
-  const { web3 } = useApp()
   const { asset, loading, buy } = useData()
 
   return (
@@ -29,7 +28,7 @@ const Info: React.FunctionComponent = () => {
             </Link>
           </Descriptions.Item>
           <Descriptions.Item label="Price" span={24}>
-            {web3.utils.fromWei(asset?.dealPrice ?? '0')}
+            {utils.formatEther(asset?.dealPrice ?? '0')}
           </Descriptions.Item>
         </Descriptions>
         <EnableButton style={{ marginTop: 20 }} type="primary" loading={loading} onClick={buy}>

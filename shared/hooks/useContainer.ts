@@ -1,5 +1,3 @@
-import React from 'react'
-
 import { useViewport } from '../providers/ViewportProvider'
 
 const useContainer = () => {

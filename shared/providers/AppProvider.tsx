@@ -1,47 +1,39 @@
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 import React from 'react'
-import { useAsyncRetry } from 'react-use'
-import { useWallet } from 'use-wallet'
-import Web3 from 'web3'
+import { useAsync, useAsyncRetry } from 'react-use'
 
-import { getUser, login as loginApi, putUser } from '@/api'
 import { IUser, IUserPayload } from '@/api/types'
 
-import { RPC_URLS, SIGN_TEXT } from '../constants'
+import { DEFAULT_CHAIN_ID, RPC_URLS, SIGN_TEXT } from '../constants'
+import { useActiveWeb3React, useEagerConnect } from '../hooks'
 import useCache from '../hooks/useCache'
+import { useApi } from './ApiProvider'
 
-/**
- * TODO: Login flow need to refactor
- */
 const appContext = React.createContext<{
-  account: string | null
   balance: string
-  web3: Web3
+  provider: JsonRpcProvider
   user?: IUser
   login(): Promise<void>
   toogleUserInfo(payload: IUserPayload): Promise<void>
 }>({} as any)
 
 const AppProvider: React.FunctionComponent = ({ children }) => {
-  const wallet = useWallet<any>()
-  const provider = React.useMemo(() => {
-    if (wallet.ethereum) {
-      return wallet.ethereum
-    } else {
-      return new Web3.providers.HttpProvider(RPC_URLS[wallet.chainId + ''])
-    }
-  }, [wallet])
+  const { getUser, login: loginApi, putUser } = useApi()
+  const { account, library, active, chainId = DEFAULT_CHAIN_ID } = useActiveWeb3React()
 
-  const [account, setAccount] = React.useState<string | null>(null)
-  const [balance, setBalance] = React.useState('')
-  const web3 = React.useMemo(() => {
-    return new Web3(provider)
-  }, [provider])
+  const provider: Web3Provider | JsonRpcProvider = React.useMemo(() => {
+    return library || new JsonRpcProvider({ url: RPC_URLS[chainId] })
+  }, [library, chainId])
+
   const [token, setToken] = useCache<string>('token', '')
 
-  React.useEffect(() => {
-    setAccount(wallet.account)
-    setBalance(wallet.balance + '')
-  }, [wallet])
+  const { value: balance = '0' } = useAsync(async () => {
+    if (!account) {
+      return '0'
+    }
+
+    return (await library?.getBalance(account))?.toString()
+  }, [account, library])
 
   const loginLoading = React.useRef(false)
   // 用户信息
@@ -61,9 +53,16 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
 
   // 登录
   const login = async () => {
+    if (!library) {
+      return
+    }
+    if (!account) {
+      return
+    }
+
     loginLoading.current = true
     try {
-      const signature = await web3.eth.personal.sign(SIGN_TEXT, account + '', '')
+      const signature = (await library.getSigner(account).signMessage(SIGN_TEXT)) ?? ''
       const { data } = await loginApi({ address: account + '', signature })
       setToken(data)
     } catch (e) {
@@ -72,17 +71,13 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   }
   React.useEffect(() => {
     ;(async () => {
-      if (!web3.eth.currentProvider) {
+      if (!active) {
         return
       }
-      const accounts = await web3.eth.getAccounts()
       if (user || userLoding) {
         return
       }
       if (!account) {
-        return
-      }
-      if (accounts.length === 0) {
         return
       }
       if (loginLoading.current) {
@@ -94,7 +89,9 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
 
       login()
     })()
-  }, [user, account, web3, token])
+  }, [user, account, active, token])
+
+  useEagerConnect()
 
   const toogleUserInfo = async (payload: IUserPayload) => {
     if (account && token) {
@@ -112,9 +109,8 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
   return (
     <appContext.Provider
       value={{
-        account,
         balance,
-        web3,
+        provider,
         user,
         login,
         toogleUserInfo

@@ -22,7 +22,15 @@ const Images: React.FunctionComponent<{ images?: string[] }> = ({ images }) => {
           }}>
           {images?.map((image, index) => (
             <div key={index}>
-              <Img width="100%" src={image} />
+              <Img
+                style={{
+                  width: '100%',
+                  maxHeight: 400,
+                  objectFit: 'contain',
+                  objectPosition: 'center'
+                }}
+                src={image}
+              />
             </div>
           ))}
         </Carousel>

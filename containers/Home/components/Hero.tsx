@@ -2,17 +2,18 @@ import { Button, Col, Row, Typography } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { getBanner } from '@/api'
 import { IBanner } from '@/api/types'
 import Banner from '@/components/Banner'
 import Header from '@/components/Header'
 import JTSvg from '@/icons/icon_jt.svg'
 import useContainer from '@/shared/hooks/useContainer'
+import { useApi } from '@/shared/providers/ApiProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const { Title, Text } = Typography
 
 const Hero: React.FunctionComponent = () => {
+  const { getBanner } = useApi()
   const router = useRouter()
   const [banners, setBanners] = React.useState<IBanner[]>([])
   const { containerWidth } = useContainer()

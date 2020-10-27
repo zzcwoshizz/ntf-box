@@ -2,11 +2,11 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useAsync, useAsyncRetry } from 'react-use'
 
-import { getAsset, getNetActivity, getToken, getTokenOwner } from '@/api'
 import { IAsset, INetActivity, IToken, ITokenOwner } from '@/api/types'
+import { useActiveWeb3React } from '@/shared/hooks'
 import { useList } from '@/shared/hooks/useList'
 import useMarket from '@/shared/hooks/useMarket'
-import { useApp } from '@/shared/providers/AppProvider'
+import { useApi } from '@/shared/providers/ApiProvider'
 import { isEqualIgnoreCase } from '@/utils/string'
 
 const dataContext = React.createContext<{
@@ -28,7 +28,9 @@ const dataContext = React.createContext<{
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const router = useRouter()
-  const { account } = useApp()
+  const { account } = useActiveWeb3React()
+  const { getToken, getAsset, getTokenOwner, getNetActivity } = useApi()
+
   const [loading, setLoading] = React.useState(false)
 
   const { address, tokenId } = router.query as { address: string; tokenId: string }

@@ -59,7 +59,7 @@ const parseJSON = (response: Response) => {
   return response.json()
 }
 
-class Api {
+export class Api {
   public baseURL = ''
   public config: IConfig = {}
 
@@ -149,8 +149,6 @@ class Api {
       ...config,
       headers: {
         'Content-Type': 'application/json',
-        jwt: process.browser ? getCache<string>('token') + '' : '',
-        lan: 'zh',
         ...config.headers
       }
     }
@@ -178,14 +176,3 @@ class Api {
     }
   }
 }
-
-let baseURL
-if (process.env.NODE_ENV === 'development') {
-  baseURL = process.browser ? '/api' : API_URL
-} else {
-  baseURL = process.browser ? '/api' : API_URL
-}
-
-const api = new Api(baseURL, { timeout: 30000 })
-
-export default api

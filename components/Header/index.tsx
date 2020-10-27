@@ -5,8 +5,6 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import EnableButton from '@/components/Button/EnableButton'
-import CnSvg from '@/icons/icon_cn.svg'
-import EnSvg from '@/icons/icon_en.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
@@ -14,14 +12,9 @@ import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { shortenAddress } from '@/utils/string'
 
 import ActiveLink from '../Link/ActiveLink'
-
-const languages = {
-  cn: <CnSvg width={32} height={32} />,
-  en: <EnSvg width={32} height={32} />
-}
+import Language from './Language'
 
 const Header: React.FunctionComponent = () => {
-  const [lan] = React.useState<'cn' | 'en'>('cn')
   const theme = useTheme()
   const { containerWidth } = useContainer()
   const { t } = useLanguage()
@@ -117,17 +110,7 @@ const Header: React.FunctionComponent = () => {
               </EnableButton>
             )}
             <div className="language">
-              <Dropdown
-                placement={'bottomLeft'}
-                trigger={['click']}
-                overlay={
-                  <Menu>
-                    <Menu.Item key="1">{languages['en']}</Menu.Item>
-                    <Menu.Item key="2">{languages['cn']}</Menu.Item>
-                  </Menu>
-                }>
-                {languages[lan]}
-              </Dropdown>
+              <Language />
             </div>
             <div className="mb-menu">
               <Dropdown

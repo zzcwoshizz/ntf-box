@@ -60,7 +60,7 @@ const Infos: React.FunctionComponent = () => {
               }}>
               <TabPane tab={t('asset.detail.holdAddress')} key="asset-hold-address" />
               <TabPane tab={t('asset.detail.features')} key="asset-features" />
-              <TabPane tab={t('asset.detail.features')} key="asset-activity-record" />
+              <TabPane tab={t('asset.detail.activityRecord')} key="asset-activity-record" />
             </Tabs>
           </div>
           <div className="content" id="asset-hold-address">

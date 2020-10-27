@@ -2,9 +2,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useAsyncRetry } from 'react-use'
 
-import { getAsset } from '@/api'
 import { IAsset, IToken } from '@/api/types'
 import useMarket from '@/shared/hooks/useMarket'
+import { useApi } from '@/shared/providers/ApiProvider'
 
 const dataContext = React.createContext<{
   asset?: IAsset
@@ -16,10 +16,12 @@ const dataContext = React.createContext<{
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const router = useRouter()
+  const { getAsset } = useApi()
+
   const [loading, setLoading] = React.useState(false)
   const { orderId } = router.query as { orderId: string }
 
-  const { value: asset, loading: fetching, retry } = useAsyncRetry(async () => {
+  const { value: asset, loading: fetching } = useAsyncRetry(async () => {
     const { data } = await getAsset({ orderId })
     return data
   }, [orderId])

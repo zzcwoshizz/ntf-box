@@ -4,9 +4,9 @@ import TwitterIcon from '@icons/dapp_twitter_white.svg'
 import { Input, message, Typography } from 'antd'
 import React from 'react'
 
-import { subscribe } from '@/api'
 import { IBanner } from '@/api/types'
 import Banner from '@/components/Banner'
+import { useApi } from '@/shared/providers/ApiProvider'
 import theme from '@/styles/antd-custom.json'
 
 const { Search } = Input
@@ -17,6 +17,7 @@ type Props = {
 }
 
 const CommingSoon: React.FunctionComponent<Props> = (props) => {
+  const { subscribe } = useApi()
   const [loading, setLoading] = React.useState(false)
 
   return (

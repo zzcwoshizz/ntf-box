@@ -1,8 +1,9 @@
 import React from 'react'
 import { useAsync } from 'react-use'
 
-import { getProject, getProjectList } from '@/api'
 import { IProject } from '@/api/types'
+
+import { useApi } from './ApiProvider'
 
 const projectContext = React.createContext<{
   projects: IProject[]
@@ -14,6 +15,7 @@ const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
   children,
   address
 }) => {
+  const { getProject, getProjectList } = useApi()
   const [projects, setProjects] = React.useState<IProject[]>([])
   const [projectId, setProjectId] = React.useState<number>()
 

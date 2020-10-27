@@ -1,22 +1,22 @@
+import { Contract } from 'ethers'
 import React from 'react'
 
-import { buy as buyApi, getOrder, modifyPrice, verifyOrder } from '@/api'
 import { IToken } from '@/api/types'
 
-import { MARKET_ABI } from '../constants'
-import { useApp } from '../providers/AppProvider'
+import { DEFAULT_CHAIN_ID, MARKET_ABI, MARKET_ADDRESS } from '../constants'
+import { useApi } from '../providers/ApiProvider'
+import { useActiveWeb3React } from '.'
 import useERC721 from './useERC721'
 
-const useMarket = (
-  tokens: IToken[],
-  marketAddress = '0x4eB7c32b63345240b11A42dD3F421bf5Ecfdab1C'
-) => {
-  const { web3, account } = useApp()
+const useMarket = (tokens: IToken[]) => {
+  const { buy: buyApi, getOrder, modifyPrice, verifyOrder } = useApi()
+  const { account, library, chainId = DEFAULT_CHAIN_ID } = useActiveWeb3React()
   const erc721 = useERC721()
 
-  const market = React.useMemo(() => {
-    return new web3.eth.Contract(MARKET_ABI, marketAddress)
-  }, [web3, marketAddress])
+  const market = React.useMemo(() => new Contract(MARKET_ADDRESS[chainId], MARKET_ABI, library), [
+    library,
+    chainId
+  ])
 
   return React.useMemo(() => {
     /**
@@ -34,6 +34,10 @@ const useMarket = (
       price: string,
       type: 0 | 1 | 2 | 3 | 4 | 5 | 6
     ): Promise<any> => {
+      if (!library) {
+        return
+      }
+
       if (!account) {
         return
       }
@@ -44,10 +48,10 @@ const useMarket = (
 
       for (const token of tokens) {
         const { isApprovedForAll, setApprovalForAll } = erc721.getMethods(token.contractAdd)
-        const approved = await isApprovedForAll(marketAddress)
+        const approved = await isApprovedForAll(MARKET_ADDRESS[chainId])
 
         if (!approved) {
-          await setApprovalForAll(marketAddress)
+          await setApprovalForAll(MARKET_ADDRESS[chainId])
         }
       }
 
@@ -62,12 +66,13 @@ const useMarket = (
         type
       )
 
-      const signature = await web3.eth.personal.sign(data.orderHash, account, '')
+      const signature = await library.getSigner().signMessage(data.orderHash)
 
-      await verifyOrder({
-        orderId: data.orderId,
-        signature
-      })
+      if (!signature)
+        await verifyOrder({
+          orderId: data.orderId,
+          signature
+        })
 
       return data.orderId
     }
@@ -86,7 +91,7 @@ const useMarket = (
       const s = '0x' + ('0x' + data.sign).slice(66, 130)
       const v = '0x' + ('0x' + data.sign).slice(130, 132)
 
-      return market.methods
+      return market
         .dealOrder(
           data.orderId,
           data.entrustInfos.map((d: any) => d.contractAdd),
@@ -108,18 +113,17 @@ const useMarket = (
       if (!account) {
         return
       }
+      if (!library) {
+        return
+      }
 
-      const signature = await web3.eth.personal.sign(
-        JSON.stringify({ orderId, newPrice }),
-        account,
-        ''
-      )
+      const signature = await library.getSigner().signMessage(JSON.stringify({ orderId, newPrice }))
 
       return await modifyPrice({ orderId, price: newPrice, signature })
     }
 
     return { makeOrder, buy, changePrice }
-  }, [web3, account, market, erc721, tokens])
+  }, [library, account, market, erc721, tokens])
 }
 
 export default useMarket

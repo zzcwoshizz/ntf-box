@@ -1,4 +1,5 @@
 import { Button, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
+import { utils } from 'ethers'
 import moment from 'moment'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -8,7 +9,6 @@ import Img from '@/components/Img'
 import BornSvg from '@/icons/icon_born.svg'
 import PriceSvg from '@/icons/icon_price.svg'
 import useTheme from '@/shared/hooks/useTheme'
-import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
@@ -20,7 +20,6 @@ const { Title } = Typography
 
 const Desc: React.FunctionComponent = () => {
   const theme = useTheme()
-  const { web3 } = useApp()
   const router = useRouter()
   const { t } = useLanguage()
   const { asset, token, isMine, fetching, holders, loading, changePrice, buy } = useData()
@@ -52,7 +51,7 @@ const Desc: React.FunctionComponent = () => {
                 <div className="price">
                   <Space align="center">
                     <PriceSvg />
-                    {web3.utils.fromWei(asset.dealPrice ?? '--')} ETH
+                    {utils.formatEther(asset.dealPrice ?? '0')} ETH
                   </Space>
                 </div>
               )}

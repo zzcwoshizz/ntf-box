@@ -1,14 +1,13 @@
 import { Form, notification } from 'antd'
-import _ from 'lodash'
 import { Moment } from 'moment'
 import { useRouter } from 'next/router'
 import React from 'react'
 import { useAsync } from 'react-use'
 
-import { getToken } from '@/api'
 import { IToken } from '@/api/types'
+import { useActiveWeb3React } from '@/shared/hooks'
 import useMarket from '@/shared/hooks/useMarket'
-import { useApp } from '@/shared/providers/AppProvider'
+import { useApi } from '@/shared/providers/ApiProvider'
 import { delay } from '@/utils/time'
 
 type FormData = { price: string; expiredTime: Moment }
@@ -23,8 +22,10 @@ const dataContext = React.createContext<{
 }>({} as any)
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
+  const { library } = useActiveWeb3React()
+  const { getToken } = useApi()
+
   const router = useRouter()
-  const { web3 } = useApp()
   const [loading, setLoading] = React.useState(false)
   const [price, setPrice] = React.useState('')
   const [expiredTime, setExpiredTime] = React.useState<Moment>()
@@ -69,8 +70,12 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
           setExpiredTime(values.expiredTime)
         }}
         onFinish={async (data) => {
+          if (!library) {
+            return
+          }
+
           setLoading(true)
-          const blockNumber = await web3.eth.getBlockNumber()
+          const blockNumber = await library?.getBlockNumber()
           let expirationHeight: string
           if (data.expiredTime) {
             expirationHeight =

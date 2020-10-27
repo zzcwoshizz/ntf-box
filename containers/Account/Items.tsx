@@ -1,10 +1,10 @@
 import { useRouter } from 'next/router'
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
 import { AssetContent } from '@/components/Asset'
+import { injected } from '@/connectors'
+import { useActiveWeb3React } from '@/shared/hooks'
 import useContainer from '@/shared/hooks/useContainer'
-import { useApp } from '@/shared/providers/AppProvider'
 import { AssetProvider } from '@/shared/providers/AssetProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
@@ -12,16 +12,13 @@ import Filter from './components/AssetFilter'
 
 const Items: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const { account } = useApp()
-  const wallet = useWallet()
+  const { account, activate, active } = useActiveWeb3React()
 
   React.useEffect(() => {
-    if (!account) {
-      setTimeout(() => {
-        wallet.connect('injected')
-      }, 1000)
+    if (!active) {
+      activate(injected)
     }
-  }, [account])
+  }, [active])
 
   const { query } = useRouter()
 

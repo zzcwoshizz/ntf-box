@@ -1,26 +1,23 @@
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
 import { ActivityContent } from '@/components/Activity'
+import { injected } from '@/connectors'
+import { useActiveWeb3React } from '@/shared/hooks'
 import useContainer from '@/shared/hooks/useContainer'
 import { ActivityProvider } from '@/shared/providers/ActivityProvider'
-import { useApp } from '@/shared/providers/AppProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
 import Filter from './components/ActivityFilter'
 
 const Activity: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const { account } = useApp()
-  const wallet = useWallet()
+  const { account, activate, active } = useActiveWeb3React()
 
   React.useEffect(() => {
-    if (!account) {
-      setTimeout(() => {
-        wallet.connect('injected')
-      }, 1000)
+    if (!active) {
+      activate(injected)
     }
-  }, [account])
+  }, [active])
 
   return (
     <>

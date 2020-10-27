@@ -3,19 +3,20 @@ import { useRouter } from 'next/router'
 import React from 'react'
 import { useAsync } from 'react-use'
 
-import { getToken } from '@/api'
 import EnableButton from '@/components/Button/EnableButton'
 import Header from '@/components/Header'
 import Img from '@/components/Img'
 import useContainer from '@/shared/hooks/useContainer'
 import useERC721 from '@/shared/hooks/useERC721'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApi } from '@/shared/providers/ApiProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 
 const { Title } = Typography
 
 const Transfer: React.FunctionComponent = () => {
+  const { getToken } = useApi()
   const { containerWidth } = useContainer()
   const theme = useTheme()
   const { t } = useLanguage()

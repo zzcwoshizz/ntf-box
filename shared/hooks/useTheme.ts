@@ -1,5 +1,3 @@
-import React from 'react'
-
 import theme from '@/styles/antd-custom.json'
 
 const useTheme = () => {

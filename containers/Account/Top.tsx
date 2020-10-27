@@ -1,7 +1,9 @@
 import { Typography } from 'antd'
+import { utils } from 'ethers'
 import React from 'react'
 
 import Header from '@/components/Header'
+import { useActiveWeb3React } from '@/shared/hooks'
 import useContainer from '@/shared/hooks/useContainer'
 import { useApp } from '@/shared/providers/AppProvider'
 import { generateAvatar } from '@/utils'
@@ -11,14 +13,15 @@ const { Text } = Typography
 
 const AccountTop: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const { account, user, balance, web3 } = useApp()
+  const { user, balance } = useApp()
+  const { account } = useActiveWeb3React()
 
   return (
     <>
       <Header />
       <div className="hero">
         <div className="container">
-          <div className="balance">{web3.utils.fromWei(balance)}ETH</div>
+          <div className="balance">{utils.formatEther(balance)}ETH</div>
           <div className="info">
             <img src={generateAvatar(user?.nickName ?? user?.address ?? account)} alt="account" />
             <div>

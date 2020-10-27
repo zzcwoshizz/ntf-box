@@ -1,13 +1,14 @@
 import Button, { ButtonProps } from 'antd/lib/button'
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
+import { injected } from '@/connectors'
+import { useActiveWeb3React } from '@/shared/hooks'
 import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
-  const { account, user, login } = useApp()
-  const wallet = useWallet()
+  const { user, login } = useApp()
+  const { account, activate } = useActiveWeb3React()
   const [loading, setLoading] = React.useState(false)
   const { t } = useLanguage()
 
@@ -27,7 +28,7 @@ const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
     onClick = (e: React.MouseEvent<HTMLElement>) => {
       e.preventDefault()
       setLoading(true)
-      wallet.connect('injected').finally(() => {
+      activate(injected).finally(() => {
         setLoading(false)
       })
     }

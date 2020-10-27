@@ -1,16 +1,16 @@
 import { Button, Input, Modal, Switch } from 'antd'
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
+import { injected } from '@/connectors'
 import FhSvg from '@/icons/icon_fh.svg'
+import { useActiveWeb3React } from '@/shared/hooks'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 
 const Setting: React.FunctionComponent = () => {
-  const { account } = useApp()
-  const wallet = useWallet()
+  const { activate, active } = useActiveWeb3React()
   const { containerWidth } = useContainer()
   const theme = useTheme()
   const { t } = useLanguage()
@@ -23,12 +23,10 @@ const Setting: React.FunctionComponent = () => {
   const [loading, setLoading] = React.useState(false)
 
   React.useEffect(() => {
-    if (!account) {
-      setTimeout(() => {
-        wallet.connect('injected')
-      }, 1000)
+    if (!active) {
+      activate(injected)
     }
-  }, [account])
+  }, [active])
 
   return (
     <>

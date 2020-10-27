@@ -2,11 +2,11 @@ import _ from 'lodash'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { getAssetList } from '@/api'
 import { IAsset, ItemOrder, OrderType } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import { IPage } from '@/types'
 
+import { useApi } from './ApiProvider'
 import { useProject } from './ProjectProvider'
 
 type FilterType = { orderType: OrderType; itemOrder: ItemOrder; id?: number; name?: string }
@@ -24,6 +24,7 @@ const AssetProvider: React.FunctionComponent<{ address?: string | null }> = ({
   children,
   address
 }) => {
+  const { getAssetList } = useApi()
   const { selectProject } = useProject()
 
   const { query } = useRouter()

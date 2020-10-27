@@ -2,12 +2,12 @@ import { Card, Collapse, Input, Typography } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { getHelp } from '@/api'
 import { IHelp } from '@/api/types'
 import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
 import { useList } from '@/shared/hooks/useList'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApi } from '@/shared/providers/ApiProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { hex2rgba } from '@/utils/color'
 
@@ -16,6 +16,7 @@ const { Panel } = Collapse
 const { Search } = Input
 
 const Help: React.FunctionComponent = () => {
+  const { getHelp } = useApi()
   const { containerWidth } = useContainer()
   const theme = useTheme()
   const { query } = useRouter()

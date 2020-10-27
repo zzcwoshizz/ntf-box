@@ -2,9 +2,9 @@ import _ from 'lodash'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { getRanking } from '@/api'
 import { AssetType, ItemOrder } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
+import { useApi } from '@/shared/providers/ApiProvider'
 import { IPage } from '@/types'
 
 type FilterType = { type: AssetType; itemOrder: ItemOrder; order: 'desc' | 'asc' }
@@ -19,6 +19,7 @@ const dataContext = React.createContext<{
 }>({} as any)
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
+  const { getRanking } = useApi()
   const { query } = useRouter()
   const defaultFilter: FilterType = {
     type: (query.type as AssetType) ?? 'HOT',

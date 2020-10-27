@@ -1,4 +1,3 @@
-import React from 'react'
 import { useLocalStorage } from 'react-use'
 
 import { deserializer, serializer } from '@/utils/cache'

@@ -1,14 +1,14 @@
 import { Space, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
+import { utils } from 'ethers'
 import moment from 'moment'
 import Link from 'next/link'
 import React from 'react'
-import { useWallet } from 'use-wallet'
 
 import { IActivity } from '@/api/types'
 import Img from '@/components/Img'
-import { SCAN_URLS } from '@/shared/constants'
-import { useApp } from '@/shared/providers/AppProvider'
+import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants'
+import { useActiveWeb3React } from '@/shared/hooks'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
@@ -19,8 +19,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
   data,
   loading = false
 }) => {
-  const { web3 } = useApp()
-  const wallet = useWallet()
+  const { chainId } = useActiveWeb3React()
   const { t } = useLanguage()
 
   const columns: ColumnsType<IActivity> = [
@@ -111,14 +110,17 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       title: t('activity.columns.price'),
       dataIndex: 'price',
       key: 'price',
-      render: (_, record) => <span>{web3.utils.fromWei(record.dealPrice + '')}</span>
+      render: (_, record) => <span>{utils.formatEther(record.dealPrice + '')}</span>
     },
     {
       title: t('activity.columns.txid'),
       key: 'txid',
       render: (_, record) => (
         <div>
-          <a href={SCAN_URLS[wallet.chainId + '']} target="_blank" rel="noopener noreferrer">
+          <a
+            href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID]}
+            target="_blank"
+            rel="noopener noreferrer">
             {record.txid}
           </a>
           <style jsx>{`

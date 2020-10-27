@@ -2,11 +2,11 @@ import _ from 'lodash'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import { getActivity } from '@/api'
 import { ActivityType, IActivity } from '@/api/types'
 import { useList } from '@/shared/hooks/useList'
 import { IPage } from '@/types'
 
+import { useApi } from './ApiProvider'
 import { useProject } from './ProjectProvider'
 
 type FilterType = { type: ActivityType; id?: number; name?: string }
@@ -24,6 +24,7 @@ const ActivityProvider: React.FunctionComponent<{ address?: string | null }> = (
   children,
   address
 }) => {
+  const { getActivity } = useApi()
   const { selectProject } = useProject()
 
   const { query } = useRouter()

@@ -1,4 +1,5 @@
 import { Space, Tooltip } from 'antd'
+import { utils } from 'ethers'
 import React from 'react'
 
 import { IAsset } from '@/api/types'
@@ -7,7 +8,6 @@ import TimeSvg from '@/icons/icon_time.svg'
 import TotalSvg from '@/icons/icon_total.svg'
 import SelectSvg from '@/icons/icon_xz.svg'
 import useTheme from '@/shared/hooks/useTheme'
-import { useApp } from '@/shared/providers/AppProvider'
 import { useChain } from '@/shared/providers/ChainProvier'
 
 import BlockLeft from '../Chain/BlockLeft'
@@ -28,7 +28,6 @@ const Cell: React.FunctionComponent<Props> = ({
   onSelect
 }) => {
   const theme = useTheme()
-  const { web3 } = useApp()
   const { block } = useChain()
 
   if (!asset) {
@@ -68,7 +67,7 @@ const Cell: React.FunctionComponent<Props> = ({
               <span>
                 <Space>
                   <PriceSvg />
-                  <label className="price">{web3.utils.fromWei(asset.dealPrice)}E</label>
+                  <label className="price">{utils.formatEther(asset.dealPrice)}E</label>
                 </Space>
               </span>
             )}
@@ -128,7 +127,7 @@ const Cell: React.FunctionComponent<Props> = ({
           width: 100%;
           height: 141px;
 
-          object-fit: cover;
+          object-fit: contain;
           object-position: center;
           background-color: ghostwhite;
         }
