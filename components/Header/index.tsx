@@ -1,18 +1,16 @@
-import { DownOutlined, MenuOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Menu } from 'antd'
+import { MenuOutlined } from '@ant-design/icons'
+import { Dropdown, Menu, Space } from 'antd'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
-import EnableButton from '@/components/Button/EnableButton'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
-import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { shortenAddress } from '@/utils/string'
 
 import ActiveLink from '../Link/ActiveLink'
 import Language from './Language'
+import MyAccount from './MyAccount'
 
 const Header: React.FunctionComponent = () => {
   const theme = useTheme()
@@ -47,39 +45,6 @@ const Header: React.FunctionComponent = () => {
   ]
 
   const router = useRouter()
-  const { user, login } = useApp()
-
-  const userMenu = (
-    <Menu>
-      <Menu.Item>
-        <Link href="/account/items">
-          <a>{t('header.items')}</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link href="/account/activity">
-          <a>{t('header.activity')}</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item>
-        <Link href="/account/items/sell">
-          <a>{t('header.sell')}</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Item>
-        <Link href="/account/items/transfer">
-          <a>{t('header.transfer')}</a>
-        </Link>
-      </Menu.Item>
-      <Menu.Divider />
-      <Menu.Item>
-        <Link href="/account/setting">
-          <a>{t('header.setting')}</a>
-        </Link>
-      </Menu.Item>
-    </Menu>
-  )
 
   return (
     <>
@@ -98,20 +63,12 @@ const Header: React.FunctionComponent = () => {
             ))}
           </nav>
           <div className="right">
-            {user ? (
-              <Dropdown overlay={userMenu}>
-                <Button type="text">
-                  {user.nickName ?? shortenAddress(user.address)} <DownOutlined />
-                </Button>
-              </Dropdown>
-            ) : (
-              <EnableButton type="text" onClick={login}>
-                {t('header.myAccount')}
-              </EnableButton>
-            )}
-            <div className="language">
-              <Language />
-            </div>
+            <Space size="large">
+              <MyAccount />
+              <div className="language">
+                <Language />
+              </div>
+            </Space>
             <div className="mb-menu">
               <Dropdown
                 placement={'bottomLeft'}
@@ -174,7 +131,6 @@ const Header: React.FunctionComponent = () => {
 
         .mb-menu {
           display: none;
-          margin-left: 16px;
         }
 
         @media screen and (max-width: 1200px) {

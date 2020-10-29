@@ -12,6 +12,7 @@ import { AppProvider } from '@/shared/providers/AppProvider'
 import { ChainProvider } from '@/shared/providers/ChainProvier'
 import { ConstantsProvider } from '@/shared/providers/ConstantsProvider'
 import { LangType, LanguageProvider } from '@/shared/providers/LanguageProvider'
+import { TransactionProvider } from '@/shared/providers/TransactionProvider'
 import { ViewportProvider } from '@/shared/providers/ViewportProvider'
 import ResetCss from '@/styles/Reset'
 import getLibrary from '@/utils/getLibrary'
@@ -25,33 +26,35 @@ function MyApp({ Component, pageProps }: AppProps) {
             <ApiProvider>
               <AppProvider>
                 <ChainProvider>
-                  <ViewportProvider>
-                    <Head>
-                      <title>Finannel</title>
-                      <link rel="icon" href="/favicon.ico" />
-                      <meta
-                        name="viewport"
-                        content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
-                      />
-                      <meta httpEquiv="pragma" content="no-cache" />
-                      <meta httpEquiv="Cache-Control" content="no-cache, must-revalidate" />
-                      <meta httpEquiv="expires" content="0" />
-                    </Head>
-                    <div className="page">
-                      <div>
-                        <Component {...pageProps} />
+                  <TransactionProvider>
+                    <ViewportProvider>
+                      <Head>
+                        <title>Finannel</title>
+                        <link rel="icon" href="/favicon.ico" />
+                        <meta
+                          name="viewport"
+                          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+                        />
+                        <meta httpEquiv="pragma" content="no-cache" />
+                        <meta httpEquiv="Cache-Control" content="no-cache, must-revalidate" />
+                        <meta httpEquiv="expires" content="0" />
+                      </Head>
+                      <div className="page">
+                        <div>
+                          <Component {...pageProps} />
+                        </div>
+                        <Footer />
                       </div>
-                      <Footer />
-                    </div>
-                    <style jsx>{`
-                      .page {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
-                        min-height: 100vh;
-                      }
-                    `}</style>
-                  </ViewportProvider>
+                      <style jsx>{`
+                        .page {
+                          display: flex;
+                          flex-direction: column;
+                          justify-content: space-between;
+                          min-height: 100vh;
+                        }
+                      `}</style>
+                    </ViewportProvider>
+                  </TransactionProvider>
                 </ChainProvider>
               </AppProvider>
             </ApiProvider>

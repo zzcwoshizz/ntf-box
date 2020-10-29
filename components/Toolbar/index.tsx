@@ -69,7 +69,7 @@ const Toolbar: React.FunctionComponent = () => {
         .ant-tabs-tab-btn {
           height: 25px;
         }
-        .anticon svg {
+        .ant-tabs-nav-wrap .anticon svg {
           fill: ${hex2rgba('#fff', 0.6)};
         }
       `}</style>

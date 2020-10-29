@@ -5,18 +5,20 @@ import { IToken } from '@/api/types'
 
 import { DEFAULT_CHAIN_ID, MARKET_ABI, MARKET_ADDRESS } from '../constants'
 import { useApi } from '../providers/ApiProvider'
+import { useTransaction } from '../providers/TransactionProvider'
 import { useActiveWeb3React } from '.'
 import useERC721 from './useERC721'
 
 const useMarket = (tokens: IToken[]) => {
   const { buy: buyApi, getOrder, modifyPrice, verifyOrder } = useApi()
   const { account, library, chainId = DEFAULT_CHAIN_ID } = useActiveWeb3React()
+  const { addBuyTransaction, toogleVisible } = useTransaction()
   const erc721 = useERC721()
 
-  const market = React.useMemo(() => new Contract(MARKET_ADDRESS[chainId], MARKET_ABI, library), [
-    library,
-    chainId
-  ])
+  const market = React.useMemo(
+    () => new Contract(MARKET_ADDRESS[chainId], MARKET_ABI, library?.getSigner()),
+    [library, chainId]
+  )
 
   return React.useMemo(() => {
     /**
@@ -34,11 +36,7 @@ const useMarket = (tokens: IToken[]) => {
       price: string,
       type: 0 | 1 | 2 | 3 | 4 | 5 | 6
     ): Promise<any> => {
-      if (!library) {
-        return
-      }
-
-      if (!account) {
+      if (!account || !library) {
         return
       }
 
@@ -78,7 +76,7 @@ const useMarket = (tokens: IToken[]) => {
     }
 
     const buy = async (orderId: string) => {
-      if (!account) {
+      if (!account || !library) {
         return
       }
 
@@ -91,7 +89,7 @@ const useMarket = (tokens: IToken[]) => {
       const s = '0x' + ('0x' + data.sign).slice(66, 130)
       const v = '0x' + ('0x' + data.sign).slice(130, 132)
 
-      return market.dealOrder(
+      const hash = await market.functions.dealOrder(
         data.orderId,
         data.entrustInfos.map((d: any) => d.contractAdd),
         [data.buyer, data.seller],
@@ -106,13 +104,21 @@ const useMarket = (tokens: IToken[]) => {
         s,
         { value: data.dealPrice }
       )
+      addBuyTransaction({
+        transactionHash: hash,
+        token: {
+          tokenId: data.entrustInfos[0].tokenId,
+          contractAdd: data.entrustInfos[0].contractAdd,
+          type: 'ERC721'
+        },
+        status: 'pending',
+        type: 'buy'
+      })
+      toogleVisible(hash)
     }
 
     const changePrice = async (orderId: string, newPrice: string) => {
-      if (!account) {
-        return
-      }
-      if (!library) {
+      if (!account || !library) {
         return
       }
 

@@ -25,7 +25,7 @@ const Images: React.FunctionComponent<{ images?: string[] }> = ({ images }) => {
               <Img
                 style={{
                   width: '100%',
-                  maxHeight: 400,
+                  height: 327,
                   objectFit: 'contain',
                   objectPosition: 'center'
                 }}
