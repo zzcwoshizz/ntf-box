@@ -16,7 +16,10 @@ const BundleList: React.FunctionComponent = () => {
     <>
       <div>
         {tokens?.map((token, index) => (
-          <Card key={index} style={{ width: '100%' }} cover={<Img src={token.images?.[0]} />}>
+          <Card
+            key={index}
+            style={{ width: '100%' }}
+            cover={<Img preview src={token.images?.[0]} />}>
             <Meta
               title={
                 <Link href={`/asset/${token.contractAdd}/${token.tokenId}`}>

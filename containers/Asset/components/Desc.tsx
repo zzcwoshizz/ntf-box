@@ -5,12 +5,11 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import EnableButton from '@/components/Button/EnableButton'
-import Img from '@/components/Img'
+import Jdenticon from '@/components/Jdenticon'
 import BornSvg from '@/icons/icon_born.svg'
 import PriceSvg from '@/icons/icon_price.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
 import { useData } from '../context'
@@ -39,7 +38,7 @@ const Desc: React.FunctionComponent = () => {
               <Divider style={{ margin: '16px 0' }} />
               <div className="name">
                 <Space align="center">
-                  <Img width={32} src={generateAvatar(token.name ?? token.contractAdd)} />
+                  <Jdenticon size={32} value={token.contractAdd} />
                   <b>{token.name ?? shortenAddress(token.contractAdd)}</b>
                   <span>
                     {t('asset.detail.holders')} {holders}

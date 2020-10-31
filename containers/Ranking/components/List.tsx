@@ -11,7 +11,7 @@ import { useData } from '../context'
 const List: React.FunctionComponent = () => {
   const { t } = useLanguage()
 
-  const { ranking } = useData()
+  const { ranking, fetching } = useData()
 
   const columns: ColumnsType<IRanking> = [
     {
@@ -25,7 +25,7 @@ const List: React.FunctionComponent = () => {
       key: 'name',
       render: (_, record) => (
         <Space>
-          <Img src={record.logoUrl} />
+          <Img width={24} src={record.logoUrl} />
           {record.name}
         </Space>
       )
@@ -62,7 +62,9 @@ const List: React.FunctionComponent = () => {
     }
   ]
 
-  return <Table<IRanking> columns={columns} dataSource={ranking} pagination={false} />
+  return (
+    <Table<IRanking> loading={fetching} columns={columns} dataSource={ranking} pagination={false} />
+  )
 }
 
 export default List

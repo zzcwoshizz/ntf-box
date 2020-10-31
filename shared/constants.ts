@@ -8,8 +8,6 @@ export const ERC20_ABI = JSON.parse(
 
 export const SIGN_TEXT = 'Welcome to NftBox!'
 
-export const AVATAR_URL = 'https://robohash.org/'
-
 export const RPC_URLS: Record<number, string> = {
   1: 'https://mainnet.eth.aragon.network',
   4: 'https://rinkeby.eth.aragon.network'

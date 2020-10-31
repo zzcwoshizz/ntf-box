@@ -2,15 +2,15 @@ import { Carousel, Space } from 'antd'
 import React from 'react'
 
 import Img from '@/components/Img'
+import Jdenticon from '@/components/Jdenticon'
 import RightArrow from '@/icons/icon_right.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { generateAvatar } from '@/utils'
 
 import { useData } from '../../context'
 import Content from './Content'
 
-const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string }> = ({
+const Cell: React.FunctionComponent<{ icon: React.ReactNode; name: string; price?: string }> = ({
   icon,
   name,
   price
@@ -22,7 +22,7 @@ const Cell: React.FunctionComponent<{ icon: string; name: string; price?: string
     <>
       <div className="cell">
         <Space>
-          <Img width={40} height={40} style={{ overflow: 'hidden', borderRadius: 20 }} src={icon} />
+          {icon}
           <div>
             <h6>{name}</h6>
             <p>
@@ -102,7 +102,13 @@ const Items: React.FunctionComponent = () => {
             {tokens.map((t, index) => (
               <Cell
                 key={index}
-                icon={t.images?.[0] || generateAvatar(t.contractAdd + t.tokenId)}
+                icon={
+                  t.images?.[0] ? (
+                    <Img preview width={40} height={40} src={t.images[0]} />
+                  ) : (
+                    <Jdenticon size={40} value={t.contractAdd + t.tokenId} />
+                  )
+                }
                 name={t.name || '- -'}
                 price=""
               />

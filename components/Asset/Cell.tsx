@@ -9,8 +9,10 @@ import TotalSvg from '@/icons/icon_total.svg'
 import SelectSvg from '@/icons/icon_xz.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useChain } from '@/shared/providers/ChainProvier'
+import { hex2rgba } from '@/utils/color'
 
 import BlockLeft from '../Chain/BlockLeft'
+import Img from '../Img'
 
 interface Props {
   showSelect?: boolean // 是否显示选择框
@@ -50,7 +52,7 @@ const Cell: React.FunctionComponent<Props> = ({
             <SelectSvg />
           </div>
         )}
-        <img src={asset.tokens?.[0]?.images?.[0]} alt="asset" />
+        <Img src={asset.tokens?.[0]?.images?.[0]} />
         <div className="content">
           <p>
             {asset.tokens?.[0]?.name ?? '- -'}
@@ -122,14 +124,14 @@ const Cell: React.FunctionComponent<Props> = ({
           display: block;
         }
 
-        .cell > img {
+        .cell :global(.ant-image-img) {
           display: block;
           width: 100%;
           height: 141px;
 
           object-fit: contain;
           object-position: center;
-          background-color: ghostwhite;
+          background-color: ${hex2rgba(theme['@primary-color'], 0.06)};
         }
 
         .content {

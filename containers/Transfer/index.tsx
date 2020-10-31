@@ -5,13 +5,12 @@ import { useAsync } from 'react-use'
 
 import EnableButton from '@/components/Button/EnableButton'
 import Header from '@/components/Header'
-import Img from '@/components/Img'
+import Jdenticon from '@/components/Jdenticon'
 import useContainer from '@/shared/hooks/useContainer'
 import useERC721 from '@/shared/hooks/useERC721'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApi } from '@/shared/providers/ApiProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { generateAvatar } from '@/utils'
 
 const { Title } = Typography
 
@@ -38,7 +37,7 @@ const Transfer: React.FunctionComponent = () => {
       <Header />
       <Spin spinning={loading}>
         <div className="container">
-          <Img width={156} src={generateAvatar(token?.contractAdd)} />
+          <Jdenticon size={156} value={token?.contractAdd} />
           <Title>{token?.name}</Title>
           <Form<{ amount?: string; address: string }>
             onValuesChange={(values) => {

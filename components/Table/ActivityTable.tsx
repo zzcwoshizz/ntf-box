@@ -10,9 +10,9 @@ import Img from '@/components/Img'
 import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants'
 import { useActiveWeb3React } from '@/shared/hooks'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
 
+import Jdenticon from '../Jdenticon'
 import TimeLeft from '../TimeLeft'
 
 const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: boolean }> = ({
@@ -72,14 +72,14 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
             {record.orderType === '9' ? null : record.side === 'BUY' ? (
               <Space>
                 <Space>
-                  <Img width={24} src={generateAvatar(record.operator)} />
+                  <Jdenticon size={24} value={record.operator} />
                   <Link href={`/user/${record.operator}/items`}>
                     <a>{shortenAddress(record.operator)}</a>
                   </Link>
                 </Space>
                 {t('activity.buy')}
                 <Space>
-                  <Img width={24} src={generateAvatar(record?.seller)} />
+                  <Jdenticon size={24} value={record?.seller} />
                   <Link href={`/user/${record?.seller}/items`}>
                     <a>{shortenAddress(record?.seller)}</a>
                   </Link>
@@ -88,7 +88,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
             ) : (
               <Space>
                 <Space>
-                  <Img width={24} src={generateAvatar(record.operator)} />
+                  <Jdenticon size={24} value={record.operator} />
                   <Link href={`/user/${record.operator}/items`}>
                     <a>{shortenAddress(record.operator)}</a>
                   </Link>

@@ -9,6 +9,7 @@ import Telegram from '@/icons/telegram.svg'
 import Twitter from '@/icons/twitter.svg'
 import useContainer from '@/shared/hooks/useContainer'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { hex2rgba } from '@/utils/color'
 
 const { Title } = Typography
 
@@ -110,7 +111,7 @@ const Footer: React.FunctionComponent = () => {
         }
 
         a {
-          color: rgba(255, 255, 255, 0.5);
+          color: ${hex2rgba('#fff', 0.5)};
           font-size: 12px;
         }
 

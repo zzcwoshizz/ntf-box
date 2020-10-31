@@ -4,8 +4,7 @@ import Link from 'next/link'
 import React from 'react'
 
 import EnableButton from '@/components/Button/EnableButton'
-import Img from '@/components/Img'
-import { generateAvatar } from '@/utils'
+import Jdenticon from '@/components/Jdenticon'
 import { shortenAddress } from '@/utils/string'
 
 import { useData } from '../context'
@@ -21,7 +20,7 @@ const Info: React.FunctionComponent = () => {
             <Link href={`/user/${asset?.operator}`}>
               <a>
                 <Space>
-                  <Img width={24} src={generateAvatar(asset?.operator)} />
+                  <Jdenticon size={24} value={asset?.operator} />
                   {shortenAddress(asset?.operator)}
                 </Space>
               </a>

@@ -1,6 +1,7 @@
 import { Carousel, Typography } from 'antd'
 import React from 'react'
 
+import GLTF from '@/components/GLTF'
 import Img from '@/components/Img'
 import useTheme from '@/shared/hooks/useTheme'
 
@@ -16,23 +17,20 @@ const Images: React.FunctionComponent<{ images?: string[] }> = ({ images }) => {
       <div className="container">
         <Carousel
           effect="fade"
-          autoplay
+          autoplay={false}
           afterChange={(num) => {
             setCurrent(num)
           }}>
-          {images?.map((image, index) => (
-            <div key={index}>
-              <Img
-                style={{
-                  width: '100%',
-                  height: 327,
-                  objectFit: 'contain',
-                  objectPosition: 'center'
-                }}
-                src={image}
-              />
-            </div>
-          ))}
+          {images?.map((image, index) => {
+            const extension = image.substring(image.lastIndexOf('.') + 1)
+
+            return (
+              <div key={index}>
+                {extension !== 'gltf' && <Img height={400} src={image} fit="contain" preview />}
+                {extension === 'gltf' && <GLTF height={400} url={image} />}
+              </div>
+            )
+          })}
         </Carousel>
         <span className="progress">
           <Text>

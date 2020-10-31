@@ -6,9 +6,9 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { ITokenOwner } from '@/api/types'
-import Img from '@/components/Img'
-import { generateAvatar } from '@/utils'
 import { shortenAddress } from '@/utils/string'
+
+import Jdenticon from '../Jdenticon'
 
 const TokenOwnerTable: React.FunctionComponent<{
   data: ITokenOwner[]
@@ -24,7 +24,7 @@ const TokenOwnerTable: React.FunctionComponent<{
       key: 'userName',
       render: (value, record) => (
         <Space>
-          <Img width={24} src={generateAvatar(value)} />
+          <Jdenticon size={24} value={record.owner} />
           {value ?? shortenAddress(record.owner)}
         </Space>
       )
