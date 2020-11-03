@@ -28,7 +28,7 @@ const Items: React.FunctionComponent = () => {
                 <Filter />
               </div>
               <div className="right">
-                <AssetContent />
+                <AssetContent showHead={false} />
               </div>
             </div>
           </AssetProvider>

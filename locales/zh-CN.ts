@@ -29,26 +29,27 @@ export default {
     ranking: '排行榜列表'
   },
   home: {
-    title: 'Decentralized and heterogeneous asset trading platform',
-    desc: 'Secondary title text introduction text introduction text introduction',
+    title: '去中心化非同质化资产交易平台',
+    desc: '致力于成为一个高效便捷的非同质化资产交易平台',
     buyNow: '立即购买',
     subscribe: '订阅',
     hot: '热门',
     newest: '最新',
     intro: {
-      title: 'Introduce the original intention and vision of the platform',
-      desc: 'You should know how much wealth you idle. You should know how much wealth you idle.'
+      title: 'Finannel建立的初衷和的愿景',
+      desc:
+        'Finannel这个名字的由来，是取自于Finance和Channel。寓意也希望非同质化的概念被更多的人了解、使用、甚至普及给更多的人。NFT存在可以便捷我们的生活，现在我们只是迈出了一小步，会通过不断的探索与创新，让愿景不再只是愿景.'
     },
     help: {
-      title: 'Novice help - help you solve problems faster',
-      desc: 'You should know how much wealth you have left unused',
-      placeholder: '请输入关键字，获得帮助',
-      submit: 'Ask for help'
+      title: '新手帮助，帮助您更快的解决问题',
+      desc: '搜索您想询问的关键字，我们会为您匹配相关的答案',
+      placeholder: '为什么我需要支付gas',
+      submit: '寻求帮助'
     }
   },
   asset: {
     filter: {
-      title: 'DAPP Set'
+      title: 'DAPP集合'
     },
     content: {
       title: '所有物品',
@@ -74,13 +75,13 @@ export default {
     types: {
       HOT: '热门',
       NEW: '最新',
-      VIRTUAL_WORLDS: '虚拟现实',
-      DOMAIN_NAMES: '域名',
-      BLOCKCHAIN_ART: 'Blockchain art',
-      TRADING_CARDS: 'Trading cards',
-      COLLECTIBLES: 'Collectibles',
-      SPORTS: 'Sports',
-      UTILITY: 'Utility',
+      VIRTUAL_WORLDS: '虚拟世界',
+      DOMAIN_NAMES: '网站域名',
+      BLOCKCHAIN_ART: '数字艺术',
+      TRADING_CARDS: '卡牌交易',
+      COLLECTIBLES: '收藏品',
+      SPORTS: '体育',
+      UTILITY: '实用',
       GAME: '游戏'
     },
     detail: {
@@ -126,11 +127,10 @@ export default {
       count: '{count} 个',
       price: '价格',
       end: '结束区块',
-      endDesc: 'The deal / Self removal is the end',
+      endDesc: '成交 / 下架 视为结束',
       submit: '确定并发布',
       tipTitle: '手续费',
-      tipHtml:
-        'The goods on the shelves are free.<br />For purchase or auction, the platform charges 1.5% commission'
+      tipHtml: '上架商品是免费的。.<br />购买或者拍卖，平台收取1.5%的手续费。'
     }
   },
   ranking: {
@@ -169,11 +169,11 @@ export default {
       inputName: '请输入您的昵称'
     },
     setUp: '设置',
-    emailDesc: 'Exception alert, subscribe to the latest news, etc',
-    nameDesc: 'Convenient for transaction inquiry',
+    emailDesc: '方便给您交易提醒，订阅最新消息',
+    nameDesc: '拥有独特的昵称，更方便交易查询',
     subscribe: '订阅',
-    reminder: 'New reminder',
-    security: 'Security information'
+    reminder: '上新提醒',
+    security: '交易提醒'
   },
   project: {
     projectData: {
@@ -183,7 +183,9 @@ export default {
     },
     projectInfo: {
       website: '官网',
-      intro: '简介'
+      intro: '简介',
+      ranking: '排行',
+      category: '分类'
     }
   }
 }

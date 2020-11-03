@@ -14,6 +14,7 @@ const Filter: React.FunctionComponent = () => {
       <ProjectFilter
         projects={projects}
         project={project}
+        showHead={false}
         onSelectProject={(project) => {
           if (project) {
             toogleFilter({ ...filter, id: project.id, name: project.name })

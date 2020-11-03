@@ -12,9 +12,14 @@ import { useConstants } from '@/shared/providers/ConstantsProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { useProject } from '@/shared/providers/ProjectProvider'
 
+import Img from '../Img'
+
 const { Option } = Select
 
-const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect = false }) => {
+const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean }> = ({
+  canSelect = false,
+  showHead = true
+}) => {
   const theme = useTheme()
   const [selected, setSelected] = React.useState<number[]>([])
   const router = useRouter()
@@ -39,15 +44,24 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
   return (
     <>
       <div className="container">
-        <div className="head">
-          <h4>{t('asset.content.title')}</h4>
-          <p>{t('asset.content.title', { count: page.total })}</p>
-          {project && (
-            <div className="right">
-              <ProjectInfo project={project} />
+        {showHead && (
+          <div className="head">
+            <div className="left">
+              <Space>
+                {project && <Img width={36} height={36} src={project.logoUrl} />}
+                <span>
+                  <h4>{project ? project.name : t('asset.content.title')}</h4>
+                  <p>{t('asset.content.desc', { count: page.total })}</p>
+                </span>
+              </Space>
             </div>
-          )}
-        </div>
+            {project && (
+              <div className="right">
+                <ProjectInfo project={project} />
+              </div>
+            )}
+          </div>
+        )}
         <div className="select">
           <Row>
             <Col xs={{ span: 12 }} lg={{ span: 8 }} style={{ paddingRight: 16 }}>
@@ -167,7 +181,6 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
       <style jsx>{`
         .container {
           width: 100%;
-          height: 605px;
           border: 1px solid ${theme['@border-color-base']};
           background-color: #fff;
           border-radius: 4px;
@@ -179,14 +192,14 @@ const Content: React.FunctionComponent<{ canSelect?: boolean }> = ({ canSelect =
 
           box-shadow: 0px 2px 8px 0px rgba(60, 77, 111, 0.1);
         }
-        .head > h4 {
+        .head > .left h4 {
           margin: 0;
           font-size: 20px;
           font-weight: 500;
           color: ${theme['@text-color']};
           line-height: 25px;
         }
-        .head > p {
+        .head > .left p {
           margin: 4px 0 0 0;
           font-size: 12px;
           color: ${theme['@text-color-tertiary']};

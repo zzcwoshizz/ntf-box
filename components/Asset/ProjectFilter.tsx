@@ -61,6 +61,7 @@ export interface Props {
   projects: IProject[]
   project?: IProject
   showItemExtra?: boolean
+  showHead?: boolean
   onSelectProject?(project?: IProject): void
   renderDetail?(): React.ReactNode
 }
@@ -69,21 +70,32 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
   projects,
   project,
   showItemExtra = true,
+  showHead = true,
   onSelectProject,
   renderDetail
 }) => {
   const theme = useTheme()
   const { t } = useLanguage()
 
+  const [search, setSearch] = React.useState('')
+
+  const filterdProjects = React.useMemo(
+    () =>
+      projects.filter((project) => project.name.toUpperCase().indexOf(search.toUpperCase()) > -1),
+    [search, projects]
+  )
+
   return (
     <>
       <div className="container">
-        <div className="title">
-          <Space>
-            <FhWhiteSvg />
-            {t('asset.filter.title')}
-          </Space>
-        </div>
+        {showHead && (
+          <div className="head">
+            <Space>
+              <FhWhiteSvg />
+              {t('asset.filter.title')}
+            </Space>
+          </div>
+        )}
         <div className="search">
           <Input
             prefix={project ? <Img width={16} src={project.logoUrl} /> : <SearchSvg />}
@@ -93,7 +105,12 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
                 <CloseSvg style={{ cursor: 'pointer' }} onClick={() => onSelectProject?.()} />
               )
             }
-            value={project?.name}
+            value={project?.name ?? search}
+            onChange={(e) => {
+              if (!project?.name) {
+                setSearch(e.target.value)
+              }
+            }}
           />
         </div>
         <div className="list">
@@ -101,7 +118,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
             renderDetail?.()
           ) : (
             <PerfectScrollbar style={{ height: '100%' }}>
-              {projects.map((project, index) => (
+              {filterdProjects.map((project, index) => (
                 <Link
                   as={{ pathname: '/market', query: { id: project.id, name: project.name } }}
                   href="/market"
@@ -126,7 +143,6 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
       <style jsx>{`
         .container {
           width: 240px;
-          height: 605px;
           border: 1px solid ${theme['@border-color-base']};
 
           background: #ffffff;
@@ -136,7 +152,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
           overflow: hidden;
         }
 
-        .title {
+        .head {
           display: flex;
           align-items: center;
           height: 55px;

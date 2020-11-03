@@ -58,7 +58,8 @@ const List: React.FunctionComponent = () => {
     {
       title: t('ranking.columns.rate'),
       key: 'turnoverRate',
-      dataIndex: 'turnoverRate'
+      dataIndex: 'turnoverRate',
+      render: (_, record) => (record.turnoverRate * 100).toFixed(2) + '%'
     }
   ]
 

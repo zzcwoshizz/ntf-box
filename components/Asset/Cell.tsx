@@ -58,11 +58,11 @@ const Cell: React.FunctionComponent<Props> = ({
             {asset.tokens?.[0]?.name ?? '- -'}
             <span>
               <TotalSvg />
-              <label style={{ marginLeft: 4 }}>{asset.tokens.length}</label>
+              <label style={{ marginLeft: 4 }}>{asset.num}</label>
             </span>
           </p>
           <Tooltip title={asset.tokens?.[0].des ?? '--'}>
-            <h6>{asset.tokens?.[0].des ?? '--'}</h6>
+            <h6>{asset.tokens?.[0].name ?? '--'}</h6>
           </Tooltip>
           <div className="detail">
             {asset.dealPrice && (

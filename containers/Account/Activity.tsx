@@ -3,6 +3,7 @@ import React from 'react'
 import { ActivityContent } from '@/components/Activity'
 import { injected } from '@/connectors'
 import { useActiveWeb3React } from '@/shared/hooks'
+import useAutoLogin from '@/shared/hooks/useAutoLogin'
 import useContainer from '@/shared/hooks/useContainer'
 import { ActivityProvider } from '@/shared/providers/ActivityProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
@@ -18,6 +19,7 @@ const Activity: React.FunctionComponent = () => {
       activate(injected)
     }
   }, [active])
+  useAutoLogin()
 
   return (
     <>
@@ -29,7 +31,7 @@ const Activity: React.FunctionComponent = () => {
                 <Filter />
               </div>
               <div className="right">
-                <ActivityContent />
+                <ActivityContent showHead={false} />
               </div>
             </div>
           </ActivityProvider>

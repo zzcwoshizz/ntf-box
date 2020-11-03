@@ -67,6 +67,7 @@ export interface IToken {
   birth?: string
   type: 'ERC1155' | 'ERC721'
   projectDO?: IProject
+  owner?: boolean
 }
 
 export interface IAsset {
@@ -77,6 +78,7 @@ export interface IAsset {
   orderType: string
   tokens: IToken[]
   viewNum: number
+  num: number
 }
 
 export interface PageParam {
@@ -105,6 +107,7 @@ export interface IProject {
   avgPrice?: string
   owners?: string
   total?: string
+  ranking?: number
 }
 
 export type AssetType =
@@ -163,6 +166,7 @@ export interface IActivity {
 }
 
 export interface INetActivity {
+  time: string
   contractAdd: string
   data: string
   fromAdd: string

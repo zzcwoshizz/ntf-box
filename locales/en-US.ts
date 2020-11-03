@@ -183,7 +183,9 @@ export default {
     },
     projectInfo: {
       website: 'Website',
-      intro: 'Intro'
+      intro: 'Intro',
+      ranking: 'Ranking',
+      category: 'Category'
     }
   }
 }

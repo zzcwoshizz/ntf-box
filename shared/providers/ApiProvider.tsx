@@ -35,8 +35,6 @@ if (process.env.NODE_ENV === 'development') {
   baseURL = process.browser ? '/api' : API_URL
 }
 
-let loginLoading = false
-
 const apiContext = React.createContext<{
   api: Api
   token?: string
@@ -52,7 +50,7 @@ const ApiProvider: React.FunctionComponent = ({ children }) => {
       timeout: 30000,
       headers: {
         jwt: token ?? '',
-        lan: lang
+        lan: lang === 'zh-CN' ? 'zh' : 'en'
       }
     })
     return api
@@ -65,12 +63,11 @@ const useApi = () => {
   const { api, token, setToken } = React.useContext(apiContext)
   const { library, account } = useActiveWeb3React()
 
-  const login = async () => {
+  const login = React.useCallback(async () => {
     if (!library || !account) {
       return
     }
 
-    loginLoading = true
     const signature = (await library.getSigner(account).signMessage(SIGN_TEXT)) ?? ''
     return await api
       .post<IResponse<string>>('/login', {
@@ -83,20 +80,7 @@ const useApi = () => {
         setToken(data.data)
         return data
       })
-      .finally(() => {
-        loginLoading = false
-      })
-  }
-
-  React.useEffect(() => {
-    if (token) {
-      return
-    }
-    if (loginLoading) {
-      return
-    }
-    login()
-  }, [account, library, token])
+  }, [library, account, setToken, api])
 
   return {
     api,

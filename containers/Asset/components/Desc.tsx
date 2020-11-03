@@ -45,7 +45,12 @@ const Desc: React.FunctionComponent = () => {
                   </span>
                 </Space>
               </div>
-              <div className="intro">{token.des}</div>
+              {token.type === 'ERC721' && (
+                <p>
+                  {t('asset.detail.holders')}: {token.owner}
+                </p>
+              )}
+              {token.des && <div className="intro">{token.des}</div>}
               {asset && (
                 <div className="price">
                   <Space align="center">
@@ -109,7 +114,7 @@ const Desc: React.FunctionComponent = () => {
                   )}
                 </div>
               )}
-              {!isMine && (
+              {!isMine && asset && (
                 <div className="form">
                   <EnableButton
                     style={{ marginTop: 16 }}

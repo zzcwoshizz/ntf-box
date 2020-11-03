@@ -3,9 +3,11 @@ import React from 'react'
 
 import { IAsset } from '@/api/types'
 import { AssetCell, AssetContainer } from '@/components/Asset'
+// import EnableButton from '@/components/Button/EnableButton'
 import MoreLink from '@/components/Link/MoreLink'
 import HotSvg from '@/icons/icon_hot.svg'
 import NewSvg from '@/icons/icon_new.svg'
+// import useMarket from '@/shared/hooks/useMarket'
 import { useApi } from '@/shared/providers/ApiProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 
@@ -20,6 +22,9 @@ const Home: React.FunctionComponent = () => {
   const [hot, setHot] = React.useState<IAsset[]>([])
   const [latest, setLatest] = React.useState<IAsset[]>([])
   const { t } = useLanguage()
+  // const { buy } = useMarket([
+  //   { contractAdd: '0x556B133528D01499E12F97821025a1d15617c301', tokenId: '1', type: 'ERC721' }
+  // ])
 
   React.useEffect(() => {
     getHotGoods().then((res) => {
@@ -40,6 +45,12 @@ const Home: React.FunctionComponent = () => {
 
   return (
     <div className="container">
+      {/* <EnableButton
+        onClick={() => {
+          buy('520960623677550592')
+        }}>
+        Buy
+      </EnableButton> */}
       <Hero />
       <div className="list">
         <AssetList

@@ -98,8 +98,12 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
 
         library
           ?.waitForTransaction(transaction.transactionHash)
-          .then(() => {
-            status = 'success'
+          .then((result) => {
+            if (result.status === 1) {
+              status = 'success'
+            } else {
+              status = 'fail'
+            }
           })
           .catch(() => {
             status = 'fail'
@@ -112,7 +116,7 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
                   return _transaction.transactionHash === transaction.transactionHash
                     ? {
                         ..._transaction,
-                        status: 'success'
+                        status
                       }
                     : {
                         ..._transaction
@@ -203,11 +207,18 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
               {visibleTransaction.status === 'fail' && '转赠失败'}
             </>
           )}
+          {visibleTransaction?.type === 'approve' && (
+            <>
+              {visibleTransaction.status === 'pending' && 'Approving'}
+              {visibleTransaction.status === 'success' && 'Approved'}
+              {visibleTransaction.status === 'fail' && 'Approve fail'}
+            </>
+          )}
         </Title>
         <span className="txid">
           Txid:{' '}
           <a
-            href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID]}
+            href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID] + '/tx/' + visibleHash}
             target="_blank"
             rel="noopener noreferrer">
             {visibleTransaction?.transactionHash}

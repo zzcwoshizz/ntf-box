@@ -8,6 +8,7 @@ import { useApi } from '@/shared/providers/ApiProvider'
 import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import {
+  ApproveTransactionInfo,
   BuyTransactionInfo,
   TransferTransactionInfo,
   useTransaction
@@ -15,6 +16,7 @@ import {
 import { shortenAddress } from '@/utils/string'
 
 import EnableButton from '../Button/EnableButton'
+import Jdenticon from '../Jdenticon'
 
 const Transaction: React.FunctionComponent = () => {
   const { user } = useApp()
@@ -32,7 +34,7 @@ const Transaction: React.FunctionComponent = () => {
   const userMenu = (
     <Menu className="account-dropdown">
       {pendingTransaction.length > 0 && (
-        <Menu.ItemGroup key="buy" title={<div className="title">Buy</div>}>
+        <Menu.ItemGroup key="transaction" title={<div className="title">Transaction</div>}>
           {pendingTransaction.map((transaction) => {
             return (
               <Menu.Item
@@ -63,6 +65,23 @@ const Transaction: React.FunctionComponent = () => {
                       Buy{' '}
                       {(transaction as BuyTransactionInfo).token.name ||
                         shortenAddress((transaction as BuyTransactionInfo).token.contractAdd)}
+                    </span>
+                    <Tag
+                      color={
+                        transaction.status === 'success'
+                          ? 'success'
+                          : transaction.status === 'fail'
+                          ? 'error'
+                          : 'blue'
+                      }>
+                      {transaction.status}
+                    </Tag>
+                  </Space>
+                )}
+                {transaction.type === 'approve' && (
+                  <Space>
+                    <span>
+                      Approve to {shortenAddress((transaction as ApproveTransactionInfo).to)}
                     </span>
                     <Tag
                       color={
@@ -124,14 +143,25 @@ const Transaction: React.FunctionComponent = () => {
               icon={pending > 0 ? <LoadingOutlined /> : null}>
               {pending === 0 && (
                 <>
-                  {user.nickName ?? shortenAddress(user.address)} <DownOutlined />
+                  {user.nickName ? (
+                    <Space>
+                      <Jdenticon size={24} value={user.nickName} />
+                      {user.nickName}
+                      <DownOutlined />
+                    </Space>
+                  ) : (
+                    <>
+                      {shortenAddress(user.address)}
+                      <DownOutlined />
+                    </>
+                  )}
                 </>
               )}
               {pending > 0 && pending + ' Pending'}
             </Button>
           </Dropdown>
         ) : (
-          <EnableButton type="text" onClick={login}>
+          <EnableButton type="link" onClick={login}>
             {t('header.myAccount')}
           </EnableButton>
         )}

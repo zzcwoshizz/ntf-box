@@ -13,7 +13,7 @@ import { useProject } from '@/shared/providers/ProjectProvider'
 const { Option } = Select
 const { Text } = Typography
 
-const Content: React.FunctionComponent = () => {
+const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = true }) => {
   const theme = useTheme()
   const { t } = useLanguage()
   const { project } = useProject()
@@ -24,9 +24,11 @@ const Content: React.FunctionComponent = () => {
   return (
     <>
       <div className="container">
-        <div className="head">
-          <h4>{project ? project.name : 'Real time activity recording'}</h4>
-        </div>
+        {showHead && (
+          <div className="head">
+            <h4>{project ? project.name : 'Real time activity recording'}</h4>
+          </div>
+        )}
         <div className="select">
           <Row align="middle">
             <Col span={8} style={{ paddingRight: 16 }}>
@@ -65,7 +67,6 @@ const Content: React.FunctionComponent = () => {
       <style jsx>{`
         .container {
           width: 100%;
-          height: 605px;
           border: 1px solid ${theme['@border-color-base']};
           background-color: #fff;
           border-radius: 4px;

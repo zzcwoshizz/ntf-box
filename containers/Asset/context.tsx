@@ -7,7 +7,6 @@ import { useActiveWeb3React } from '@/shared/hooks'
 import { useList } from '@/shared/hooks/useList'
 import useMarket from '@/shared/hooks/useMarket'
 import { useApi } from '@/shared/providers/ApiProvider'
-import { isEqualIgnoreCase } from '@/utils/string'
 
 const dataContext = React.createContext<{
   asset?: IAsset
@@ -148,10 +147,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   }
 
   // 是否是本人物品
-  let isMine = isEqualIgnoreCase(asset?.operator, account + '')
-  state.list.forEach((token) => {
-    isMine = isEqualIgnoreCase(token.owner, account + '')
-  })
+  const isMine = token.owner ?? false
 
   const changePrice = async (price: string) => {
     if (!account) {

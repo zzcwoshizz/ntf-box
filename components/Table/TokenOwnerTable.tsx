@@ -2,6 +2,7 @@ import { Button, Space, Table } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
 import { utils } from 'ethers'
 import moment from 'moment'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -19,14 +20,18 @@ const TokenOwnerTable: React.FunctionComponent<{
 
   const columns: ColumnsType<ITokenOwner> = [
     {
-      title: 'Token',
+      title: 'Owner',
       dataIndex: 'userName',
       key: 'userName',
       render: (value, record) => (
-        <Space>
-          <Jdenticon size={24} value={record.owner} />
-          {value ?? shortenAddress(record.owner)}
-        </Space>
+        <Link href={`/user/${record.owner}/items`}>
+          <a>
+            <Space>
+              <Jdenticon size={24} value={record.owner} />
+              {value ?? shortenAddress(record.owner)}
+            </Space>
+          </a>
+        </Link>
       )
     },
     {

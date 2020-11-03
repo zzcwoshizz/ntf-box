@@ -4,6 +4,7 @@ import React from 'react'
 import { AssetContent } from '@/components/Asset'
 import { injected } from '@/connectors'
 import { useActiveWeb3React } from '@/shared/hooks'
+import useAutoLogin from '@/shared/hooks/useAutoLogin'
 import useContainer from '@/shared/hooks/useContainer'
 import { AssetProvider } from '@/shared/providers/AssetProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
@@ -19,6 +20,7 @@ const Items: React.FunctionComponent = () => {
       activate(injected)
     }
   }, [active])
+  useAutoLogin()
 
   const { query } = useRouter()
 
@@ -32,7 +34,7 @@ const Items: React.FunctionComponent = () => {
                 <Filter />
               </div>
               <div className="right">
-                <AssetContent canSelect={!!query.selType} />
+                <AssetContent canSelect={!!query.selType} showHead={false} />
               </div>
             </div>
           </AssetProvider>

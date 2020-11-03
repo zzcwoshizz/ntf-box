@@ -1,4 +1,4 @@
-import { Contract } from 'ethers'
+import { Contract, utils } from 'ethers'
 import React from 'react'
 
 import { IToken } from '@/api/types'
@@ -48,7 +48,7 @@ const useMarket = (tokens: IToken[]) => {
         const { isApprovedForAll, setApprovalForAll } = erc721.getMethods(token.contractAdd)
         const approved = await isApprovedForAll(MARKET_ADDRESS[chainId])
 
-        if (!approved) {
+        if (approved) {
           await setApprovalForAll(MARKET_ADDRESS[chainId])
         }
       }
@@ -66,11 +66,10 @@ const useMarket = (tokens: IToken[]) => {
 
       const signature = await library.getSigner().signMessage(data.orderHash)
 
-      if (!signature)
-        await verifyOrder({
-          orderId: data.orderId,
-          signature
-        })
+      await verifyOrder({
+        orderId: data.orderId,
+        signature
+      })
 
       return data.orderId
     }
@@ -85,11 +84,11 @@ const useMarket = (tokens: IToken[]) => {
       }
 
       const { data } = await buyApi(orderId)
-      const r = ('0x' + data.sign).slice(0, 66)
-      const s = '0x' + ('0x' + data.sign).slice(66, 130)
-      const v = '0x' + ('0x' + data.sign).slice(130, 132)
+      const r = data.sign.slice(0, 64)
+      const s = data.sign.slice(64, 128)
+      const v = data.sign.slice(128, 130)
 
-      const hash = await market.functions.dealOrder(
+      const { hash } = await market.functions.dealOrder(
         data.orderId,
         data.entrustInfos.map((d: any) => d.contractAdd),
         [data.buyer, data.seller],
@@ -99,10 +98,17 @@ const useMarket = (tokens: IToken[]) => {
         [data.platformFee + '', '0', '0'],
         data.createHeight,
         data.orderType,
-        v,
-        r,
-        s,
-        { value: data.dealPrice }
+        [
+          '0x' +
+            Array.from({ length: 64 - v.length })
+              .map(() => '0')
+              .join('') +
+            v,
+          '0x' + r,
+          '0x' + s
+        ],
+        data.transferFuncEncodes,
+        { value: data.dealPrice, gasLimit: 10000000 }
       )
       addBuyTransaction({
         transactionHash: hash,

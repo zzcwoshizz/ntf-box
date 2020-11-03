@@ -28,7 +28,7 @@ const Activity: React.FunctionComponent = () => {
                 <Filter />
               </div>
               <div className="right">
-                <ActivityContent />
+                <ActivityContent showHead={false} />
               </div>
             </div>
           </ActivityProvider>

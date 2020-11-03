@@ -58,22 +58,26 @@ const Infos: React.FunctionComponent = () => {
               onChange={(key) => {
                 window.location.hash = '#' + key
               }}>
-              <TabPane tab={t('asset.detail.holdAddress')} key="asset-hold-address" />
+              {token.type === 'ERC1155' && (
+                <TabPane tab={t('asset.detail.holdAddress')} key="asset-hold-address" />
+              )}
               <TabPane tab={t('asset.detail.features')} key="asset-features" />
               <TabPane tab={t('asset.detail.activityRecord')} key="asset-activity-record" />
             </Tabs>
           </div>
-          <div className="content" id="asset-hold-address">
-            <Title icon={<ActivitySvg />}>{t('asset.detail.holdAddress')}</Title>
-            <TokenOwnerTable address={token.contractAdd} data={tokenOwner} />
-            {hasMoreTokenOwner && (
-              <Button
-                style={{ display: 'block', margin: '24px auto 0 auto' }}
-                onClick={loadMoreTokenOwner}>
-                {t('asset.detail.more')}
-              </Button>
-            )}
-          </div>
+          {token.type === 'ERC1155' && (
+            <div className="content" id="asset-hold-address">
+              <Title icon={<ActivitySvg />}>{t('asset.detail.holdAddress')}</Title>
+              <TokenOwnerTable address={token.contractAdd} data={tokenOwner} />
+              {hasMoreTokenOwner && (
+                <Button
+                  style={{ display: 'block', margin: '24px auto 0 auto' }}
+                  onClick={loadMoreTokenOwner}>
+                  {t('asset.detail.more')}
+                </Button>
+              )}
+            </div>
+          )}
           <div className="content" id="asset-features">
             <Title icon={<ActivitySvg />}>{t('asset.detail.features')}</Title>
             <Features token={token} />

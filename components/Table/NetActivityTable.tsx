@@ -24,8 +24,8 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
   const columns: ColumnsType<INetActivity> = [
     {
       title: t('activity.columns.time'),
-      dataIndex: 'createTime',
-      key: 'createTime',
+      dataIndex: 'time',
+      key: 'time',
       render: (value) => (
         <>
           <TimeLeft left={Date.now() - moment(value).valueOf()} /> ago

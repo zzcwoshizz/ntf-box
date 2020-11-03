@@ -4,6 +4,7 @@ import React from 'react'
 import { injected } from '@/connectors'
 import FhSvg from '@/icons/icon_fh.svg'
 import { useActiveWeb3React } from '@/shared/hooks'
+import useAutoLogin from '@/shared/hooks/useAutoLogin'
 import useContainer from '@/shared/hooks/useContainer'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApp } from '@/shared/providers/AppProvider'
@@ -27,6 +28,7 @@ const Setting: React.FunctionComponent = () => {
       activate(injected)
     }
   }, [active])
+  useAutoLogin()
 
   return (
     <>

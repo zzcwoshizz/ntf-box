@@ -107,6 +107,7 @@ const Features: React.FunctionComponent<{ token: IToken; size?: number }> = ({
           font-size: 14px;
           color: ${theme['@text-color']};
           line-height: 14px;
+          word-break: break-all;
         }
       `}</style>
     </>
