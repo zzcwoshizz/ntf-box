@@ -1,6 +1,6 @@
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 import React from 'react'
-import { useAsync, useAsyncRetry } from 'react-use'
+import { useAsync } from 'react-use'
 
 import { IUser, IUserPayload } from '@/api/types'
 
@@ -12,6 +12,7 @@ const appContext = React.createContext<{
   balance: string
   provider: JsonRpcProvider
   user?: IUser
+  logged: boolean
   toogleUserInfo(payload: IUserPayload): Promise<void>
 }>({} as any)
 
@@ -31,21 +32,31 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
     return (await library.getBalance(account))?.toString()
   }, [account, library])
 
-  // 用户信息
-  const { value: user, retry } = useAsyncRetry(async () => {
-    if (account && token) {
-      const { data } = await getUser({ address: account })
-      if (data.address !== account) {
-        return
-      }
-      return data
+  const [user, setUser] = React.useState<IUser>()
+  const getUserInfo = React.useCallback(() => {
+    if (account) {
+      setTimeout(() => {
+        getUser({ address: account }).then(({ data }) => {
+          if (data.address === account) {
+            setUser(data)
+          }
+        })
+      }, 0)
     }
-  }, [account, token])
+  }, [token, account])
+  React.useEffect(() => {
+    getUserInfo()
+  }, [account, getUserInfo])
+  React.useEffect(() => {
+    if (account !== user?.address) {
+      setUser(undefined)
+    }
+  }, [account, user])
 
   useEagerConnect()
 
   const toogleUserInfo = async (payload: IUserPayload) => {
-    if (account && token) {
+    if (account) {
       await putUser({
         email: user?.email,
         newAlert: user?.newAlert,
@@ -53,7 +64,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         userName: user?.nickName,
         ...payload
       })
-      retry()
+      getUserInfo()
     }
   }
 
@@ -63,6 +74,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         balance,
         provider,
         user,
+        logged: user?.address === account,
         toogleUserInfo
       }}>
       {children}

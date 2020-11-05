@@ -1,7 +1,7 @@
 import { Form, Space, Typography } from 'antd'
 import React from 'react'
 
-import EnableButton from '@/components/Button/EnableButton'
+import ApproveButton from '@/components/Button/ApproveButton'
 import FhSvg from '@/icons/icon_fh.svg'
 import useTheme from '@/shared/hooks/useTheme'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
@@ -39,14 +39,15 @@ const Preview: React.FunctionComponent = () => {
           </div>
         </div>
         <Form.Item>
-          <EnableButton
+          <ApproveButton
             type="primary"
             size="large"
             htmlType="submit"
+            tokens={tokens}
             loading={loading}
             disabled={disabled}>
             {t('publish.preview.submit')}
-          </EnableButton>
+          </ApproveButton>
         </Form.Item>
         <div className="tip">
           <Title level={5}>{t('publish.preview.tipTitle')}:</Title>

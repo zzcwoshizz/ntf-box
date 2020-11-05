@@ -41,18 +41,25 @@ const transactionContext = React.createContext<{
 }>({} as any)
 
 const TransactionProvider: React.FunctionComponent = ({ children }) => {
-  const { library, chainId } = useActiveWeb3React()
+  const { library, chainId, account } = useActiveWeb3React()
+  const prefix = React.useMemo(() => {
+    if (chainId && account) {
+      return account + ':' + chainId + ':'
+    } else {
+      return ''
+    }
+  }, [account, chainId])
 
   const [buyTransaction = [], setBuyTransaction] = useCache<BuyTransactionInfo[]>(
-    'buyTransaction',
+    prefix + 'buyTransaction',
     []
   )
   const [transferTransaction = [], setTransferTransaction] = useCache<TransferTransactionInfo[]>(
-    'transferTransaction',
+    prefix + 'transferTransaction',
     []
   )
   const [approveTransaction = [], setApproveTransaction] = useCache<ApproveTransactionInfo[]>(
-    'approveTransaction',
+    prefix + 'approveTransaction',
     []
   )
   const allTransaction = React.useMemo(() => {
@@ -86,9 +93,12 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [allTransaction, visibleHash])
 
-  const toogleVisible = (hash?: string) => {
-    setVisibleHash(hash)
-  }
+  const toogleVisible = React.useCallback(
+    (hash?: string) => {
+      setVisibleHash(hash)
+    },
+    [setVisibleHash]
+  )
 
   React.useEffect(() => {
     const hashs = allTransactionRef.current
@@ -165,15 +175,24 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [library, allTransaction])
 
-  const addBuyTransaction = (transaction: BuyTransactionInfo) => {
-    setBuyTransaction([...buyTransactionRef.current, transaction])
-  }
-  const addTransferTransaction = (transaction: TransferTransactionInfo) => {
-    setTransferTransaction([...transferTransactionRef.current, transaction])
-  }
-  const addApproveTransaction = (transaction: ApproveTransactionInfo) => {
-    setApproveTransaction([...approveTransactionRef.current, transaction])
-  }
+  const addBuyTransaction = React.useCallback(
+    (transaction: BuyTransactionInfo) => {
+      setBuyTransaction([...buyTransactionRef.current, transaction])
+    },
+    [setBuyTransaction, buyTransactionRef.current]
+  )
+  const addTransferTransaction = React.useCallback(
+    (transaction: TransferTransactionInfo) => {
+      setTransferTransaction([...transferTransactionRef.current, transaction])
+    },
+    [setTransferTransaction, transferTransactionRef.current]
+  )
+  const addApproveTransaction = React.useCallback(
+    (transaction: ApproveTransactionInfo) => {
+      setApproveTransaction([...approveTransactionRef.current, transaction])
+    },
+    [setApproveTransaction, approveTransactionRef.current]
+  )
 
   return (
     <transactionContext.Provider

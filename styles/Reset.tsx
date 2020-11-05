@@ -13,6 +13,16 @@ const ResetCss: React.FunctionComponent = () => {
           border: none;
           background-color: transparent;
         }
+
+        .ant-notification-notice-content {
+          word-break: break-all;
+        }
+        .ant-notification-notice-message {
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 3;
+          overflow: hidden;
+        }
       `}</style>
     </>
   )

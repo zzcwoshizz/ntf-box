@@ -5,6 +5,23 @@ export default {
     login: 'Log in',
     logging: 'Logging in'
   },
+  errorMessage: {
+    N01: 'Token verify fail',
+    N02: 'Email already subscribed',
+    N03: 'Signature not be null',
+    N04: 'Signature verify error',
+    N05: 'Param error',
+    N06: 'Token expired',
+    N07: 'Order info error',
+    N08: 'Insert order fail',
+    N09: 'Order type error',
+    N10: 'Order already exist',
+    N11: 'Please select good',
+    N12: 'Order not exist',
+    N13: 'Length is zero',
+    N14: 'Get good info error',
+    N15: 'Contract error'
+  },
   header: {
     home: 'Home',
     ranking: 'Ranking',
@@ -88,6 +105,7 @@ export default {
       inputPrice: 'Revise the appropriate price',
       modifyPrice: 'MODIFY PRICE',
       sell: 'SELL',
+      cancel: 'Off shelf',
       gift: 'GIFT',
       buy: 'BUY NOW',
       born: 'Born on {time}',

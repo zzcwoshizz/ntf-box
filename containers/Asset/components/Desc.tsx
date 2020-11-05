@@ -1,6 +1,7 @@
 import { Button, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
 import { utils } from 'ethers'
 import moment from 'moment'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
@@ -21,7 +22,8 @@ const Desc: React.FunctionComponent = () => {
   const theme = useTheme()
   const router = useRouter()
   const { t } = useLanguage()
-  const { asset, token, isMine, fetching, holders, loading, changePrice, buy } = useData()
+  const { asset, token, isMine, fetching, holders, changePrice, cancelOrder, buy } = useData()
+
   const [price, setPrice] = React.useState('')
 
   return (
@@ -45,9 +47,12 @@ const Desc: React.FunctionComponent = () => {
                   </span>
                 </Space>
               </div>
-              {token.type === 'ERC721' && (
-                <p>
-                  {t('asset.detail.holders')}: {token.owner}
+              {token.type === 'ERC721' && token.owners && (
+                <p style={{ marginTop: 15 }}>
+                  {t('asset.detail.holders')}:
+                  <Link href={`/user/${token.owners[0]}`}>
+                    <a>{token.owners[0]}</a>
+                  </Link>
                 </p>
               )}
               {token.des && <div className="intro">{token.des}</div>}
@@ -70,23 +75,34 @@ const Desc: React.FunctionComponent = () => {
                     />
                   )}
                   {asset && (
-                    <EnableButton
-                      style={{ marginTop: 16 }}
-                      type="primary"
-                      loading={loading}
-                      onClick={() =>
-                        changePrice(price).finally(() => {
-                          setPrice('')
-                        })
-                      }>
-                      {t('asset.detail.modifyPrice')}
-                    </EnableButton>
+                    <Space>
+                      <EnableButton
+                        style={{ marginTop: 16 }}
+                        type="primary"
+                        onClick={() =>
+                          changePrice(price).finally(() => {
+                            setPrice('')
+                          })
+                        }>
+                        {t('asset.detail.modifyPrice')}
+                      </EnableButton>
+                      <EnableButton
+                        style={{ marginTop: 16 }}
+                        onClick={() => {
+                          if (!asset.orderId) {
+                            return
+                          }
+
+                          return cancelOrder(asset.orderId)
+                        }}>
+                        {t('asset.detail.cancel')}
+                      </EnableButton>
+                    </Space>
                   )}
                   {!asset && (
                     <Space style={{ marginTop: 16 }}>
                       <EnableButton
                         type="primary"
-                        loading={loading}
                         onClick={() =>
                           router.push({
                             pathname: '/publish',
@@ -116,11 +132,7 @@ const Desc: React.FunctionComponent = () => {
               )}
               {!isMine && asset && (
                 <div className="form">
-                  <EnableButton
-                    style={{ marginTop: 16 }}
-                    type="primary"
-                    loading={loading}
-                    onClick={buy}>
+                  <EnableButton style={{ marginTop: 16 }} type="primary" onClick={buy}>
                     {t('asset.detail.buy')}
                   </EnableButton>
                 </div>

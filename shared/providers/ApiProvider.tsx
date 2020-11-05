@@ -36,31 +36,32 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 const apiContext = React.createContext<{
-  api: Api
   token?: string
   setToken(token?: string): void
 }>({} as any)
+
+export const api = new Api(baseURL, {
+  timeout: 30000
+})
 
 const ApiProvider: React.FunctionComponent = ({ children }) => {
   const { lang } = useLanguage()
   const [token, setToken] = useCache<string>('token', '')
 
-  const api = React.useMemo(() => {
-    const api = new Api(baseURL, {
-      timeout: 30000,
+  React.useEffect(() => {
+    api.setConfig({
       headers: {
         jwt: token ?? '',
         lan: lang === 'zh-CN' ? 'zh' : 'en'
       }
     })
-    return api
   }, [lang, token])
 
-  return <apiContext.Provider value={{ api, token, setToken }}>{children}</apiContext.Provider>
+  return <apiContext.Provider value={{ token, setToken }}>{children}</apiContext.Provider>
 }
 
 const useApi = () => {
-  const { api, token, setToken } = React.useContext(apiContext)
+  const { token, setToken } = React.useContext(apiContext)
   const { library, account } = useActiveWeb3React()
 
   const login = React.useCallback(async () => {
@@ -80,7 +81,7 @@ const useApi = () => {
         setToken(data.data)
         return data
       })
-  }, [library, account, setToken, api])
+  }, [library, account, setToken])
 
   return {
     api,
@@ -131,6 +132,12 @@ const useApi = () => {
       })
     },
     /**
+     * 取消订单
+     */
+    cancelOrder(orderId: string) {
+      return api.post<IResponse<any>>(`/cannel/order/${orderId}`)
+    },
+    /**
      * 获取购买订单信息
      */
     buy(orderId: string) {
@@ -177,7 +184,7 @@ const useApi = () => {
         order: 'desc' | 'asc'
       }
     ) {
-      return api.get<IListResponse<IRanking>>('/rank', { params, headers: { lan: 'zh' } })
+      return api.get<IListResponse<IRanking>>('/rank', { params })
     },
     getActivity(
       params: PageParam & {

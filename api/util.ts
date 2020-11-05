@@ -68,6 +68,10 @@ export class Api {
     this.config = this.combineConfig(this.config, config)
   }
 
+  public setConfig(config: IConfig) {
+    this.config = this.combineConfig(this.config, config)
+  }
+
   public request<T = IResponse<any>>(url: string, config: IConfig = {}): Promise<T> {
     config = this.combineConfig(this.config, config)
     config = this.wrapHeaders(config)

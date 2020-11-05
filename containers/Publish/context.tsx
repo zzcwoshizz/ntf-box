@@ -7,6 +7,7 @@ import { useAsync } from 'react-use'
 import { IToken } from '@/api/types'
 import { useActiveWeb3React } from '@/shared/hooks'
 import useMarket from '@/shared/hooks/useMarket'
+import useServerError from '@/shared/hooks/useServerError'
 import { useApi } from '@/shared/providers/ApiProvider'
 import { delay } from '@/utils/time'
 
@@ -24,6 +25,7 @@ const dataContext = React.createContext<{
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const { library } = useActiveWeb3React()
   const { getToken } = useApi()
+  const { showError } = useServerError()
 
   const router = useRouter()
   const [loading, setLoading] = React.useState(false)
@@ -75,26 +77,31 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
           }
 
           setLoading(true)
-          const blockNumber = await library?.getBlockNumber()
-          let expirationHeight: string
-          if (data.expiredTime) {
-            expirationHeight =
-              blockNumber + Math.ceil((data.expiredTime.valueOf() - Date.now()) / 1000 / 13) + ''
-          } else {
-            expirationHeight = '999999999999999999'
-          }
-          const orderId = await market.makeOrder(
-            expirationHeight,
-            data.price,
-            tokens.length > 1 ? 3 : 0
-          )
-          setLoading(false)
-          notification.success({ message: 'Transaction success!' })
-          await delay(1000)
-          if (tokens.length > 1) {
-            router.push(`/bundle/${orderId}`)
-          } else {
-            router.push(`/asset/${tokens[0].contractAdd}/${tokens[0].tokenId}`)
+          try {
+            const blockNumber = await library?.getBlockNumber()
+            let expirationHeight: string
+            if (data.expiredTime) {
+              expirationHeight =
+                blockNumber + Math.ceil((data.expiredTime.valueOf() - Date.now()) / 1000 / 13) + ''
+            } else {
+              expirationHeight = '999999999999999999'
+            }
+            const orderId = await market.makeOrder(
+              expirationHeight,
+              data.price,
+              tokens.length > 1 ? 3 : 0
+            )
+            notification.success({ message: 'Transaction success!' })
+            await delay(1000)
+            if (tokens.length > 1) {
+              router.push(`/bundle/${orderId}`)
+            } else {
+              router.push(`/asset/${tokens[0].contractAdd}/${tokens[0].tokenId}`)
+            }
+          } catch (e) {
+            showError(e)
+          } finally {
+            setLoading(false)
           }
         }}>
         {children}

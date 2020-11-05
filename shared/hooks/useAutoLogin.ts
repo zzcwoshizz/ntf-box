@@ -1,14 +1,22 @@
 import React from 'react'
 
 import { useApi } from '../providers/ApiProvider'
+import { useApp } from '../providers/AppProvider'
+import { useActiveWeb3React } from '.'
 
 let loginLoading = false
 
 const useAutoLogin = () => {
-  const { login, token } = useApi()
+  const { account } = useActiveWeb3React()
+  const { login } = useApi()
+  const { user } = useApp()
 
   React.useEffect(() => {
-    if (token || loginLoading) {
+    if (user && user.address === account) {
+      return
+    }
+
+    if (loginLoading) {
       return
     }
 
@@ -16,7 +24,7 @@ const useAutoLogin = () => {
     login().finally(() => {
       loginLoading = false
     })
-  }, [login, token])
+  }, [login, user, account])
 }
 
 export default useAutoLogin

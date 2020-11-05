@@ -1,4 +1,4 @@
-import { Contract, utils } from 'ethers'
+import { BigNumber, utils } from 'ethers'
 import React from 'react'
 
 import { IToken } from '@/api/types'
@@ -7,50 +7,33 @@ import { DEFAULT_CHAIN_ID, MARKET_ABI, MARKET_ADDRESS } from '../constants'
 import { useApi } from '../providers/ApiProvider'
 import { useTransaction } from '../providers/TransactionProvider'
 import { useActiveWeb3React } from '.'
-import useERC721 from './useERC721'
+import useContract from './useContract'
 
 const useMarket = (tokens: IToken[]) => {
   const { buy: buyApi, getOrder, modifyPrice, verifyOrder } = useApi()
   const { account, library, chainId = DEFAULT_CHAIN_ID } = useActiveWeb3React()
   const { addBuyTransaction, toogleVisible } = useTransaction()
-  const erc721 = useERC721()
 
-  const market = React.useMemo(
-    () => new Contract(MARKET_ADDRESS[chainId], MARKET_ABI, library?.getSigner()),
-    [library, chainId]
-  )
+  const market = useContract(MARKET_ADDRESS[chainId], MARKET_ABI)
 
-  return React.useMemo(() => {
-    /**
-     * type
-     * 0  单个商品，直接出售挂单 不可还价
-     * 1  单个商品，直接出售挂单 可还价
-     * 2  单个商品，拍卖
-     * 3 捆绑商品，直接出售挂单 不可还价
-     * 4 捆绑商品，直接出售挂单 可还价
-     * 5 捆绑商品，进行拍卖
-     * 6 转赠
-     */
-    const makeOrder = async (
-      expirationHeight: string,
-      price: string,
-      type: 0 | 1 | 2 | 3 | 4 | 5 | 6
-    ): Promise<any> => {
+  /**
+   * type
+   * 0  单个商品，直接出售挂单 不可还价
+   * 1  单个商品，直接出售挂单 可还价
+   * 2  单个商品，拍卖
+   * 3 捆绑商品，直接出售挂单 不可还价
+   * 4 捆绑商品，直接出售挂单 可还价
+   * 5 捆绑商品，进行拍卖
+   * 6 转赠
+   */
+  const makeOrder = React.useCallback(
+    async (expirationHeight: string, price: string, type: 0 | 1 | 2 | 3 | 4 | 5 | 6) => {
       if (!account || !library) {
         return
       }
 
       if (tokens.length === 0) {
         return
-      }
-
-      for (const token of tokens) {
-        const { isApprovedForAll, setApprovalForAll } = erc721.getMethods(token.contractAdd)
-        const approved = await isApprovedForAll(MARKET_ADDRESS[chainId])
-
-        if (approved) {
-          await setApprovalForAll(MARKET_ADDRESS[chainId])
-        }
       }
 
       const { data } = await getOrder(
@@ -64,7 +47,7 @@ const useMarket = (tokens: IToken[]) => {
         type
       )
 
-      const signature = await library.getSigner().signMessage(data.orderHash)
+      const signature = await library.send('personal_sign', [data.orderHash, account])
 
       await verifyOrder({
         orderId: data.orderId,
@@ -72,9 +55,12 @@ const useMarket = (tokens: IToken[]) => {
       })
 
       return data.orderId
-    }
+    },
+    [tokens, account, library, chainId, market, getOrder, verifyOrder]
+  )
 
-    const buy = async (orderId: string) => {
+  const buy = React.useCallback(
+    async (orderId: string) => {
       if (!account || !library) {
         return
       }
@@ -94,7 +80,7 @@ const useMarket = (tokens: IToken[]) => {
         [data.buyer, data.seller],
         data.salt,
         [data.price, data.dealPrice],
-        data.entrustInfos.map((d: any) => d.tokenId),
+        data.entrustInfos.map((d: any) => utils.hexlify(BigNumber.from(d.tokenId))),
         [data.platformFee + '', '0', '0'],
         data.createHeight,
         data.orderType,
@@ -108,7 +94,7 @@ const useMarket = (tokens: IToken[]) => {
           '0x' + s
         ],
         data.transferFuncEncodes,
-        { value: data.dealPrice, gasLimit: 10000000 }
+        { value: data.dealPrice }
       )
       addBuyTransaction({
         transactionHash: hash,
@@ -121,9 +107,12 @@ const useMarket = (tokens: IToken[]) => {
         type: 'buy'
       })
       toogleVisible(hash)
-    }
+    },
+    [tokens, account, library, chainId, market, buyApi, addBuyTransaction]
+  )
 
-    const changePrice = async (orderId: string, newPrice: string) => {
+  const changePrice = React.useCallback(
+    async (orderId: string, newPrice: string) => {
       if (!account || !library) {
         return
       }
@@ -131,10 +120,15 @@ const useMarket = (tokens: IToken[]) => {
       const signature = await library.getSigner().signMessage(JSON.stringify({ orderId, newPrice }))
 
       return await modifyPrice({ orderId, price: newPrice, signature })
-    }
+    },
+    [account, library, modifyPrice]
+  )
 
-    return { makeOrder, buy, changePrice }
-  }, [library, account, market, erc721, tokens])
+  return {
+    makeOrder,
+    buy,
+    changePrice
+  }
 }
 
 export default useMarket

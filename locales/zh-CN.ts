@@ -5,6 +5,23 @@ export default {
     login: '登录',
     logging: '登录中'
   },
+  errorMessage: {
+    N01: 'Token验证失败',
+    N02: '邮箱已订阅',
+    N03: '签名不得为空',
+    N04: '签名验证失败',
+    N05: '参数错误',
+    N06: 'Token过期',
+    N07: '订单信息错误',
+    N08: '插入订单错误',
+    N09: '订单类型错误',
+    N10: '订单已存在',
+    N11: '请选择物品',
+    N12: '订单不存在',
+    N13: '长度为0',
+    N14: '物品信息获取失败',
+    N15: '合约错误'
+  },
   header: {
     home: '首页',
     ranking: '排行榜',
@@ -89,6 +106,7 @@ export default {
       inputPrice: '请输入价格（ETH）',
       modifyPrice: '修改价格',
       sell: '卖出',
+      cancel: '下架物品',
       gift: '赠送',
       buy: '立即购买',
       born: '出生于 {time}',

@@ -68,6 +68,7 @@ export interface IToken {
   type: 'ERC1155' | 'ERC721'
   projectDO?: IProject
   owner?: boolean
+  owners?: string[]
 }
 
 export interface IAsset {

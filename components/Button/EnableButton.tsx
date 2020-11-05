@@ -3,7 +3,6 @@ import React from 'react'
 
 import { injected } from '@/connectors'
 import { useActiveWeb3React } from '@/shared/hooks'
-import useTheme from '@/shared/hooks/useTheme'
 import { useApi } from '@/shared/providers/ApiProvider'
 import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
@@ -11,7 +10,6 @@ import { useLanguage } from '@/shared/providers/LanguageProvider'
 const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
   const { user } = useApp()
   const { login } = useApi()
-  const theme = useTheme()
   const { account, activate } = useActiveWeb3React()
   const [loading, setLoading] = React.useState(false)
   const { t } = useLanguage()

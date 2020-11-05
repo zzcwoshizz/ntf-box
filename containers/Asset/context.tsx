@@ -6,7 +6,9 @@ import { IAsset, INetActivity, IToken, ITokenOwner } from '@/api/types'
 import { useActiveWeb3React } from '@/shared/hooks'
 import { useList } from '@/shared/hooks/useList'
 import useMarket from '@/shared/hooks/useMarket'
+import useServerError from '@/shared/hooks/useServerError'
 import { useApi } from '@/shared/providers/ApiProvider'
+import { delay } from '@/utils/time'
 
 const dataContext = React.createContext<{
   asset?: IAsset
@@ -16,10 +18,10 @@ const dataContext = React.createContext<{
   holders: number
   tokenOwner: ITokenOwner[]
   isMine: boolean
-  loading: boolean
   hasMoreTokenOwner: boolean
   hasMoreActivities: boolean
   changePrice(price: string): Promise<void>
+  cancelOrder(orderId: string): Promise<void>
   loadMoreTokenOwner(): void
   loadMoreActivity(): void
   buy(): Promise<any>
@@ -28,9 +30,14 @@ const dataContext = React.createContext<{
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const router = useRouter()
   const { account } = useActiveWeb3React()
-  const { getToken, getAsset, getTokenOwner, getNetActivity } = useApi()
-
-  const [loading, setLoading] = React.useState(false)
+  const {
+    getToken,
+    getAsset,
+    getTokenOwner,
+    getNetActivity,
+    cancelOrder: cancelOrderApi
+  } = useApi()
+  const { showError } = useServerError()
 
   const { address, tokenId } = router.query as { address: string; tokenId: string }
 
@@ -42,6 +49,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     },
     loading: tokenLoading
   } = useAsync(async () => {
+    await delay(30)
     const { data } = await getToken({ contractAdd: address, tokenId })
     return data
   }, [address, tokenId])
@@ -154,25 +162,34 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
       return
     }
 
-    setLoading(true)
     try {
       await market.changePrice(orderId, price)
       retry()
     } catch (e) {
-      console.error(e)
+      showError(e)
     }
-    setLoading(false)
+  }
+
+  const cancelOrder = async (orderId: string) => {
+    if (!account) {
+      return
+    }
+
+    try {
+      await cancelOrderApi(orderId)
+      retry()
+    } catch (e) {
+      showError(e)
+    }
   }
 
   const buy = async () => {
-    setLoading(true)
     try {
       await market.buy(orderId)
       retry()
     } catch (e) {
-      console.error(e)
+      showError(e)
     }
-    setLoading(false)
   }
 
   return (
@@ -185,10 +202,10 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
         holders: state.pagination.total ?? 0,
         tokenOwner: state.list,
         isMine,
-        loading,
         hasMoreTokenOwner: state.hasMore,
         hasMoreActivities: activityState.hasMore,
         changePrice,
+        cancelOrder,
         loadMoreTokenOwner,
         loadMoreActivity,
         buy

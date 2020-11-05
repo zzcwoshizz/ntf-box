@@ -28,7 +28,7 @@ const Transfer: React.FunctionComponent = () => {
   }, [tokenId, address])
   const [toAddress, setToAddress] = React.useState('')
 
-  const { getMethods } = useERC721()
+  const { safeTransferFrom } = useERC721(address)
 
   const [pending, setPending] = React.useState(false)
 
@@ -49,7 +49,6 @@ const Transfer: React.FunctionComponent = () => {
                 return
               }
 
-              const { safeTransferFrom } = getMethods(token.contractAdd)
               setPending(true)
               safeTransferFrom(data.address, token.tokenId).finally(() => {
                 setPending(false)

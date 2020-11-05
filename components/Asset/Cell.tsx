@@ -62,7 +62,7 @@ const Cell: React.FunctionComponent<Props> = ({
             </span>
           </p>
           <Tooltip title={asset.tokens?.[0].des ?? '--'}>
-            <h6>{asset.tokens?.[0].name ?? '--'}</h6>
+            <h6>{asset.tokens?.[0].des ?? '--'}</h6>
           </Tooltip>
           <div className="detail">
             {asset.dealPrice && (
