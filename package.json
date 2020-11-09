@@ -17,13 +17,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "lint-staged & yarn run type-check"
+      "pre-commit": "yarn lint && yarn type-check"
     }
-  },
-  "lint-staged": {
-    "*.@(ts|tsx)": [
-      "yarn lint"
-    ]
   },
   "dependencies": {
     "@ant-design/icons": "^4.2.2",
