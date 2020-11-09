@@ -1,4 +1,3 @@
-import { BigNumber, utils } from 'ethers'
 import React from 'react'
 
 import { IToken } from '@/api/types'
@@ -47,7 +46,8 @@ const useMarket = (tokens: IToken[]) => {
         type
       )
 
-      const signature = await library.send('personal_sign', [data.orderHash, account])
+      // const signature = await library.send('personal_sign', [data.orderHash, account])
+      const signature = await library.getSigner().signMessage(data.orderHash)
 
       await verifyOrder({
         orderId: data.orderId,
@@ -80,10 +80,7 @@ const useMarket = (tokens: IToken[]) => {
         [data.buyer, data.seller],
         data.salt,
         [data.price, data.dealPrice],
-        data.entrustInfos.map((d: any) => utils.hexlify(BigNumber.from(d.tokenId))),
         [data.platformFee + '', '0', '0'],
-        data.createHeight,
-        data.orderType,
         [
           '0x' +
             Array.from({ length: 64 - v.length })

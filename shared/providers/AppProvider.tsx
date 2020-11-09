@@ -13,6 +13,7 @@ const appContext = React.createContext<{
   provider: JsonRpcProvider
   user?: IUser
   logged: boolean
+  setUser(user?: IUser): void
   toogleUserInfo(payload: IUserPayload): Promise<void>
 }>({} as any)
 
@@ -74,6 +75,7 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
         balance,
         provider,
         user,
+        setUser,
         logged: user?.address === account,
         toogleUserInfo
       }}>

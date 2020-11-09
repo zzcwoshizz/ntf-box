@@ -2,12 +2,12 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { AssetContent } from '@/components/Asset'
-import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
 import { AssetProvider } from '@/shared/providers/AssetProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
 import Filter from './components/AssetFilter'
+import UserTop from './Top'
 
 const Items: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
@@ -19,7 +19,7 @@ const Items: React.FunctionComponent = () => {
 
   return (
     <>
-      <Header />
+      <UserTop />
       {address && (
         <ProjectProvider address={address}>
           <AssetProvider address={address}>

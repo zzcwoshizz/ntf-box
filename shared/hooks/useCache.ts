@@ -1,13 +1,7 @@
-import { useLocalStorage } from 'react-use'
-
-import { deserializer, serializer } from '@/utils/cache'
+import useLocalStorage from './useLocalStorage'
 
 function useCache<T>(key: string, initialValue?: T) {
-  return useLocalStorage<T>(key, initialValue, {
-    raw: false,
-    serializer,
-    deserializer: (value) => deserializer<T>(value)
-  })
+  return useLocalStorage<T>(key, initialValue)
 }
 
 export default useCache

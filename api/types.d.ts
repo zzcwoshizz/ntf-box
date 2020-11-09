@@ -140,30 +140,47 @@ export interface IRanking {
 }
 
 /**
- * 0全部 1上架物品 2定价出售 3拍卖出售 4转赠
+ * 0全部 1上架物品 2定价出售 3拍卖出售 4转赠 5下架，6修改价钱 7购买
  */
-export type ActivityType = '0' | '1' | '2' | '3' | '4'
+export type ActivityType = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
 
+/**
+ * 平台实时成交记录
+ */
 export interface IActivity {
+  /**
+   * @description 合约地址
+   */
   contractAdd: string
-  createHeight: string
+  /**
+   * @description 时间
+   */
   createTime: string
-  dealPrice: string
-  expirationHeight: string
+  /**
+   * @description 来源地址
+   */
+  fromAdd: string
   id: number
-  operator: string
-  orderHash: string
-  orderId: string
-  orderType: string
-  platformFee: string
+  /**
+   * @description 价格
+   */
   price: string
-  salt: string
-  seller?: string
-  side: 'BUY' | 'SELL'
-  status: number
-  tokenId: string
-  txid: string
+  /**
+   * @description 项目信息
+   */
   projectDO?: IProject
+  /**
+   * @description 类型
+   */
+  type: ActivityType
+  /**
+   * @description 交易hash
+   */
+  txid?: string
+  /**
+   * @description to address
+   */
+  toAdd?: string
 }
 
 export interface INetActivity {

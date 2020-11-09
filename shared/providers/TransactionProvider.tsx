@@ -32,6 +32,7 @@ export type ApproveTransactionInfo = {
 
 const transactionContext = React.createContext<{
   buyTransaction: BuyTransactionInfo[]
+  approveTransaction: ApproveTransactionInfo[]
   transferTransaction: TransferTransactionInfo[]
   allTransaction: (BuyTransactionInfo | TransferTransactionInfo | ApproveTransactionInfo)[]
   addBuyTransaction(transaction: BuyTransactionInfo): void
@@ -198,6 +199,7 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
     <transactionContext.Provider
       value={{
         buyTransaction,
+        approveTransaction,
         transferTransaction,
         allTransaction,
         addBuyTransaction,

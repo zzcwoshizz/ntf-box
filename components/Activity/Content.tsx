@@ -39,8 +39,8 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
                   toogleFilter({ ...filter, type: value })
                 }}>
                 {Object.keys(ACTIVITY_TYPES).map((key) => (
-                  <Option key={key} value={key}>
-                    {ACTIVITY_TYPES[key as ActivityType]}
+                  <Option key={key} value={Number(key)}>
+                    {ACTIVITY_TYPES[Number(key) as ActivityType]}
                   </Option>
                 ))}
               </Select>

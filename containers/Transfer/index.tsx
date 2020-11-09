@@ -8,6 +8,7 @@ import Header from '@/components/Header'
 import Jdenticon from '@/components/Jdenticon'
 import useContainer from '@/shared/hooks/useContainer'
 import useERC721 from '@/shared/hooks/useERC721'
+import useServerError from '@/shared/hooks/useServerError'
 import useTheme from '@/shared/hooks/useTheme'
 import { useApi } from '@/shared/providers/ApiProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
@@ -23,6 +24,7 @@ const Transfer: React.FunctionComponent = () => {
   const { query } = useRouter()
   const { tokenId, address } = query as { tokenId: string; address: string }
 
+  const { showError } = useServerError()
   const { value: token, loading } = useAsync(async () => {
     return (await getToken({ contractAdd: address, tokenId })).data
   }, [tokenId, address])
@@ -50,9 +52,13 @@ const Transfer: React.FunctionComponent = () => {
               }
 
               setPending(true)
-              safeTransferFrom(data.address, token.tokenId).finally(() => {
-                setPending(false)
-              })
+              safeTransferFrom(data.address, token.tokenId)
+                .catch((e) => {
+                  showError(e)
+                })
+                .finally(() => {
+                  setPending(false)
+                })
             }}
             layout="vertical">
             <Form.Item name="amount" label={t('transfer.amountLabel')}>

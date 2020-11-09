@@ -14,28 +14,31 @@ const constantsContext = React.createContext<{
 const ConstantsProvider: React.FunctionComponent = ({ children }) => {
   const { t } = useLanguage()
 
-  const ACTIVITY_TYPES = {
+  const ACTIVITY_TYPES: { [key in ActivityType]: string } = {
     0: '全部',
     1: '上架物品',
     2: '定价出售',
     3: '拍卖出售',
-    4: '转赠'
+    4: '转赠',
+    5: '下架',
+    6: '修改价钱',
+    7: '购买'
   }
 
-  const ITEM_ORDER = {
+  const ITEM_ORDER: { [key in ItemOrder]: string } = {
     0: t('asset.itemOrder.0'),
     1: t('asset.itemOrder.1'),
     2: t('asset.itemOrder.2'),
     3: t('asset.itemOrder.3')
   }
 
-  const ORDER_TYPE = {
+  const ORDER_TYPE: { [key in OrderType]: string } = {
     0: t('asset.orderType.0'),
     1: t('asset.orderType.1'),
     2: t('asset.orderType.2')
   }
 
-  const ASSET_TYPES = {
+  const ASSET_TYPES: { [key in AssetType]: string } = {
     HOT: t('asset.types.HOT'),
     NEW: t('asset.types.NEW'),
     VIRTUAL_WORLDS: t('asset.types.VIRTUAL_WORLDS'),

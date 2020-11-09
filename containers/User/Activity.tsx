@@ -2,12 +2,12 @@ import { useRouter } from 'next/router'
 import React from 'react'
 
 import { ActivityContent } from '@/components/Activity'
-import Header from '@/components/Header'
 import useContainer from '@/shared/hooks/useContainer'
 import { ActivityProvider } from '@/shared/providers/ActivityProvider'
 import { ProjectProvider } from '@/shared/providers/ProjectProvider'
 
 import Filter from './components/ActivityFilter'
+import UserTop from './Top'
 
 const Activity: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
@@ -19,7 +19,7 @@ const Activity: React.FunctionComponent = () => {
 
   return (
     <>
-      <Header />
+      <UserTop />
       {address && (
         <ProjectProvider address={address}>
           <ActivityProvider address={address}>

@@ -1,5 +1,5 @@
-import { Button, Col, Divider, Input, Row, Space, Spin, Typography } from 'antd'
-import { utils } from 'ethers'
+import { Button, Col, Divider, Input, Modal, Row, Space, Spin, Typography } from 'antd'
+import { BigNumber, utils } from 'ethers'
 import moment from 'moment'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
@@ -10,6 +10,7 @@ import Jdenticon from '@/components/Jdenticon'
 import BornSvg from '@/icons/icon_born.svg'
 import PriceSvg from '@/icons/icon_price.svg'
 import useTheme from '@/shared/hooks/useTheme'
+import { useApp } from '@/shared/providers/AppProvider'
 import { useLanguage } from '@/shared/providers/LanguageProvider'
 import { shortenAddress } from '@/utils/string'
 
@@ -22,6 +23,7 @@ const Desc: React.FunctionComponent = () => {
   const theme = useTheme()
   const router = useRouter()
   const { t } = useLanguage()
+  const { balance } = useApp()
   const { asset, token, isMine, fetching, holders, changePrice, cancelOrder, buy } = useData()
 
   const [price, setPrice] = React.useState('')
@@ -132,7 +134,19 @@ const Desc: React.FunctionComponent = () => {
               )}
               {!isMine && asset && (
                 <div className="form">
-                  <EnableButton style={{ marginTop: 16 }} type="primary" onClick={buy}>
+                  <EnableButton
+                    style={{ marginTop: 16 }}
+                    type="primary"
+                    onClick={() => {
+                      if (BigNumber.from(asset.dealPrice ?? '0').gt(BigNumber.from(balance))) {
+                        Modal.warn({
+                          title: 'Add funds to complete this transaction',
+                          content: `Please deposit ETH ${utils.formatEther(asset.dealPrice ?? '0')}`
+                        })
+                      } else {
+                        buy()
+                      }
+                    }}>
                     {t('asset.detail.buy')}
                   </EnableButton>
                 </div>

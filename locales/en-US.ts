@@ -121,6 +121,9 @@ export default {
     realtime: '* Realtime',
     buy: 'Buy',
     sell: 'Sell',
+    transfer: 'Gift',
+    offShelf: 'Off shelf',
+    modifyPrice: '{address} modify the price',
     columns: {
       time: 'Time',
       commodity: 'Commodity',

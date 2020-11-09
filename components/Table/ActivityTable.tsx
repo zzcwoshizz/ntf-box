@@ -20,7 +20,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
   loading = false
 }) => {
   const { chainId } = useActiveWeb3React()
-  const { t } = useLanguage()
+  const { t, tc } = useLanguage()
 
   const columns: ColumnsType<IActivity> = [
     {
@@ -69,31 +69,97 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       render: (_, record) => (
         <>
           <div>
-            {record.orderType === '9' ? null : record.side === 'BUY' ? (
+            {(record.type === 2 || record.type === 3) && (
               <Space>
                 <Space>
-                  <Jdenticon size={24} value={record.operator} />
-                  <Link href={`/user/${record.operator}/items`}>
-                    <a>{shortenAddress(record.operator)}</a>
+                  <Jdenticon size={24} value={record.fromAdd} />
+                  <Link href={`/user/${record.fromAdd}/items`}>
+                    <a>{shortenAddress(record.fromAdd)}</a>
+                  </Link>
+                </Space>
+                {t('activity.sell')}
+                <Space>
+                  <Img width={24} src={record.projectDO?.logoUrl} />
+                  <Link
+                    href={{
+                      pathname: '/market',
+                      query: {
+                        id: record.projectDO?.id
+                      }
+                    }}>
+                    <a>{record.projectDO?.name}</a>
+                  </Link>
+                </Space>
+              </Space>
+            )}
+            {record.type === 4 && (
+              <Space>
+                <Space>
+                  <Jdenticon size={24} value={record.fromAdd} />
+                  <Link href={`/user/${record.fromAdd}/items`}>
+                    <a>{shortenAddress(record.fromAdd)}</a>
+                  </Link>
+                </Space>
+                {t('activity.transfer')}
+                {record.toAdd && (
+                  <Space>
+                    <Jdenticon size={24} value={record.toAdd} />
+                    <Link href={`/user/${record.toAdd}/items`}>
+                      <a>{shortenAddress(record.toAdd)}</a>
+                    </Link>
+                  </Space>
+                )}
+              </Space>
+            )}
+            {record.type === 5 && (
+              <Space>
+                <Space>
+                  <Jdenticon size={24} value={record.fromAdd} />
+                  <Link href={`/user/${record.fromAdd}/items`}>
+                    <a>{shortenAddress(record.fromAdd)}</a>
+                  </Link>
+                </Space>
+                {t('activity.offShelf')}
+                <Space>
+                  <Img width={24} src={record.projectDO?.logoUrl} />
+                  <Link
+                    href={{
+                      pathname: '/market',
+                      query: {
+                        id: record.projectDO?.id
+                      }
+                    }}>
+                    <a>{record.projectDO?.name}</a>
+                  </Link>
+                </Space>
+              </Space>
+            )}
+            {record.type === 6 &&
+              tc('activity.modifyPrice', {
+                address: (
+                  <Space>
+                    <Jdenticon size={24} value={record.fromAdd} />
+                    <Link href={`/user/${record.fromAdd}/items`}>
+                      <a>{shortenAddress(record.fromAdd)}</a>
+                    </Link>
+                  </Space>
+                )
+              })}
+            {record.type === 7 && (
+              <Space>
+                <Space>
+                  <Jdenticon size={24} value={record.fromAdd} />
+                  <Link href={`/user/${record.fromAdd}/items`}>
+                    <a>{shortenAddress(record.fromAdd)}</a>
                   </Link>
                 </Space>
                 {t('activity.buy')}
                 <Space>
-                  <Jdenticon size={24} value={record?.seller} />
-                  <Link href={`/user/${record?.seller}/items`}>
-                    <a>{shortenAddress(record?.seller)}</a>
+                  <Jdenticon size={24} value={record.toAdd} />
+                  <Link href={`/user/${record.toAdd}/items`}>
+                    <a>{shortenAddress(record.toAdd)}</a>
                   </Link>
                 </Space>
-              </Space>
-            ) : (
-              <Space>
-                <Space>
-                  <Jdenticon size={24} value={record.operator} />
-                  <Link href={`/user/${record.operator}/items`}>
-                    <a>{shortenAddress(record.operator)}</a>
-                  </Link>
-                </Space>
-                {t('activity.sell')}
               </Space>
             )}
           </div>
@@ -110,29 +176,30 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       title: t('activity.columns.price'),
       dataIndex: 'price',
       key: 'price',
-      render: (_, record) => <span>{utils.formatEther(record.dealPrice + '')}</span>
+      render: (_, record) => <span>{utils.formatEther(record.price + '')}</span>
     },
     {
       title: t('activity.columns.txid'),
       key: 'txid',
-      render: (_, record) => (
-        <div>
-          <a
-            href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID]}
-            target="_blank"
-            rel="noopener noreferrer">
-            {record.txid}
-          </a>
-          <style jsx>{`
-            div {
-              width: 120px;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-            }
-          `}</style>
-        </div>
-      )
+      render: (_, record) =>
+        record.txid && (
+          <div>
+            <a
+              href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID]}
+              target="_blank"
+              rel="noopener noreferrer">
+              {record.txid}
+            </a>
+            <style jsx>{`
+              div {
+                width: 120px;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                overflow: hidden;
+              }
+            `}</style>
+          </div>
+        )
     }
   ]
 

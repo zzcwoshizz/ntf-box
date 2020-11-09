@@ -1,56 +1,32 @@
-import { LogoutOutlined } from '@ant-design/icons'
-import { Button, Space, Typography } from 'antd'
-import { utils } from 'ethers'
+import { Space, Typography } from 'antd'
 import { useRouter } from 'next/router'
 import React from 'react'
 
 import Header from '@/components/Header'
 import Jdenticon from '@/components/Jdenticon'
-import { useActiveWeb3React } from '@/shared/hooks'
 import useContainer from '@/shared/hooks/useContainer'
-import { useApi } from '@/shared/providers/ApiProvider'
-import { useApp } from '@/shared/providers/AppProvider'
 import { shortenAddress } from '@/utils/string'
 
 const { Text } = Typography
 
 const AccountTop: React.FunctionComponent = () => {
   const { containerWidth } = useContainer()
-  const { user, balance, setUser } = useApp()
-  const { setToken } = useApi()
-  const { account } = useActiveWeb3React()
-  const router = useRouter()
+  let {
+    query: { address }
+  } = useRouter()
+  address = address as string
 
   return (
     <>
       <Header />
       <div className="hero">
         <div className="container">
-          <div className="balance">{Number(utils.formatEther(balance)).toFixed(4)}ETH</div>
           <div className="info">
             <Space>
-              <Jdenticon
-                size={64}
-                value={user?.nickName ?? user?.address ?? account ?? 'default'}
-              />
+              <Jdenticon size={64} value={address} />
               <div>
-                <h6>
-                  {user?.nickName ? user?.nickName : shortenAddress(user?.address ?? account)}
-                  <Button
-                    style={{ color: 'white' }}
-                    type="text"
-                    icon={<LogoutOutlined />}
-                    onClick={() => {
-                      router.push('/')
-                      setTimeout(() => {
-                        setUser(undefined)
-                        setToken('')
-                      }, 100)
-                    }}>
-                    Logout
-                  </Button>
-                </h6>
-                <Text copyable>{user?.address ?? account}</Text>
+                <h6>{shortenAddress(address)}</h6>
+                <Text copyable>{address}</Text>
               </div>
             </Space>
           </div>
@@ -68,13 +44,6 @@ const AccountTop: React.FunctionComponent = () => {
           width: ${containerWidth}px;
           height: 120px;
           margin: 0 auto;
-        }
-
-        .balance {
-          font-size: 32px;
-          font-weight: bold;
-          color: #fff;
-          line-height: 32px;
         }
 
         .info {

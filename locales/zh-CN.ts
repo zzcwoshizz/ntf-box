@@ -122,6 +122,9 @@ export default {
     realtime: '* 实时更新',
     buy: '购买',
     sell: '卖出',
+    transfer: '转赠',
+    offShelf: '下架',
+    modifyPrice: '{address} 修改了价钱',
     columns: {
       time: '时间',
       commodity: '项目',

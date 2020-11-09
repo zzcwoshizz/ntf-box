@@ -29,6 +29,7 @@ const dataContext = React.createContext<{
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const router = useRouter()
+  const { token: apiToken } = useApi()
   const { account } = useActiveWeb3React()
   const {
     getToken,
@@ -56,17 +57,14 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
 
   const orderIds = token.orderIds?.map((id) => id) ?? []
 
-  const { value: assets = [], loading: assetLoading, retry } = useAsyncRetry(
-    async () => {
-      let assets: IAsset[] = []
-      if (orderIds.length > 0) {
-        const res = await Promise.all(orderIds.map((orderId) => getAsset({ orderId })))
-        assets = res.map(({ data }) => data)
-      }
-      return assets
-    },
-    orderIds.map((id) => id)
-  )
+  const { value: assets = [], loading: assetLoading, retry } = useAsyncRetry(async () => {
+    let assets: IAsset[] = []
+    if (orderIds.length > 0) {
+      const res = await Promise.all(orderIds.map((orderId) => getAsset({ orderId })))
+      assets = res.map(({ data }) => data)
+    }
+    return assets
+  }, [...orderIds.map((id) => id), apiToken])
 
   const asset: IAsset | undefined = assets[0]
   const orderId = orderIds[0] ?? ''

@@ -22,10 +22,12 @@ import {
   PageParam
 } from '@/api/types'
 import { Api } from '@/api/util'
+import { getCache } from '@/utils/cache'
 
 import { SIGN_TEXT } from '../constants'
 import { useActiveWeb3React } from '../hooks'
 import useCache from '../hooks/useCache'
+import useServerError from '../hooks/useServerError'
 import { useLanguage } from './LanguageProvider'
 
 let baseURL = ''
@@ -40,28 +42,23 @@ const apiContext = React.createContext<{
   setToken(token?: string): void
 }>({} as any)
 
-export const api = new Api(baseURL, {
-  timeout: 30000
+export const api: Api = new Api(baseURL, {
+  timeout: 30000,
+  headers: {
+    jwt: process.browser ? getCache('token') ?? '' : '',
+    lan: process.browser ? (getCache('lang') === 'zh-CN' ? 'zh' : 'en') : ''
+  }
 })
 
 const ApiProvider: React.FunctionComponent = ({ children }) => {
-  const { lang } = useLanguage()
   const [token, setToken] = useCache<string>('token', '')
-
-  React.useEffect(() => {
-    api.setConfig({
-      headers: {
-        jwt: token ?? '',
-        lan: lang === 'zh-CN' ? 'zh' : 'en'
-      }
-    })
-  }, [lang, token])
 
   return <apiContext.Provider value={{ token, setToken }}>{children}</apiContext.Provider>
 }
 
 const useApi = () => {
   const { token, setToken } = React.useContext(apiContext)
+  const { showError } = useServerError()
   const { library, account } = useActiveWeb3React()
 
   const login = React.useCallback(async () => {
@@ -80,6 +77,9 @@ const useApi = () => {
       .then((data) => {
         setToken(data.data)
         return data
+      })
+      .catch((e) => {
+        showError(e)
       })
   }, [library, account, setToken])
 

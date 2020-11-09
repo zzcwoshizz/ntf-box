@@ -37,11 +37,11 @@ const Header: React.FunctionComponent = () => {
     {
       href: '/help',
       title: t('header.help')
-    },
-    {
-      href: '/record',
-      title: t('header.record')
     }
+    // {
+    //   href: '/record',
+    //   title: t('header.record')
+    // }
   ]
 
   const router = useRouter()

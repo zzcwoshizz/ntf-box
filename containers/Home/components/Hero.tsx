@@ -72,7 +72,7 @@ const Hero: React.FunctionComponent = () => {
 
         .content {
           width: ${containerWidth}px;
-          margin: 0 auto;
+          margin: 40px auto 0 auto;
         }
 
         img.desc {
