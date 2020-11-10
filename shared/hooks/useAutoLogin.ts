@@ -1,30 +1,28 @@
-import React from 'react'
+import React from 'react';
 
-import { useApi } from '../providers/ApiProvider'
-import { useApp } from '../providers/AppProvider'
-import { useActiveWeb3React } from '.'
+import { useApp } from '../providers/AppProvider';
+import { useActiveWeb3React } from '.';
 
-let loginLoading = false
+let loginLoading = false;
 
 const useAutoLogin = () => {
-  const { account } = useActiveWeb3React()
-  const { login } = useApi()
-  const { user } = useApp()
+  const { account } = useActiveWeb3React();
+  const { user, login } = useApp();
 
   React.useEffect(() => {
     if (user && user.address === account) {
-      return
+      return;
     }
 
     if (loginLoading) {
-      return
+      return;
     }
 
-    loginLoading = true
+    loginLoading = true;
     login().finally(() => {
-      loginLoading = false
-    })
-  }, [login, user, account])
-}
+      loginLoading = false;
+    });
+  }, [login, user, account]);
+};
 
-export default useAutoLogin
+export default useAutoLogin;

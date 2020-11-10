@@ -1,25 +1,25 @@
-import { Col, Row, Select, Typography } from 'antd'
-import React from 'react'
-import PerfectScrollbar from 'react-perfect-scrollbar'
+import { Col, Row, Select, Typography } from 'antd';
+import React from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { ActivityType } from '@/api/types'
-import ActivityTable from '@/components/Table/ActivityTable'
-import useTheme from '@/shared/hooks/useTheme'
-import { useActivity } from '@/shared/providers/ActivityProvider'
-import { useConstants } from '@/shared/providers/ConstantsProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { useProject } from '@/shared/providers/ProjectProvider'
+import { ReqActivityType } from '@/api/types';
+import ActivityTable from '@/components/Table/ActivityTable';
+import useTheme from '@/shared/hooks/useTheme';
+import { useActivity } from '@/shared/providers/ActivityProvider';
+import { useConstants } from '@/shared/providers/ConstantsProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { useProject } from '@/shared/providers/ProjectProvider';
 
-const { Option } = Select
-const { Text } = Typography
+const { Option } = Select;
+const { Text } = Typography;
 
 const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = true }) => {
-  const theme = useTheme()
-  const { t } = useLanguage()
-  const { project } = useProject()
-  const { filter, toogleFilter } = useActivity()
-  const { ACTIVITY_TYPES } = useConstants()
-  const { activities, fetching, onScrollBottom } = useActivity()
+  const theme = useTheme();
+  const { t } = useLanguage();
+  const { project } = useProject();
+  const { filter, toogleFilter } = useActivity();
+  const { ACTIVITY_TYPES } = useConstants();
+  const { activities, fetching, onScrollBottom } = useActivity();
 
   return (
     <>
@@ -33,19 +33,20 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
           <Row align="middle">
             <Col span={8} style={{ paddingRight: 16 }}>
               <Select
-                value={filter.type}
-                placeholder={t('activity.selectType')}
                 onChange={(value) => {
-                  toogleFilter({ ...filter, type: value })
-                }}>
+                  toogleFilter({ ...filter, type: value });
+                }}
+                placeholder={t('activity.selectType')}
+                value={filter.type}
+              >
                 {Object.keys(ACTIVITY_TYPES).map((key) => (
                   <Option key={key} value={Number(key)}>
-                    {ACTIVITY_TYPES[Number(key) as ActivityType]}
+                    {ACTIVITY_TYPES[Number(key) as ReqActivityType]}
                   </Option>
                 ))}
               </Select>
             </Col>
-            <Col span={4} offset={12} style={{ textAlign: 'right' }}>
+            <Col offset={12} span={4} style={{ textAlign: 'right' }}>
               <Text disabled style={{ cursor: 'default' }}>
                 {t('activity.realtime')}
               </Text>
@@ -54,12 +55,13 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
         </div>
         <div className="list">
           <PerfectScrollbar
-            style={{ height: '100%' }}
             onScrollDown={(e) => {
               if (e.scrollHeight === e.scrollTop + e.clientHeight) {
-                onScrollBottom()
+                onScrollBottom();
               }
-            }}>
+            }}
+            style={{ height: '100%' }}
+          >
             <ActivityTable data={activities} loading={fetching} />
           </PerfectScrollbar>
         </div>
@@ -103,7 +105,7 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Content
+export default Content;

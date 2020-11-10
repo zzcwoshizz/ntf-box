@@ -1,21 +1,22 @@
-import { useRouter } from 'next/router'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { ActivityContent } from '@/components/Activity'
-import useContainer from '@/shared/hooks/useContainer'
-import { ActivityProvider } from '@/shared/providers/ActivityProvider'
-import { ProjectProvider } from '@/shared/providers/ProjectProvider'
+import { ActivityContent } from '@/components/Activity';
+import useContainer from '@/shared/hooks/useContainer';
+import { ActivityProvider } from '@/shared/providers/ActivityProvider';
+import { ProjectProvider } from '@/shared/providers/ProjectProvider';
 
-import Filter from './components/ActivityFilter'
-import UserTop from './Top'
+import Filter from './components/ActivityFilter';
+import UserTop from './Top';
 
 const Activity: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
 
   let {
     query: { address }
-  } = useRouter()
-  address = address as string
+  } = useRouter();
+
+  address = address as string;
 
   return (
     <>
@@ -50,7 +51,7 @@ const Activity: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Activity
+export default Activity;

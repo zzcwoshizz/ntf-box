@@ -1,28 +1,29 @@
-import React from 'react'
+import React from 'react';
 
-import { deserializer, serializer } from '@/utils/cache'
+import { deserializer, serializer } from '@/utils/cache';
 
 const useCache = <T>(key: string, initialvalue?: T): [T, (value: T) => void] => {
-  const [value, setValue] = React.useState<T>(initialvalue as T)
+  const [value, setValue] = React.useState<T>(initialvalue as T);
 
   const saveValue = React.useCallback(
     (_value: T) => {
-      const v = serializer(_value)
-      localStorage.setItem(key, v)
-      setValue(_value)
+      const v = serializer(_value);
+
+      localStorage.setItem(key, v);
+      setValue(_value);
     },
     [key]
-  )
+  );
 
   React.useEffect(() => {
-    const _value = localStorage.getItem(key)
+    const _value = localStorage.getItem(key);
 
     if (_value) {
-      setValue(deserializer(_value))
+      setValue(deserializer(_value));
     }
-  }, [key])
+  }, [key]);
 
-  return [value, saveValue]
-}
+  return [value, saveValue];
+};
 
-export default useCache
+export default useCache;

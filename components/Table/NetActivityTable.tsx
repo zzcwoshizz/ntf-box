@@ -1,25 +1,25 @@
-import { Space, Table } from 'antd'
-import { ColumnsType } from 'antd/lib/table'
-import moment from 'moment'
-import Link from 'next/link'
-import React from 'react'
+import { Space, Table } from 'antd';
+import { ColumnsType } from 'antd/lib/table';
+import moment from 'moment';
+import Link from 'next/link';
+import React from 'react';
 
-import { INetActivity } from '@/api/types'
-import Img from '@/components/Img'
-import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants'
-import { useActiveWeb3React } from '@/shared/hooks'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { shortenAddress } from '@/utils/string'
+import { INetActivity } from '@/api/types';
+import Img from '@/components/Img';
+import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants';
+import { useActiveWeb3React } from '@/shared/hooks';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { shortenAddress } from '@/utils/string';
 
-import Jdenticon from '../Jdenticon'
-import TimeLeft from '../TimeLeft'
+import Jdenticon from '../Jdenticon';
+import TimeLeft from '../TimeLeft';
 
 const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?: boolean }> = ({
   data,
   loading = false
 }) => {
-  const { chainId } = useActiveWeb3React()
-  const { t } = useLanguage()
+  const { chainId } = useActiveWeb3React();
+  const { t } = useLanguage();
 
   const columns: ColumnsType<INetActivity> = [
     {
@@ -40,14 +40,15 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
         <>
           <div>
             <Space>
-              <Img width={24} src={record.nftProjectDO?.logoUrl} />
+              <Img src={record.nftProjectDO?.logoUrl} width={24} />
               <Link
                 href={{
                   pathname: '/market',
                   query: {
                     id: record.nftProjectDO?.id
                   }
-                }}>
+                }}
+              >
                 <a>{record.nftProjectDO?.name}</a>
               </Link>
             </Space>
@@ -99,8 +100,9 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
         <div>
           <a
             href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID] + '/tx/' + record.txid}
+            rel="noopener noreferrer"
             target="_blank"
-            rel="noopener noreferrer">
+          >
             {record.txid}
           </a>
           <style jsx>{`
@@ -114,11 +116,11 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
         </div>
       )
     }
-  ]
+  ];
 
   return (
-    <Table<INetActivity> columns={columns} dataSource={data} pagination={false} loading={loading} />
-  )
-}
+    <Table<INetActivity> columns={columns} dataSource={data} loading={loading} pagination={false} />
+  );
+};
 
-export default NetActivityTable
+export default NetActivityTable;

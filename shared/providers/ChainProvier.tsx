@@ -1,38 +1,39 @@
-import React from 'react'
-import { useAsyncRetry, useInterval } from 'react-use'
+import React from 'react';
+import { useAsyncRetry, useInterval } from 'react-use';
 
-import { useApp } from './AppProvider'
+import { useApp } from './AppProvider';
 
 const chainContext = React.createContext<{
-  block?: number
-}>({} as any)
+  block?: number;
+}>({} as any);
 
 const ChainProvider: React.FunctionComponent = ({ children }) => {
-  const { provider } = useApp()
+  const { provider } = useApp();
 
   const { value: block, retry: retryBlock } = useAsyncRetry(async () => {
-    return await provider.getBlockNumber()
-  }, [])
+    return await provider.getBlockNumber();
+  }, []);
 
   // 获取当前区块号
   useInterval(() => {
-    retryBlock()
-  }, 13000)
+    retryBlock();
+  }, 13000);
 
   return (
     <chainContext.Provider
       value={{
         block
-      }}>
+      }}
+    >
       {children}
     </chainContext.Provider>
-  )
-}
+  );
+};
 
 const useChain = () => {
-  const context = React.useContext(chainContext)
+  const context = React.useContext(chainContext);
 
-  return context
-}
+  return context;
+};
 
-export { ChainProvider, useChain }
+export { ChainProvider, useChain };

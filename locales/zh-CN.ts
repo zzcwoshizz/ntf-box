@@ -125,6 +125,7 @@ export default {
     transfer: '转赠',
     offShelf: '下架',
     modifyPrice: '{address} 修改了价钱',
+    bundle: '捆绑出售',
     columns: {
       time: '时间',
       commodity: '项目',
@@ -209,4 +210,4 @@ export default {
       category: '分类'
     }
   }
-}
+};

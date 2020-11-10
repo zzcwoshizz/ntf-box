@@ -1,19 +1,19 @@
-import { Form, Space, Typography } from 'antd'
-import React from 'react'
+import { Form, Space, Typography } from 'antd';
+import React from 'react';
 
-import ApproveButton from '@/components/Button/ApproveButton'
-import FhSvg from '@/icons/icon_fh.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import ApproveButton from '@/components/Button/ApproveButton';
+import FhSvg from '@/icons/icon_fh.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import { useData } from '../context'
+import { useData } from '../context';
 
-const { Text, Title } = Typography
+const { Text, Title } = Typography;
 
 const Preview: React.FunctionComponent = () => {
-  const theme = useTheme()
-  const { t } = useLanguage()
-  const { loading, disabled, tokens, price } = useData()
+  const theme = useTheme();
+  const { t } = useLanguage();
+  const { loading, disabled, tokens, price } = useData();
 
   return (
     <>
@@ -40,12 +40,13 @@ const Preview: React.FunctionComponent = () => {
         </div>
         <Form.Item>
           <ApproveButton
-            type="primary"
-            size="large"
+            disabled={disabled}
             htmlType="submit"
-            tokens={tokens}
             loading={loading}
-            disabled={disabled}>
+            size="large"
+            tokens={tokens}
+            type="primary"
+          >
             {t('publish.preview.submit')}
           </ApproveButton>
         </Form.Item>
@@ -105,7 +106,7 @@ const Preview: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Preview
+export default Preview;

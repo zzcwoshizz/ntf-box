@@ -1,29 +1,30 @@
-import { DatePicker, Form } from 'antd'
-import React from 'react'
+import { DatePicker, Form } from 'antd';
+import React from 'react';
 
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import Content from './Content'
-import Select from './Select'
+import Content from './Content';
+import Select from './Select';
 
 const Setting: React.FunctionComponent = () => {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   return (
     <Content title={t('publish.saleMethod')}>
-      <Select value="1" options={[{ value: '1', title: t('publish.otherSetting') }]}></Select>
+      <Select options={[{ value: '1', title: t('publish.otherSetting') }]} value="1"></Select>
       <Form.Item
-        style={{ width: '48%', marginTop: 16 }}
+        label={t('publish.timeLabel')}
         name="expiredTime"
-        label={t('publish.timeLabel')}>
+        style={{ width: '48%', marginTop: 16 }}
+      >
         <DatePicker
-          style={{ width: '100%' }}
-          placeholder={t('publish.inputTime')}
           disabledDate={(date) => date.valueOf() < Date.now()}
+          placeholder={t('publish.inputTime')}
+          style={{ width: '100%' }}
         />
       </Form.Item>
     </Content>
-  )
-}
+  );
+};
 
-export default Setting
+export default Setting;

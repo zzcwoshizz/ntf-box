@@ -1,25 +1,23 @@
-import { LogoutOutlined } from '@ant-design/icons'
-import { Button, Space, Typography } from 'antd'
-import { utils } from 'ethers'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { LogoutOutlined } from '@ant-design/icons';
+import { Button, Space, Typography } from 'antd';
+import { utils } from 'ethers';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import Header from '@/components/Header'
-import Jdenticon from '@/components/Jdenticon'
-import { useActiveWeb3React } from '@/shared/hooks'
-import useContainer from '@/shared/hooks/useContainer'
-import { useApi } from '@/shared/providers/ApiProvider'
-import { useApp } from '@/shared/providers/AppProvider'
-import { shortenAddress } from '@/utils/string'
+import Header from '@/components/Header';
+import Jdenticon from '@/components/Jdenticon';
+import { useActiveWeb3React } from '@/shared/hooks';
+import useContainer from '@/shared/hooks/useContainer';
+import { useApp } from '@/shared/providers/AppProvider';
+import { shortenAddress } from '@/utils/string';
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const AccountTop: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const { user, balance, setUser } = useApp()
-  const { setToken } = useApi()
-  const { account } = useActiveWeb3React()
-  const router = useRouter()
+  const { containerWidth } = useContainer();
+  const { user, balance, setUser, setToken } = useApp();
+  const { account } = useActiveWeb3React();
+  const router = useRouter();
 
   return (
     <>
@@ -37,16 +35,17 @@ const AccountTop: React.FunctionComponent = () => {
                 <h6>
                   {user?.nickName ? user?.nickName : shortenAddress(user?.address ?? account)}
                   <Button
-                    style={{ color: 'white' }}
-                    type="text"
                     icon={<LogoutOutlined />}
                     onClick={() => {
-                      router.push('/')
+                      router.push('/');
                       setTimeout(() => {
-                        setUser(undefined)
-                        setToken('')
-                      }, 100)
-                    }}>
+                        setUser(undefined);
+                        setToken('');
+                      }, 1000);
+                    }}
+                    style={{ color: 'white' }}
+                    type="text"
+                  >
                     Logout
                   </Button>
                 </h6>
@@ -103,7 +102,7 @@ const AccountTop: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default AccountTop
+export default AccountTop;

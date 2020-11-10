@@ -1,15 +1,15 @@
-import { Space } from 'antd'
-import React from 'react'
+import { Space } from 'antd';
+import React from 'react';
 
-import FhSvg from '@/icons/icon_fh.svg'
-import useTheme from '@/shared/hooks/useTheme'
+import FhSvg from '@/icons/icon_fh.svg';
+import useTheme from '@/shared/hooks/useTheme';
 
 const Content: React.FunctionComponent<{ title: React.ReactNode; extra?: React.ReactNode }> = ({
   title,
   extra,
   children
 }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <>
@@ -53,7 +53,7 @@ const Content: React.FunctionComponent<{ title: React.ReactNode; extra?: React.R
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Content
+export default Content;

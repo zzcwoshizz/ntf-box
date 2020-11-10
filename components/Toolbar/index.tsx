@@ -1,19 +1,19 @@
-import HotSvg from '@icons/icon_hot.svg'
-import { Space, Tabs } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
+import HotSvg from '@icons/icon_hot.svg';
+import { Space, Tabs } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { AssetType } from '@/api/types'
-import useContainer from '@/shared/hooks/useContainer'
-import { useConstants } from '@/shared/providers/ConstantsProvider'
-import { hex2rgba } from '@/utils/color'
+import { AssetType } from '@/api/types';
+import useContainer from '@/shared/hooks/useContainer';
+import { useConstants } from '@/shared/providers/ConstantsProvider';
+import { hex2rgba } from '@/utils/color';
 
-const { TabPane } = Tabs
+const { TabPane } = Tabs;
 
 const Toolbar: React.FunctionComponent = () => {
-  const { ASSET_TYPES } = useConstants()
-  const { containerWidth } = useContainer()
-  const router = useRouter()
+  const { ASSET_TYPES } = useConstants();
+  const { containerWidth } = useContainer();
+  const router = useRouter();
 
   return (
     <>
@@ -26,10 +26,12 @@ const Toolbar: React.FunctionComponent = () => {
               query: {
                 type: value
               }
-            })
-          }}>
+            });
+          }}
+        >
           {Object.keys(ASSET_TYPES).map((key) => (
             <TabPane
+              key={key}
               style={{ height: 22 }}
               tab={
                 <Space>
@@ -37,7 +39,6 @@ const Toolbar: React.FunctionComponent = () => {
                   {ASSET_TYPES[key as AssetType]}
                 </Space>
               }
-              key={key}
             />
           ))}
         </Tabs>
@@ -48,7 +49,7 @@ const Toolbar: React.FunctionComponent = () => {
           margin: 0 auto;
         }
       `}</style>
-      <style jsx global>{`
+      <style global jsx>{`
         .ant-tabs-top > .ant-tabs-nav::before,
         .ant-tabs-top > div > .ant-tabs-nav::before {
           border: none;
@@ -74,7 +75,7 @@ const Toolbar: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Toolbar
+export default Toolbar;

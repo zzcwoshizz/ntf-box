@@ -1,127 +1,131 @@
-import { Typography } from 'antd'
-import React from 'react'
+import { Typography } from 'antd';
+import React from 'react';
 
-import { IToken } from '@/api/types'
-import Pending from '@/components/Loading/Pending'
-import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants'
+import { IToken } from '@/api/types';
+import Pending from '@/components/Loading/Pending';
+import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants';
 
-import { useActiveWeb3React } from '../hooks'
-import useCache from '../hooks/useCache'
+import { useActiveWeb3React } from '../hooks';
+import useCache from '../hooks/useCache';
 
-const { Title } = Typography
+const { Title } = Typography;
 
 export type TransactionInfo = {
-  transactionHash: string
-  status: 'pending' | 'success' | 'fail'
-  type: 'buy' | 'transfer' | 'approve'
-}
+  transactionHash: string;
+  status: 'pending' | 'success' | 'fail';
+  type: 'buy' | 'transfer' | 'approve';
+};
 
 export type BuyTransactionInfo = {
-  token: IToken
-} & TransactionInfo
+  token: IToken;
+} & TransactionInfo;
 
 export type TransferTransactionInfo = {
-  from: string
-  to: string
-} & TransactionInfo
+  from: string;
+  to: string;
+} & TransactionInfo;
 
 export type ApproveTransactionInfo = {
-  contract: string
-  to: string
-} & TransactionInfo
+  contract: string;
+  to: string;
+} & TransactionInfo;
 
 const transactionContext = React.createContext<{
-  buyTransaction: BuyTransactionInfo[]
-  approveTransaction: ApproveTransactionInfo[]
-  transferTransaction: TransferTransactionInfo[]
-  allTransaction: (BuyTransactionInfo | TransferTransactionInfo | ApproveTransactionInfo)[]
-  addBuyTransaction(transaction: BuyTransactionInfo): void
-  addTransferTransaction(transaction: TransferTransactionInfo): void
-  addApproveTransaction(transaction: ApproveTransactionInfo): void
-  toogleVisible(hash?: string): void
-}>({} as any)
+  buyTransaction: BuyTransactionInfo[];
+  approveTransaction: ApproveTransactionInfo[];
+  transferTransaction: TransferTransactionInfo[];
+  allTransaction: (BuyTransactionInfo | TransferTransactionInfo | ApproveTransactionInfo)[];
+  addBuyTransaction(transaction: BuyTransactionInfo): void;
+  addTransferTransaction(transaction: TransferTransactionInfo): void;
+  addApproveTransaction(transaction: ApproveTransactionInfo): void;
+  toogleVisible(hash?: string): void;
+}>({} as any);
 
 const TransactionProvider: React.FunctionComponent = ({ children }) => {
-  const { library, chainId, account } = useActiveWeb3React()
+  const { library, chainId, account } = useActiveWeb3React();
   const prefix = React.useMemo(() => {
     if (chainId && account) {
-      return account + ':' + chainId + ':'
+      return account + ':' + chainId + ':';
     } else {
-      return ''
+      return '';
     }
-  }, [account, chainId])
+  }, [account, chainId]);
 
   const [buyTransaction = [], setBuyTransaction] = useCache<BuyTransactionInfo[]>(
     prefix + 'buyTransaction',
     []
-  )
+  );
   const [transferTransaction = [], setTransferTransaction] = useCache<TransferTransactionInfo[]>(
     prefix + 'transferTransaction',
     []
-  )
+  );
   const [approveTransaction = [], setApproveTransaction] = useCache<ApproveTransactionInfo[]>(
     prefix + 'approveTransaction',
     []
-  )
+  );
   const allTransaction = React.useMemo(() => {
-    return [...buyTransaction, ...transferTransaction, ...approveTransaction]
-  }, [buyTransaction, transferTransaction, approveTransaction])
-  const [visibleHash, setVisibleHash] = React.useState<string>()
+    return [...buyTransaction, ...transferTransaction, ...approveTransaction];
+  }, [buyTransaction, transferTransaction, approveTransaction]);
+  const [visibleHash, setVisibleHash] = React.useState<string>();
 
   // 保存最新的transaction
-  const buyTransactionRef = React.useRef(buyTransaction)
+  const buyTransactionRef = React.useRef(buyTransaction);
+
   React.useEffect(() => {
-    buyTransactionRef.current = buyTransaction
-  }, [buyTransaction])
-  const transferTransactionRef = React.useRef(transferTransaction)
+    buyTransactionRef.current = buyTransaction;
+  }, [buyTransaction]);
+  const transferTransactionRef = React.useRef(transferTransaction);
+
   React.useEffect(() => {
-    transferTransactionRef.current = transferTransaction
-  }, [transferTransaction])
-  const approveTransactionRef = React.useRef(approveTransaction)
+    transferTransactionRef.current = transferTransaction;
+  }, [transferTransaction]);
+  const approveTransactionRef = React.useRef(approveTransaction);
+
   React.useEffect(() => {
-    approveTransactionRef.current = approveTransaction
-  }, [approveTransaction])
-  const allTransactionRef = React.useRef(allTransaction)
+    approveTransactionRef.current = approveTransaction;
+  }, [approveTransaction]);
+  const allTransactionRef = React.useRef(allTransaction);
+
   React.useEffect(() => {
-    allTransactionRef.current = allTransaction
-  }, [allTransaction])
+    allTransactionRef.current = allTransaction;
+  }, [allTransaction]);
 
   const visibleTransaction = React.useMemo(() => {
     for (const _transaction of allTransaction) {
       if (_transaction.transactionHash === visibleHash) {
-        return _transaction
+        return _transaction;
       }
     }
-  }, [allTransaction, visibleHash])
+  }, [allTransaction, visibleHash]);
 
   const toogleVisible = React.useCallback(
     (hash?: string) => {
-      setVisibleHash(hash)
+      setVisibleHash(hash);
     },
     [setVisibleHash]
-  )
+  );
 
   React.useEffect(() => {
     const hashs = allTransactionRef.current
       .filter((transaction) => transaction.status === 'pending')
       .map((transaction) => {
-        let status: 'success' | 'fail' | 'pending' = 'pending'
+        let status: 'success' | 'fail' | 'pending' = 'pending';
 
         library
           ?.waitForTransaction(transaction.transactionHash)
           .then((result) => {
             if (result.status === 1) {
-              status = 'success'
+              status = 'success';
             } else {
-              status = 'fail'
+              status = 'fail';
             }
           })
           .catch(() => {
-            status = 'fail'
+            status = 'fail';
           })
           .finally(() => {
             if (transaction.type === 'buy') {
-              transaction = transaction as BuyTransactionInfo
+              transaction = transaction as BuyTransactionInfo;
               setBuyTransaction(
                 buyTransactionRef.current.map<BuyTransactionInfo>((_transaction) => {
                   return _transaction.transactionHash === transaction.transactionHash
@@ -131,13 +135,13 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
                       }
                     : {
                         ..._transaction
-                      }
+                      };
                 })
-              )
+              );
             }
 
             if (transaction.type === 'transfer') {
-              transaction = transaction as TransferTransactionInfo
+              transaction = transaction as TransferTransactionInfo;
               setTransferTransaction(
                 transferTransactionRef.current.map<TransferTransactionInfo>((_transaction) => {
                   return _transaction.transactionHash === transaction.transactionHash
@@ -147,13 +151,13 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
                       }
                     : {
                         ..._transaction
-                      }
+                      };
                 })
-              )
+              );
             }
 
             if (transaction.type === 'approve') {
-              transaction = transaction as ApproveTransactionInfo
+              transaction = transaction as ApproveTransactionInfo;
               setApproveTransaction(
                 approveTransactionRef.current.map<ApproveTransactionInfo>((_transaction) => {
                   return _transaction.transactionHash === transaction.transactionHash
@@ -163,37 +167,38 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
                       }
                     : {
                         ..._transaction
-                      }
+                      };
                 })
-              )
+              );
             }
-          })
-        return transaction.transactionHash
-      })
+          });
+
+        return transaction.transactionHash;
+      });
 
     return () => {
-      library?.removeAllListeners(hashs)
-    }
-  }, [library, allTransaction])
+      library?.removeAllListeners(hashs);
+    };
+  }, [library, allTransaction, setBuyTransaction, setTransferTransaction, setApproveTransaction]);
 
   const addBuyTransaction = React.useCallback(
     (transaction: BuyTransactionInfo) => {
-      setBuyTransaction([...buyTransactionRef.current, transaction])
+      setBuyTransaction([...buyTransactionRef.current, transaction]);
     },
-    [setBuyTransaction, buyTransactionRef.current]
-  )
+    [setBuyTransaction]
+  );
   const addTransferTransaction = React.useCallback(
     (transaction: TransferTransactionInfo) => {
-      setTransferTransaction([...transferTransactionRef.current, transaction])
+      setTransferTransaction([...transferTransactionRef.current, transaction]);
     },
-    [setTransferTransaction, transferTransactionRef.current]
-  )
+    [setTransferTransaction]
+  );
   const addApproveTransaction = React.useCallback(
     (transaction: ApproveTransactionInfo) => {
-      setApproveTransaction([...approveTransactionRef.current, transaction])
+      setApproveTransaction([...approveTransactionRef.current, transaction]);
     },
-    [setApproveTransaction, approveTransactionRef.current]
-  )
+    [setApproveTransaction]
+  );
 
   return (
     <transactionContext.Provider
@@ -206,13 +211,15 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
         addTransferTransaction,
         addApproveTransaction,
         toogleVisible
-      }}>
+      }}
+    >
       <Pending
-        visible={!!visibleTransaction}
         onCacel={() => {
-          setVisibleHash(undefined)
+          setVisibleHash(undefined);
         }}
-        status={visibleTransaction?.status}>
+        status={visibleTransaction?.status}
+        visible={!!visibleTransaction}
+      >
         <Title level={4} style={{ marginTop: 20, fontWeight: 400, textAlign: 'center' }}>
           {visibleTransaction?.type === 'buy' && (
             <>
@@ -240,8 +247,9 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
           Txid:{' '}
           <a
             href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID] + '/tx/' + visibleHash}
+            rel="noopener noreferrer"
             target="_blank"
-            rel="noopener noreferrer">
+          >
             {visibleTransaction?.transactionHash}
           </a>
         </span>
@@ -257,13 +265,13 @@ const TransactionProvider: React.FunctionComponent = ({ children }) => {
         }
       `}</style>
     </transactionContext.Provider>
-  )
-}
+  );
+};
 
 const useTransaction = () => {
-  const context = React.useContext(transactionContext)
+  const context = React.useContext(transactionContext);
 
-  return context
-}
+  return context;
+};
 
-export { TransactionProvider, useTransaction }
+export { TransactionProvider, useTransaction };

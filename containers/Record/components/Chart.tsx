@@ -1,10 +1,15 @@
-import ReactEchartsCore from 'echarts-for-react'
-import React from 'react'
+import ReactEchartsCore from 'echarts-for-react';
+import React from 'react';
 
 const Chart: React.FunctionComponent = () => {
   return (
     <div>
       <ReactEchartsCore
+        lazyUpdate={true}
+        onChartReady={console.log}
+        onEvents={{
+          click: console.log
+        }}
         option={{
           tooltip: {
             trigger: 'axis'
@@ -59,14 +64,9 @@ const Chart: React.FunctionComponent = () => {
             }
           ]
         }}
-        lazyUpdate={true}
-        onChartReady={console.log}
-        onEvents={{
-          click: console.log
-        }}
       />
     </div>
-  )
-}
+  );
+};
 
-export default Chart
+export default Chart;

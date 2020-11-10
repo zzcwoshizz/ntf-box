@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import PublishContainer from '@/containers/Publish'
+import PublishContainer from '@/containers/Publish';
 
 const Publish: React.FunctionComponent = () => {
-  return <PublishContainer />
-}
+  return <PublishContainer />;
+};
 
-export default Publish
+export default Publish;

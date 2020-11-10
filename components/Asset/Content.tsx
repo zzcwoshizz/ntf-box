@@ -1,45 +1,46 @@
-import { Button, Col, Row, Select, Space, Spin } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
-import PerfectScrollbar from 'react-perfect-scrollbar'
+import { Button, Col, Row, Select, Space, Spin } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { ItemOrder, OrderType } from '@/api/types'
-import { AssetCell, AssetContainer } from '@/components/Asset'
-import ProjectInfo from '@/components/Project/ProjectInfo'
-import useTheme from '@/shared/hooks/useTheme'
-import { useAsset } from '@/shared/providers/AssetProvider'
-import { useConstants } from '@/shared/providers/ConstantsProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { useProject } from '@/shared/providers/ProjectProvider'
+import { ItemOrder, OrderType } from '@/api/types';
+import { AssetCell, AssetContainer } from '@/components/Asset';
+import ProjectInfo from '@/components/Project/ProjectInfo';
+import useTheme from '@/shared/hooks/useTheme';
+import { useAsset } from '@/shared/providers/AssetProvider';
+import { useConstants } from '@/shared/providers/ConstantsProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { useProject } from '@/shared/providers/ProjectProvider';
 
-import Img from '../Img'
+import Img from '../Img';
 
-const { Option } = Select
+const { Option } = Select;
 
 const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean }> = ({
   canSelect = false,
   showHead = true
 }) => {
-  const theme = useTheme()
-  const [selected, setSelected] = React.useState<number[]>([])
-  const router = useRouter()
-  const { t } = useLanguage()
+  const theme = useTheme();
+  const [selected, setSelected] = React.useState<number[]>([]);
+  const router = useRouter();
+  const { t } = useLanguage();
 
-  const { project } = useProject()
-  const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset()
-  const { ORDER_TYPE, ITEM_ORDER } = useConstants()
+  const { project } = useProject();
+  const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset();
+  const { ORDER_TYPE, ITEM_ORDER } = useConstants();
 
-  const { query } = router
-  const { selType } = query as { selType?: string }
+  const { query } = router;
+  const { selType } = query as { selType?: string };
 
   const toogleSelected = (index: number) => {
-    const hasIndex = selected.indexOf(index)
+    const hasIndex = selected.indexOf(index);
+
     if (hasIndex > -1) {
-      setSelected(selected.slice(0, hasIndex).concat(selected.slice(hasIndex + 1)))
+      setSelected(selected.slice(0, hasIndex).concat(selected.slice(hasIndex + 1)));
     } else {
-      setSelected([...selected, index])
+      setSelected([...selected, index]);
     }
-  }
+  };
 
   return (
     <>
@@ -48,7 +49,7 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
           <div className="head">
             <div className="left">
               <Space>
-                {project && <Img width={36} height={36} src={project.logoUrl} />}
+                {project && <Img height={36} src={project.logoUrl} width={36} />}
                 <span>
                   <h4>{project ? project.name : t('asset.content.title')}</h4>
                   <p>{t('asset.content.desc', { count: page.total })}</p>
@@ -64,16 +65,17 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
         )}
         <div className="select">
           <Row>
-            <Col xs={{ span: 12 }} lg={{ span: 8 }} style={{ paddingRight: 16 }}>
+            <Col lg={{ span: 8 }} style={{ paddingRight: 16 }} xs={{ span: 12 }}>
               <Select
-                value={filter.orderType}
-                placeholder={t('asset.content.selectType')}
                 onChange={(value) => {
                   toogleFilter({
                     ...filter,
                     orderType: value
-                  })
-                }}>
+                  });
+                }}
+                placeholder={t('asset.content.selectType')}
+                value={filter.orderType}
+              >
                 {Object.keys(ORDER_TYPE).map((key) => (
                   <Option key={key} value={key}>
                     {ORDER_TYPE[key as OrderType]}
@@ -81,16 +83,17 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
                 ))}
               </Select>
             </Col>
-            <Col xs={{ span: 12 }} lg={{ span: 8 }}>
+            <Col lg={{ span: 8 }} xs={{ span: 12 }}>
               <Select
-                value={filter.itemOrder}
-                placeholder={t('asset.content.sort')}
                 onChange={(value) =>
                   toogleFilter({
                     ...filter,
                     itemOrder: value
                   })
-                }>
+                }
+                placeholder={t('asset.content.sort')}
+                value={filter.itemOrder}
+              >
                 {Object.keys(ITEM_ORDER).map((key) => (
                   <Option key={key} value={key}>
                     {ITEM_ORDER[key as ItemOrder]}
@@ -103,35 +106,36 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
         <Spin spinning={fetching && page.page === 1}>
           <div className="list">
             <PerfectScrollbar
-              style={{ height: '100%' }}
               onScrollDown={(e) => {
                 if (e.scrollHeight === e.scrollTop + e.clientHeight) {
-                  onScrollBottom()
+                  onScrollBottom();
                 }
-              }}>
+              }}
+              style={{ height: '100%' }}
+            >
               <AssetContainer>
                 {assets.map((asset, index) => (
                   <AssetCell
-                    key={index}
                     asset={asset}
-                    showSelect={canSelect}
-                    selected={selected.indexOf(index) > -1}
+                    key={index}
                     onClick={() => {
                       if (canSelect) {
-                        toogleSelected(index)
+                        toogleSelected(index);
                       } else {
                         if (asset.tokens.length > 1) {
-                          router.push(`/bundle/${asset.orderId}`)
+                          router.push(`/bundle/${asset.orderId}`);
                         } else {
                           router.push(
                             `/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`
-                          )
+                          );
                         }
                       }
                     }}
                     onSelect={() => {
-                      toogleSelected(index)
+                      toogleSelected(index);
                     }}
+                    selected={selected.indexOf(index) > -1}
+                    showSelect={canSelect}
                   />
                 ))}
               </AssetContainer>
@@ -151,14 +155,14 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
                               address: selected.map((index) => assets[index].tokens[0].contractAdd),
                               tokenId: selected.map((index) => assets[index].tokens[0].tokenId)
                             }
-                          })
-                        }}>
+                          });
+                        }}
+                      >
                         {t('asset.content.transfer')}
                       </Button>
                     )}
                     {selType === 'sell' && (
                       <Button
-                        type="primary"
                         onClick={() => {
                           router.push({
                             pathname: '/publish',
@@ -166,8 +170,10 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
                               address: selected.map((index) => assets[index].tokens[0].contractAdd),
                               tokenId: selected.map((index) => assets[index].tokens[0].tokenId)
                             }
-                          })
-                        }}>
+                          });
+                        }}
+                        type="primary"
+                      >
                         {t('asset.content.sell')}
                       </Button>
                     )}
@@ -241,7 +247,7 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Content
+export default Content;

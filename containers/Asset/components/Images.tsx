@@ -1,35 +1,36 @@
-import { Carousel, Typography } from 'antd'
-import React from 'react'
+import { Carousel, Typography } from 'antd';
+import React from 'react';
 
-import GLTF from '@/components/GLTF'
-import Img from '@/components/Img'
-import useTheme from '@/shared/hooks/useTheme'
+import GLTF from '@/components/GLTF';
+import Img from '@/components/Img';
+import useTheme from '@/shared/hooks/useTheme';
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const Images: React.FunctionComponent<{ images?: string[] }> = ({ images }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
-  const [current, setCurrent] = React.useState(0)
+  const [current, setCurrent] = React.useState(0);
 
   return (
     <>
       <div className="container">
         <Carousel
-          effect="fade"
-          autoplay={false}
           afterChange={(num) => {
-            setCurrent(num)
-          }}>
+            setCurrent(num);
+          }}
+          autoplay={false}
+          effect="fade"
+        >
           {images?.map((image, index) => {
-            const extension = image.substring(image.lastIndexOf('.') + 1)
+            const extension = image.substring(image.lastIndexOf('.') + 1);
 
             return (
               <div key={index}>
-                {extension !== 'gltf' && <Img height={400} src={image} fit="contain" preview />}
+                {extension !== 'gltf' && <Img fit="contain" height={400} preview src={image} />}
                 {extension === 'gltf' && <GLTF height={400} url={image} />}
               </div>
-            )
+            );
           })}
         </Carousel>
         <span className="progress">
@@ -70,7 +71,7 @@ const Images: React.FunctionComponent<{ images?: string[] }> = ({ images }) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Images
+export default Images;

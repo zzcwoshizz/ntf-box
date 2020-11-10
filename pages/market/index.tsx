@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import MarketContainer from '@/containers/Market'
+import MarketContainer from '@/containers/Market';
 
-export const Market: React.FunctionComponent = () => <MarketContainer />
+export const Market: React.FunctionComponent = () => <MarketContainer />;
 
-export default Market
+export default Market;

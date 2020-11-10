@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import Items from './Items'
-import Sales from './Sales'
-import Setting from './Setting'
+import Items from './Items';
+import Sales from './Sales';
+import Setting from './Setting';
 
 const Info: React.FunctionComponent = () => {
   return (
@@ -11,7 +11,7 @@ const Info: React.FunctionComponent = () => {
       <Sales />
       <Setting />
     </div>
-  )
-}
+  );
+};
 
-export default Info
+export default Info;

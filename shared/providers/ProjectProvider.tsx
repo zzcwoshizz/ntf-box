@@ -1,42 +1,41 @@
-import React from 'react'
-import { useAsync } from 'react-use'
+import React from 'react';
+import { useAsync } from 'react-use';
 
-import { IProject } from '@/api/types'
-
-import { useApi } from './ApiProvider'
+import { getProject, getProjectList } from '@/api';
+import { IProject } from '@/api/types';
 
 const projectContext = React.createContext<{
-  projects: IProject[]
-  project?: IProject
-  selectProject(id?: number): void
-}>({} as any)
+  projects: IProject[];
+  project?: IProject;
+  selectProject(id?: number): void;
+}>({} as any);
 
 const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
   children,
   address
 }) => {
-  const { getProject, getProjectList } = useApi()
-  const [projects, setProjects] = React.useState<IProject[]>([])
-  const [projectId, setProjectId] = React.useState<number>()
+  const [projects, setProjects] = React.useState<IProject[]>([]);
+  const [projectId, setProjectId] = React.useState<number>();
 
   React.useEffect(() => {
     getProjectList({ address: address ?? undefined }).then(({ data }) => {
-      setProjects(data)
-    })
-  }, [address])
+      setProjects(data);
+    });
+  }, [address]);
 
   const { value: project } = useAsync(async () => {
     if (!projectId) {
-      return
+      return;
     }
 
-    const { data } = await getProject(projectId)
-    return data
-  }, [projectId])
+    const { data } = await getProject(projectId);
+
+    return data;
+  }, [projectId]);
 
   const selectProject = (id?: number) => {
-    setProjectId(id)
-  }
+    setProjectId(id);
+  };
 
   return (
     <projectContext.Provider
@@ -44,16 +43,17 @@ const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
         projects,
         project,
         selectProject
-      }}>
+      }}
+    >
       {children}
     </projectContext.Provider>
-  )
-}
+  );
+};
 
 const useProject = () => {
-  const context = React.useContext(projectContext)
+  const context = React.useContext(projectContext);
 
-  return context
-}
+  return context;
+};
 
-export { ProjectProvider, useProject }
+export { ProjectProvider, useProject };

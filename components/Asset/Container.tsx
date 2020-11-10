@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 
 const Container: React.FunctionComponent<{ size?: 'lg' | 'sm' }> = ({ children, size = 'lg' }) => {
   return (
@@ -8,7 +8,7 @@ const Container: React.FunctionComponent<{ size?: 'lg' | 'sm' }> = ({ children, 
           <div className="cell-wrapper" key={index}>
             {child}
           </div>
-        ) : null
+        ) : null;
       })}
       <style jsx>{`
         .container {
@@ -83,7 +83,7 @@ const Container: React.FunctionComponent<{ size?: 'lg' | 'sm' }> = ({ children, 
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default Container
+export default Container;

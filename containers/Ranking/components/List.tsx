@@ -1,17 +1,17 @@
-import { Space, Table } from 'antd'
-import { ColumnsType } from 'antd/lib/table'
-import React from 'react'
+import { Space, Table } from 'antd';
+import { ColumnsType } from 'antd/lib/table';
+import React from 'react';
 
-import { IRanking } from '@/api/types'
-import Img from '@/components/Img'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { IRanking } from '@/api/types';
+import Img from '@/components/Img';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import { useData } from '../context'
+import { useData } from '../context';
 
 const List: React.FunctionComponent = () => {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
-  const { ranking, fetching } = useData()
+  const { ranking, fetching } = useData();
 
   const columns: ColumnsType<IRanking> = [
     {
@@ -25,7 +25,7 @@ const List: React.FunctionComponent = () => {
       key: 'name',
       render: (_, record) => (
         <Space>
-          <Img width={24} src={record.logoUrl} />
+          <Img src={record.logoUrl} width={24} />
           {record.name}
         </Space>
       )
@@ -61,11 +61,11 @@ const List: React.FunctionComponent = () => {
       dataIndex: 'turnoverRate',
       render: (_, record) => (record.turnoverRate * 100).toFixed(2) + '%'
     }
-  ]
+  ];
 
   return (
-    <Table<IRanking> loading={fetching} columns={columns} dataSource={ranking} pagination={false} />
-  )
-}
+    <Table<IRanking> columns={columns} dataSource={ranking} loading={fetching} pagination={false} />
+  );
+};
 
-export default List
+export default List;

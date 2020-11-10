@@ -1,5 +1,5 @@
 export interface IPage {
-  page: number
-  pageSize: number
-  total?: number
+  page: number;
+  pageSize: number;
+  total?: number;
 }

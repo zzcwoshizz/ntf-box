@@ -1,19 +1,19 @@
-import { Typography } from 'antd'
-import React from 'react'
+import { Typography } from 'antd';
+import React from 'react';
 
-import Header from '@/components/Header'
-import Filter from '@/containers/Ranking/components/Filter'
-import useContainer from '@/shared/hooks/useContainer'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import Header from '@/components/Header';
+import Filter from '@/containers/Ranking/components/Filter';
+import useContainer from '@/shared/hooks/useContainer';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import List from './components/List'
-import { DataProvider } from './context'
+import List from './components/List';
+import { DataProvider } from './context';
 
-const { Title } = Typography
+const { Title } = Typography;
 
 const Ranking: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const { t } = useLanguage()
+  const { containerWidth } = useContainer();
+  const { t } = useLanguage();
 
   return (
     <>
@@ -43,7 +43,7 @@ const Ranking: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Ranking
+export default Ranking;

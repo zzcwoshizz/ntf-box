@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import RecordContainer from '@/containers/Record'
+import RecordContainer from '@/containers/Record';
 
-export const Record: React.FunctionComponent = () => <RecordContainer />
+export const Record: React.FunctionComponent = () => <RecordContainer />;
 
-export default Record
+export default Record;

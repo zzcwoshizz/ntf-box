@@ -124,6 +124,7 @@ export default {
     transfer: 'Gift',
     offShelf: 'Off shelf',
     modifyPrice: '{address} modify the price',
+    bundle: 'Bundle sell',
     columns: {
       time: 'Time',
       commodity: 'Commodity',
@@ -209,4 +210,4 @@ export default {
       category: 'Category'
     }
   }
-}
+};

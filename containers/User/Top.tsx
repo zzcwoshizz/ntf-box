@@ -1,20 +1,21 @@
-import { Space, Typography } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Space, Typography } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import Header from '@/components/Header'
-import Jdenticon from '@/components/Jdenticon'
-import useContainer from '@/shared/hooks/useContainer'
-import { shortenAddress } from '@/utils/string'
+import Header from '@/components/Header';
+import Jdenticon from '@/components/Jdenticon';
+import useContainer from '@/shared/hooks/useContainer';
+import { shortenAddress } from '@/utils/string';
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const AccountTop: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
   let {
     query: { address }
-  } = useRouter()
-  address = address as string
+  } = useRouter();
+
+  address = address as string;
 
   return (
     <>
@@ -72,7 +73,7 @@ const AccountTop: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default AccountTop
+export default AccountTop;

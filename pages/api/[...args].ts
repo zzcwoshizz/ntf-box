@@ -1,12 +1,12 @@
-import { createProxyMiddleware } from 'http-proxy-middleware'
+import { createProxyMiddleware } from 'http-proxy-middleware';
 
-import { API_URL } from '@/api/config'
+import { API_URL } from '@/api/config';
 
 export const config = {
   api: {
     bodyParser: false
   }
-}
+};
 
 export default createProxyMiddleware({
   target: API_URL,
@@ -15,4 +15,4 @@ export default createProxyMiddleware({
     '/api': ''
   },
   logLevel: process.env.NODE_ENV === 'production' ? 'silent' : 'debug'
-})
+});

@@ -1,20 +1,20 @@
-import React from 'react'
+import React from 'react';
 
-import useTheme from '@/shared/hooks/useTheme'
+import useTheme from '@/shared/hooks/useTheme';
 
 interface Props {
-  value: any
-  options: { value: any; title: React.ReactNode }[]
+  value: any;
+  options: { value: any; title: React.ReactNode }[];
 }
 
 const Select: React.FunctionComponent<Props> = ({ value, options }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <>
       <div className="select-wrapper">
         {options.map(({ value: _value, title }) => (
-          <div key={_value} className={'select' + (_value === value ? ' selected' : '')}>
+          <div className={'select' + (_value === value ? ' selected' : '')} key={_value}>
             {title}
           </div>
         ))}
@@ -48,7 +48,7 @@ const Select: React.FunctionComponent<Props> = ({ value, options }) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Select
+export default Select;

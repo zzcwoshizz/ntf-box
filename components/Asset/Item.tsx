@@ -1,24 +1,24 @@
-import { Space } from 'antd'
-import React from 'react'
+import { Space } from 'antd';
+import React from 'react';
 
-import Img from '@/components/Img'
-import useTheme from '@/shared/hooks/useTheme'
+import Img from '@/components/Img';
+import useTheme from '@/shared/hooks/useTheme';
 
 interface Props {
-  icon?: string
-  title: React.ReactNode
-  extra?: React.ReactNode
+  icon?: string;
+  title: React.ReactNode;
+  extra?: React.ReactNode;
 }
 
 const Item: React.FunctionComponent<Props> = ({ icon, title, extra }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <>
       <div className="item">
         <div className="meta">
           <Space>
-            <Img width={24} height={24} src={icon} alt={title?.toString() + ''} />
+            <Img alt={title?.toString() + ''} height={24} src={icon} width={24} />
             {title}
           </Space>
         </div>
@@ -62,7 +62,7 @@ const Item: React.FunctionComponent<Props> = ({ icon, title, extra }) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Item
+export default Item;

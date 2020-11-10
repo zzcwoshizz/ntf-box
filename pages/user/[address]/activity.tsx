@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import ActivityContainer from '@/containers/User/Activity'
+import ActivityContainer from '@/containers/User/Activity';
 
 const Activity: React.FunctionComponent = () => {
-  return <ActivityContainer />
-}
+  return <ActivityContainer />;
+};
 
-export default Activity
+export default Activity;

@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
-import AverageSvg from '@/icons/icon_average.svg'
-import ItemsSvg from '@/icons/icon_items.svg'
-import NumberSvg from '@/icons/icon_number.svg'
-import TurnoverSvg from '@/icons/icon_turnover.svg'
+import AverageSvg from '@/icons/icon_average.svg';
+import ItemsSvg from '@/icons/icon_items.svg';
+import NumberSvg from '@/icons/icon_number.svg';
+import TurnoverSvg from '@/icons/icon_turnover.svg';
 
 const Data: React.FunctionComponent = () => {
   return (
@@ -160,7 +160,7 @@ const Data: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Data
+export default Data;

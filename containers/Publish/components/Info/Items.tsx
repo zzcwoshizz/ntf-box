@@ -1,22 +1,22 @@
-import { Carousel, Space } from 'antd'
-import React from 'react'
+import { Carousel, Space } from 'antd';
+import React from 'react';
 
-import Img from '@/components/Img'
-import Jdenticon from '@/components/Jdenticon'
-import RightArrow from '@/icons/icon_right.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import Img from '@/components/Img';
+import Jdenticon from '@/components/Jdenticon';
+import RightArrow from '@/icons/icon_right.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import { useData } from '../../context'
-import Content from './Content'
+import { useData } from '../../context';
+import Content from './Content';
 
 const Cell: React.FunctionComponent<{ icon: React.ReactNode; name: string; price?: string }> = ({
   icon,
   name,
   price
 }) => {
-  const theme = useTheme()
-  const { t } = useLanguage()
+  const theme = useTheme();
+  const { t } = useLanguage();
 
   return (
     <>
@@ -62,34 +62,32 @@ const Cell: React.FunctionComponent<{ icon: React.ReactNode; name: string; price
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
 const Items: React.FunctionComponent = () => {
-  const theme = useTheme()
-  const { tokens } = useData()
+  const theme = useTheme();
+  const { tokens } = useData();
 
   return (
-    <Content title="Items on the shelf" extra={tokens.length + ' piece'}>
+    <Content extra={tokens.length + ' piece'} title="Items on the shelf">
       <div className="items" style={{ width: '100%', padding: '0 32px 0 48px' }}>
         <div style={{ width: '100%' }}>
           <Carousel
             arrows
-            prevArrow={
-              <div>
-                <RightArrow />
-              </div>
-            }
+            autoplay={false}
+            dots={false}
+            infinite={false}
             nextArrow={
               <div>
                 <RightArrow />
               </div>
             }
-            infinite={false}
-            dots={false}
-            slidesToShow={2}
-            slidesToScroll={2}
-            autoplay={false}
+            prevArrow={
+              <div>
+                <RightArrow />
+              </div>
+            }
             responsive={[
               {
                 breakpoint: 992,
@@ -98,17 +96,20 @@ const Items: React.FunctionComponent = () => {
                   slidesToScroll: 1
                 }
               }
-            ]}>
+            ]}
+            slidesToScroll={2}
+            slidesToShow={2}
+          >
             {tokens.map((t, index) => (
               <Cell
-                key={index}
                 icon={
                   t.images?.[0] ? (
-                    <Img preview width={40} height={40} src={t.images[0]} />
+                    <Img height={40} preview src={t.images[0]} width={40} />
                   ) : (
                     <Jdenticon size={40} value={t.contractAdd + t.tokenId} />
                   )
                 }
+                key={index}
                 name={t.name || '- -'}
                 price=""
               />
@@ -149,7 +150,7 @@ const Items: React.FunctionComponent = () => {
         }
       `}</style>
     </Content>
-  )
-}
+  );
+};
 
-export default Items
+export default Items;

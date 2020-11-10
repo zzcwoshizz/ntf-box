@@ -1,19 +1,18 @@
-import React from 'react'
+import React from 'react';
 
-import { IToken } from '@/api/types'
+import { buy as buyApi, getOrder, modifyPrice, verifyOrder } from '@/api';
+import { IToken } from '@/api/types';
 
-import { DEFAULT_CHAIN_ID, MARKET_ABI, MARKET_ADDRESS } from '../constants'
-import { useApi } from '../providers/ApiProvider'
-import { useTransaction } from '../providers/TransactionProvider'
-import { useActiveWeb3React } from '.'
-import useContract from './useContract'
+import { DEFAULT_CHAIN_ID, MARKET_ABI, MARKET_ADDRESS } from '../constants';
+import { useTransaction } from '../providers/TransactionProvider';
+import { useActiveWeb3React } from '.';
+import useContract from './useContract';
 
 const useMarket = (tokens: IToken[]) => {
-  const { buy: buyApi, getOrder, modifyPrice, verifyOrder } = useApi()
-  const { account, library, chainId = DEFAULT_CHAIN_ID } = useActiveWeb3React()
-  const { addBuyTransaction, toogleVisible } = useTransaction()
+  const { account, library, chainId = DEFAULT_CHAIN_ID } = useActiveWeb3React();
+  const { addBuyTransaction, toogleVisible } = useTransaction();
 
-  const market = useContract(MARKET_ADDRESS[chainId], MARKET_ABI)
+  const market = useContract(MARKET_ADDRESS[chainId], MARKET_ABI);
 
   /**
    * type
@@ -28,11 +27,11 @@ const useMarket = (tokens: IToken[]) => {
   const makeOrder = React.useCallback(
     async (expirationHeight: string, price: string, type: 0 | 1 | 2 | 3 | 4 | 5 | 6) => {
       if (!account || !library) {
-        return
+        return;
       }
 
       if (tokens.length === 0) {
-        return
+        return;
       }
 
       const { data } = await getOrder(
@@ -44,35 +43,35 @@ const useMarket = (tokens: IToken[]) => {
         expirationHeight,
         price,
         type
-      )
+      );
 
       // const signature = await library.send('personal_sign', [data.orderHash, account])
-      const signature = await library.getSigner().signMessage(data.orderHash)
+      const signature = await library.getSigner().signMessage(data.orderHash);
 
       await verifyOrder({
         orderId: data.orderId,
         signature
-      })
+      });
 
-      return data.orderId
+      return data.orderId;
     },
-    [tokens, account, library, chainId, market, getOrder, verifyOrder]
-  )
+    [tokens, account, library]
+  );
 
   const buy = React.useCallback(
     async (orderId: string) => {
       if (!account || !library) {
-        return
+        return;
       }
 
       if (tokens.length === 0) {
-        return
+        return;
       }
 
-      const { data } = await buyApi(orderId)
-      const r = data.sign.slice(0, 64)
-      const s = data.sign.slice(64, 128)
-      const v = data.sign.slice(128, 130)
+      const { data } = await buyApi(orderId);
+      const r = data.sign.slice(0, 64);
+      const s = data.sign.slice(64, 128);
+      const v = data.sign.slice(128, 130);
 
       const { hash } = await market.functions.dealOrder(
         data.orderId,
@@ -92,7 +91,8 @@ const useMarket = (tokens: IToken[]) => {
         ],
         data.transferFuncEncodes,
         { value: data.dealPrice }
-      )
+      );
+
       addBuyTransaction({
         transactionHash: hash,
         token: {
@@ -102,30 +102,32 @@ const useMarket = (tokens: IToken[]) => {
         },
         status: 'pending',
         type: 'buy'
-      })
-      toogleVisible(hash)
+      });
+      toogleVisible(hash);
     },
-    [tokens, account, library, chainId, market, buyApi, addBuyTransaction]
-  )
+    [account, library, tokens.length, market.functions, addBuyTransaction, toogleVisible]
+  );
 
   const changePrice = React.useCallback(
     async (orderId: string, newPrice: string) => {
       if (!account || !library) {
-        return
+        return;
       }
 
-      const signature = await library.getSigner().signMessage(JSON.stringify({ orderId, newPrice }))
+      const signature = await library
+        .getSigner()
+        .signMessage(JSON.stringify({ orderId, newPrice }));
 
-      return await modifyPrice({ orderId, price: newPrice, signature })
+      return await modifyPrice({ orderId, price: newPrice, signature });
     },
-    [account, library, modifyPrice]
-  )
+    [account, library]
+  );
 
   return {
     makeOrder,
     buy,
     changePrice
-  }
-}
+  };
+};
 
-export default useMarket
+export default useMarket;

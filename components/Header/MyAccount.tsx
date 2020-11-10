@@ -1,35 +1,33 @@
-import { DownOutlined, LoadingOutlined } from '@ant-design/icons'
-import { Button, Dropdown, Menu, Space, Tag } from 'antd'
-import Link from 'next/link'
-import React from 'react'
+import { DownOutlined, LoadingOutlined } from '@ant-design/icons';
+import { Button, Dropdown, Menu, Space, Tag } from 'antd';
+import Link from 'next/link';
+import React from 'react';
 
-import useTheme from '@/shared/hooks/useTheme'
-import { useApi } from '@/shared/providers/ApiProvider'
-import { useApp } from '@/shared/providers/AppProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import useTheme from '@/shared/hooks/useTheme';
+import { useApp } from '@/shared/providers/AppProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 import {
   ApproveTransactionInfo,
   BuyTransactionInfo,
   TransferTransactionInfo,
   useTransaction
-} from '@/shared/providers/TransactionProvider'
-import { shortenAddress } from '@/utils/string'
+} from '@/shared/providers/TransactionProvider';
+import { shortenAddress } from '@/utils/string';
 
-import EnableButton from '../Button/EnableButton'
-import Jdenticon from '../Jdenticon'
+import EnableButton from '../Button/EnableButton';
+import Jdenticon from '../Jdenticon';
 
 const Transaction: React.FunctionComponent = () => {
-  const { user } = useApp()
-  const { login } = useApi()
-  const { t } = useLanguage()
-  const theme = useTheme()
-  const { allTransaction, toogleVisible } = useTransaction()
+  const { user, login } = useApp();
+  const { t } = useLanguage();
+  const theme = useTheme();
+  const { allTransaction, toogleVisible } = useTransaction();
 
   const pendingTransaction = React.useMemo(() => {
-    return allTransaction.filter((transaction) => transaction.status === 'pending')
-  }, [allTransaction])
+    return allTransaction.filter((transaction) => transaction.status === 'pending');
+  }, [allTransaction]);
 
-  const pending = pendingTransaction.length
+  const pending = pendingTransaction.length;
 
   const userMenu = (
     <Menu className="account-dropdown">
@@ -40,8 +38,9 @@ const Transaction: React.FunctionComponent = () => {
               <Menu.Item
                 key={transaction.transactionHash}
                 onClick={() => {
-                  toogleVisible(transaction.transactionHash)
-                }}>
+                  toogleVisible(transaction.transactionHash);
+                }}
+              >
                 {transaction.type === 'transfer' && (
                   <Space>
                     <span>
@@ -54,7 +53,8 @@ const Transaction: React.FunctionComponent = () => {
                           : transaction.status === 'fail'
                           ? 'error'
                           : 'blue'
-                      }>
+                      }
+                    >
                       {transaction.status}
                     </Tag>
                   </Space>
@@ -73,7 +73,8 @@ const Transaction: React.FunctionComponent = () => {
                           : transaction.status === 'fail'
                           ? 'error'
                           : 'blue'
-                      }>
+                      }
+                    >
                       {transaction.status}
                     </Tag>
                   </Space>
@@ -90,13 +91,14 @@ const Transaction: React.FunctionComponent = () => {
                           : transaction.status === 'fail'
                           ? 'error'
                           : 'blue'
-                      }>
+                      }
+                    >
                       {transaction.status}
                     </Tag>
                   </Space>
                 )}
               </Menu.Item>
-            )
+            );
           })}
         </Menu.ItemGroup>
       )}
@@ -130,17 +132,19 @@ const Transaction: React.FunctionComponent = () => {
         </Menu.Item>
       </Menu.ItemGroup>
     </Menu>
-  )
+  );
+
   return (
     <>
       <div className="container">
         {user ? (
           <Dropdown overlay={userMenu}>
             <Button
+              icon={pending > 0 ? <LoadingOutlined /> : null}
+              shape={pending > 0 ? 'round' : undefined}
               size="small"
               type={pending > 0 ? 'primary' : 'text'}
-              shape={pending > 0 ? 'round' : undefined}
-              icon={pending > 0 ? <LoadingOutlined /> : null}>
+            >
               {pending === 0 && (
                 <>
                   {user.nickName ? (
@@ -161,12 +165,12 @@ const Transaction: React.FunctionComponent = () => {
             </Button>
           </Dropdown>
         ) : (
-          <EnableButton type="link" onClick={login}>
+          <EnableButton onClick={login} type="link">
             {t('header.myAccount')}
           </EnableButton>
         )}
       </div>
-      <style jsx global>{`
+      <style global jsx>{`
         .account-dropdown .title {
           padding: 5px 8px;
 
@@ -179,7 +183,7 @@ const Transaction: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Transaction
+export default Transaction;

@@ -1,34 +1,34 @@
-import React from 'react'
+import React from 'react';
 
 const Light: React.FunctionComponent = () => {
-  const shadowResolution = 1024 * 4
+  const shadowResolution = 1024 * 4;
 
   return (
     <>
       <spotLight
-        position={[-10, 5, 10]}
         angle={0.9}
-        penumbra={1}
-        intensity={1.5}
         castShadow={true}
-        shadow-mapSize-width={shadowResolution}
+        intensity={1.5}
+        penumbra={1}
+        position={[-10, 5, 10]}
         shadow-mapSize-height={shadowResolution}
+        shadow-mapSize-width={shadowResolution}
       />
 
       <spotLight
-        position={[10, -5, -10]}
         angle={0.9}
-        penumbra={1}
-        intensity={0.5}
         castShadow={true}
-        shadow-mapSize-width={shadowResolution}
+        intensity={0.5}
+        penumbra={1}
+        position={[10, -5, -10]}
         shadow-mapSize-height={shadowResolution}
+        shadow-mapSize-width={shadowResolution}
       />
 
       <hemisphereLight intensity={0.3} />
-      <pointLight position={[-30, 10, -30]} intensity={0.5} />
+      <pointLight intensity={0.5} position={[-30, 10, -30]} />
     </>
-  )
-}
+  );
+};
 
-export default Light
+export default Light;

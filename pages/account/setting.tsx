@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import SettingContainer from '@/containers/Account/Setting'
-import AccountTop from '@/containers/Account/Top'
+import SettingContainer from '@/containers/Account/Setting';
+import AccountTop from '@/containers/Account/Top';
 
 const Setting: React.FunctionComponent = () => {
   return (
@@ -9,7 +9,7 @@ const Setting: React.FunctionComponent = () => {
       <AccountTop />
       <SettingContainer />
     </>
-  )
-}
+  );
+};
 
-export default Setting
+export default Setting;

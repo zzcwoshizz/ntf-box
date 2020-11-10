@@ -1,26 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-import { ProjectFilter } from '@/components/Asset'
-import ProjectData from '@/components/Project/ProjectData'
-import { useAsset } from '@/shared/providers/AssetProvider'
-import { useProject } from '@/shared/providers/ProjectProvider'
+import { ProjectFilter } from '@/components/Asset';
+import ProjectData from '@/components/Project/ProjectData';
+import { useAsset } from '@/shared/providers/AssetProvider';
+import { useProject } from '@/shared/providers/ProjectProvider';
 
 const Filter: React.FunctionComponent = () => {
-  const { projects, project } = useProject()
-  const { filter, toogleFilter } = useAsset()
+  const { projects, project } = useProject();
+  const { filter, toogleFilter } = useAsset();
 
   return (
     <>
       <ProjectFilter
-        projects={projects}
-        project={project}
         onSelectProject={(project) => {
           if (project) {
-            toogleFilter({ ...filter, id: project.id, name: project.name })
+            toogleFilter({ ...filter, id: project.id, name: project.name });
           } else {
-            toogleFilter({ ...filter, id: undefined, name: undefined })
+            toogleFilter({ ...filter, id: undefined, name: undefined });
           }
         }}
+        project={project}
+        projects={projects}
         renderDetail={() => (
           <>
             <div className="content">
@@ -35,7 +35,7 @@ const Filter: React.FunctionComponent = () => {
         )}
       />
     </>
-  )
-}
+  );
+};
 
-export default Filter
+export default Filter;

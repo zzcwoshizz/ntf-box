@@ -1,14 +1,14 @@
-import React from 'react'
+import React from 'react';
 
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
 
-import Desc from './components/Desc'
-import Infos from './components/Infos'
-import { DataProvider } from './context'
+import Desc from './components/Desc';
+import Infos from './components/Infos';
+import { DataProvider } from './context';
 
 const Asset: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
 
   return (
     <>
@@ -26,7 +26,7 @@ const Asset: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Asset
+export default Asset;

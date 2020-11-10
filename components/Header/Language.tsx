@@ -1,25 +1,27 @@
-import { Dropdown, Menu } from 'antd'
-import React from 'react'
+import { Dropdown, Menu } from 'antd';
+import React from 'react';
 
-import { LangType, useLanguage } from '@/shared/providers/LanguageProvider'
+import { LangType, useLanguage } from '@/shared/providers/LanguageProvider';
 
 const Language: React.FunctionComponent = () => {
-  const { supportLang, lang, toogleLang } = useLanguage()
+  const { supportLang, lang, toogleLang } = useLanguage();
+
   return (
     <>
       <Dropdown
-        placement={'bottomLeft'}
-        trigger={['click']}
         overlay={
           <Menu>
             {Object.keys(supportLang).map((key) => (
               <Menu.Item key={key} onClick={() => toogleLang(key as LangType)}>
-                <img src={supportLang[key as LangType].icon} alt="language" />
+                <img alt="language" src={supportLang[key as LangType].icon} />
               </Menu.Item>
             ))}
           </Menu>
-        }>
-        <img src={supportLang[lang].icon} alt="language" />
+        }
+        placement={'bottomLeft'}
+        trigger={['click']}
+      >
+        <img alt="language" src={supportLang[lang].icon} />
       </Dropdown>
       <style jsx>{`
         img {
@@ -27,7 +29,7 @@ const Language: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Language
+export default Language;

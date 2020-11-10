@@ -1,21 +1,21 @@
-import { MenuOutlined } from '@ant-design/icons'
-import { Dropdown, Menu, Space } from 'antd'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { MenuOutlined } from '@ant-design/icons';
+import { Dropdown, Menu, Space } from 'antd';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer'
-import useTheme from '@/shared/hooks/useTheme'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import useContainer from '@/shared/hooks/useContainer';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import ActiveLink from '../Link/ActiveLink'
-import Language from './Language'
-import MyAccount from './MyAccount'
+import ActiveLink from '../Link/ActiveLink';
+import Language from './Language';
+import MyAccount from './MyAccount';
 
 const Header: React.FunctionComponent = () => {
-  const theme = useTheme()
-  const { containerWidth } = useContainer()
-  const { t } = useLanguage()
+  const theme = useTheme();
+  const { containerWidth } = useContainer();
+  const { t } = useLanguage();
 
   const navs = [
     {
@@ -42,9 +42,9 @@ const Header: React.FunctionComponent = () => {
     //   href: '/record',
     //   title: t('header.record')
     // }
-  ]
+  ];
 
-  const router = useRouter()
+  const router = useRouter();
 
   return (
     <>
@@ -52,7 +52,7 @@ const Header: React.FunctionComponent = () => {
         <div className="container">
           <Link href="/">
             <a>
-              <img className="logo" src="/imgs/logo.svg" alt="logo" />
+              <img alt="logo" className="logo" src="/imgs/logo.svg" />
             </a>
           </Link>
           <nav>
@@ -71,8 +71,6 @@ const Header: React.FunctionComponent = () => {
             </Space>
             <div className="mb-menu">
               <Dropdown
-                placement={'bottomLeft'}
-                trigger={['click']}
                 overlay={
                   <Menu>
                     {navs.map((nav, index) => (
@@ -83,7 +81,10 @@ const Header: React.FunctionComponent = () => {
                       </Menu.Item>
                     ))}
                   </Menu>
-                }>
+                }
+                placement={'bottomLeft'}
+                trigger={['click']}
+              >
                 <MenuOutlined />
               </Dropdown>
             </div>
@@ -153,7 +154,7 @@ const Header: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

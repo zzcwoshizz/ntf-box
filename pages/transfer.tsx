@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import TransferContainer from '@/containers/Transfer'
+import TransferContainer from '@/containers/Transfer';
 
-export const Transfer: React.FunctionComponent = () => <TransferContainer />
+export const Transfer: React.FunctionComponent = () => <TransferContainer />;
 
-export default Transfer
+export default Transfer;

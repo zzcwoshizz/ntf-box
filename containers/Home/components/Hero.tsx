@@ -1,30 +1,29 @@
-import { Button, Col, Row, Typography } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Button, Col, Row, Typography } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { IBanner } from '@/api/types'
-import Banner from '@/components/Banner'
-import Header from '@/components/Header'
-import Toolbar from '@/components/Toolbar'
-import JTSvg from '@/icons/icon_jt.svg'
-import useContainer from '@/shared/hooks/useContainer'
-import { useApi } from '@/shared/providers/ApiProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { getBanner } from '@/api';
+import { IBanner } from '@/api/types';
+import Banner from '@/components/Banner';
+import Header from '@/components/Header';
+import Toolbar from '@/components/Toolbar';
+import JTSvg from '@/icons/icon_jt.svg';
+import useContainer from '@/shared/hooks/useContainer';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 const Hero: React.FunctionComponent = () => {
-  const { getBanner } = useApi()
-  const router = useRouter()
-  const [banners, setBanners] = React.useState<IBanner[]>([])
-  const { containerWidth } = useContainer()
-  const { t } = useLanguage()
+  const router = useRouter();
+  const [banners, setBanners] = React.useState<IBanner[]>([]);
+  const { containerWidth } = useContainer();
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     getBanner().then(({ data }) => {
-      setBanners(data)
-    })
-  }, [])
+      setBanners(data);
+    });
+  }, []);
 
   return (
     <>
@@ -34,23 +33,23 @@ const Hero: React.FunctionComponent = () => {
           <Header />
           <div className="content">
             <Row>
-              <Col xs={{ span: 24 }} lg={{ span: 15 }}>
+              <Col lg={{ span: 15 }} xs={{ span: 24 }}>
                 <div className="text">
                   <Title>{t('home.title')}</Title>
                   <Text>{t('home.desc')}</Text>
                 </div>
                 <div className="action">
-                  <Button type="primary" size="large" onClick={() => router.push('/market')}>
+                  <Button onClick={() => router.push('/market')} size="large" type="primary">
                     {t('home.buyNow')}
                   </Button>
-                  <Button type="link" size="large" onClick={() => router.push('/account/setting')}>
+                  <Button onClick={() => router.push('/account/setting')} size="large" type="link">
                     {t('home.subscribe')}{' '}
                     <JTSvg style={{ marginLeft: 4, verticalAlign: 'middle' }} />
                   </Button>
                 </div>
               </Col>
-              <Col xs={{ span: 24 }} lg={{ span: 8, offset: 1 }}>
-                <img className="desc" src="/imgs/home/desc.png" alt="ntf box" />
+              <Col lg={{ span: 8, offset: 1 }} xs={{ span: 24 }}>
+                <img alt="ntf box" className="desc" src="/imgs/home/desc.png" />
               </Col>
             </Row>
             {banners.length > 0 && <Banner banner={banners} />}
@@ -133,7 +132,7 @@ const Hero: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Hero
+export default Hero;

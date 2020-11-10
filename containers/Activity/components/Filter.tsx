@@ -1,43 +1,43 @@
-import { Button } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Button } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { ProjectFilter } from '@/components/Asset'
-import ProjectData from '@/components/Project/ProjectData'
-import GoSvg from '@/icons/icon_go.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useActivity } from '@/shared/providers/ActivityProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { useProject } from '@/shared/providers/ProjectProvider'
+import { ProjectFilter } from '@/components/Asset';
+import ProjectData from '@/components/Project/ProjectData';
+import GoSvg from '@/icons/icon_go.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useActivity } from '@/shared/providers/ActivityProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { useProject } from '@/shared/providers/ProjectProvider';
 
 const ActivityFilter: React.FunctionComponent = () => {
-  const theme = useTheme()
-  const router = useRouter()
-  const { t } = useLanguage()
-  const { projects, project } = useProject()
-  const { filter, toogleFilter } = useActivity()
+  const theme = useTheme();
+  const router = useRouter();
+  const { t } = useLanguage();
+  const { projects, project } = useProject();
+  const { filter, toogleFilter } = useActivity();
 
   return (
     <>
       <ProjectFilter
-        projects={projects}
-        showItemExtra={false}
-        project={project}
         onSelectProject={(project) => {
           if (project) {
-            toogleFilter({ ...filter, id: project.id, name: project.name })
+            toogleFilter({ ...filter, id: project.id, name: project.name });
           } else {
-            toogleFilter({ ...filter, id: undefined, name: undefined })
+            toogleFilter({ ...filter, id: undefined, name: undefined });
           }
         }}
+        project={project}
+        projects={projects}
         renderDetail={() => (
           <>
             <div className="content">
               <div className="item">
                 <Button
                   onClick={() => {
-                    router.push(`/market?id=${filter.id}`)
-                  }}>
+                    router.push(`/market?id=${filter.id}`);
+                  }}
+                >
                   {t('activity.goToMarket')}
                   <GoSvg style={{ marginLeft: 15 }} />
                 </Button>
@@ -58,9 +58,10 @@ const ActivityFilter: React.FunctionComponent = () => {
             `}</style>
           </>
         )}
+        showItemExtra={false}
       />
     </>
-  )
-}
+  );
+};
 
-export default ActivityFilter
+export default ActivityFilter;

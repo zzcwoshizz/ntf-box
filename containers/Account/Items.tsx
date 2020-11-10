@@ -1,28 +1,28 @@
-import { useRouter } from 'next/router'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { AssetContent } from '@/components/Asset'
-import { injected } from '@/connectors'
-import { useActiveWeb3React } from '@/shared/hooks'
-import useAutoLogin from '@/shared/hooks/useAutoLogin'
-import useContainer from '@/shared/hooks/useContainer'
-import { AssetProvider } from '@/shared/providers/AssetProvider'
-import { ProjectProvider } from '@/shared/providers/ProjectProvider'
+import { AssetContent } from '@/components/Asset';
+import { injected } from '@/connectors';
+import { useActiveWeb3React } from '@/shared/hooks';
+import useAutoLogin from '@/shared/hooks/useAutoLogin';
+import useContainer from '@/shared/hooks/useContainer';
+import { AssetProvider } from '@/shared/providers/AssetProvider';
+import { ProjectProvider } from '@/shared/providers/ProjectProvider';
 
-import Filter from './components/AssetFilter'
+import Filter from './components/AssetFilter';
 
 const Items: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const { account, activate, active } = useActiveWeb3React()
+  const { containerWidth } = useContainer();
+  const { account, activate, active } = useActiveWeb3React();
 
   React.useEffect(() => {
     if (!active) {
-      activate(injected)
+      activate(injected);
     }
-  }, [active])
-  useAutoLogin()
+  }, [activate, active]);
+  useAutoLogin();
 
-  const { query } = useRouter()
+  const { query } = useRouter();
 
   return (
     <>
@@ -56,7 +56,7 @@ const Items: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Items
+export default Items;

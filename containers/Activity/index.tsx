@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import { ActivityContent } from '@/components/Activity'
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
-import { ActivityProvider } from '@/shared/providers/ActivityProvider'
-import { ProjectProvider } from '@/shared/providers/ProjectProvider'
+import { ActivityContent } from '@/components/Activity';
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
+import { ActivityProvider } from '@/shared/providers/ActivityProvider';
+import { ProjectProvider } from '@/shared/providers/ProjectProvider';
 
-import Filter from './components/Filter'
+import Filter from './components/Filter';
 
 const Activity: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
 
   return (
     <>
@@ -42,7 +42,7 @@ const Activity: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Activity
+export default Activity;

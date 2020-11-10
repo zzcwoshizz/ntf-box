@@ -1,25 +1,25 @@
-import React from 'react'
+import React from 'react';
 
-import { ActivityContent } from '@/components/Activity'
-import { injected } from '@/connectors'
-import { useActiveWeb3React } from '@/shared/hooks'
-import useAutoLogin from '@/shared/hooks/useAutoLogin'
-import useContainer from '@/shared/hooks/useContainer'
-import { ActivityProvider } from '@/shared/providers/ActivityProvider'
-import { ProjectProvider } from '@/shared/providers/ProjectProvider'
+import { ActivityContent } from '@/components/Activity';
+import { injected } from '@/connectors';
+import { useActiveWeb3React } from '@/shared/hooks';
+import useAutoLogin from '@/shared/hooks/useAutoLogin';
+import useContainer from '@/shared/hooks/useContainer';
+import { ActivityProvider } from '@/shared/providers/ActivityProvider';
+import { ProjectProvider } from '@/shared/providers/ProjectProvider';
 
-import Filter from './components/ActivityFilter'
+import Filter from './components/ActivityFilter';
 
 const Activity: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const { account, activate, active } = useActiveWeb3React()
+  const { containerWidth } = useContainer();
+  const { account, activate, active } = useActiveWeb3React();
 
   React.useEffect(() => {
     if (!active) {
-      activate(injected)
+      activate(injected);
     }
-  }, [active])
-  useAutoLogin()
+  }, [activate, active]);
+  useAutoLogin();
 
   return (
     <>
@@ -53,7 +53,7 @@ const Activity: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Activity
+export default Activity;

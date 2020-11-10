@@ -1,42 +1,42 @@
-import { Button, Col, Divider, Input, Modal, Row, Space, Spin, Typography } from 'antd'
-import { BigNumber, utils } from 'ethers'
-import moment from 'moment'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Button, Col, Divider, Input, Modal, Row, Space, Spin, Typography } from 'antd';
+import { BigNumber, utils } from 'ethers';
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import EnableButton from '@/components/Button/EnableButton'
-import Jdenticon from '@/components/Jdenticon'
-import BornSvg from '@/icons/icon_born.svg'
-import PriceSvg from '@/icons/icon_price.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useApp } from '@/shared/providers/AppProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { shortenAddress } from '@/utils/string'
+import EnableButton from '@/components/Button/EnableButton';
+import Jdenticon from '@/components/Jdenticon';
+import BornSvg from '@/icons/icon_born.svg';
+import PriceSvg from '@/icons/icon_price.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useApp } from '@/shared/providers/AppProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { shortenAddress } from '@/utils/string';
 
-import { useData } from '../context'
-import Images from './Images'
+import { useData } from '../context';
+import Images from './Images';
 
-const { Title } = Typography
+const { Title } = Typography;
 
 const Desc: React.FunctionComponent = () => {
-  const theme = useTheme()
-  const router = useRouter()
-  const { t } = useLanguage()
-  const { balance } = useApp()
-  const { asset, token, isMine, fetching, holders, changePrice, cancelOrder, buy } = useData()
+  const theme = useTheme();
+  const router = useRouter();
+  const { t } = useLanguage();
+  const { balance } = useApp();
+  const { asset, token, isMine, fetching, holders, changePrice, cancelOrder, buy } = useData();
 
-  const [price, setPrice] = React.useState('')
+  const [price, setPrice] = React.useState('');
 
   return (
     <>
       <Spin spinning={fetching}>
         <div className="container">
           <Row>
-            <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 20 }}>
+            <Col lg={{ span: 8 }} style={{ padding: 20 }} xs={{ span: 24 }}>
               <Images images={token.images} />
             </Col>
-            <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 20 }}>
+            <Col lg={{ span: 16 }} style={{ padding: 20 }} xs={{ span: 24 }}>
               <span style={{ color: theme['@text-color-tertiary'] }}>{token.projectDO?.name}</span>
               <Title level={3}>{token.name}</Title>
               <Divider style={{ margin: '16px 0' }} />
@@ -70,33 +70,35 @@ const Desc: React.FunctionComponent = () => {
                 <div className="form">
                   {asset && (
                     <Input
-                      style={{ width: '100%', marginTop: 10 }}
-                      placeholder={t('asset.detail.inputPrice')}
-                      value={price}
                       onChange={(e) => setPrice(e.target.value)}
+                      placeholder={t('asset.detail.inputPrice')}
+                      style={{ width: '100%', marginTop: 10 }}
+                      value={price}
                     />
                   )}
                   {asset && (
                     <Space>
                       <EnableButton
-                        style={{ marginTop: 16 }}
-                        type="primary"
                         onClick={() =>
                           changePrice(price).finally(() => {
-                            setPrice('')
+                            setPrice('');
                           })
-                        }>
+                        }
+                        style={{ marginTop: 16 }}
+                        type="primary"
+                      >
                         {t('asset.detail.modifyPrice')}
                       </EnableButton>
                       <EnableButton
-                        style={{ marginTop: 16 }}
                         onClick={() => {
                           if (!asset.orderId) {
-                            return
+                            return;
                           }
 
-                          return cancelOrder(asset.orderId)
-                        }}>
+                          return cancelOrder(asset.orderId);
+                        }}
+                        style={{ marginTop: 16 }}
+                      >
                         {t('asset.detail.cancel')}
                       </EnableButton>
                     </Space>
@@ -104,7 +106,6 @@ const Desc: React.FunctionComponent = () => {
                   {!asset && (
                     <Space style={{ marginTop: 16 }}>
                       <EnableButton
-                        type="primary"
                         onClick={() =>
                           router.push({
                             pathname: '/publish',
@@ -113,7 +114,9 @@ const Desc: React.FunctionComponent = () => {
                               tokenId: token.tokenId
                             }
                           })
-                        }>
+                        }
+                        type="primary"
+                      >
                         {t('asset.detail.sell')}
                       </EnableButton>
                       <Button
@@ -124,8 +127,9 @@ const Desc: React.FunctionComponent = () => {
                               address: token.contractAdd,
                               tokenId: token.tokenId
                             }
-                          })
-                        }}>
+                          });
+                        }}
+                      >
                         {t('asset.detail.gift')}
                       </Button>
                     </Space>
@@ -135,18 +139,19 @@ const Desc: React.FunctionComponent = () => {
               {!isMine && asset && (
                 <div className="form">
                   <EnableButton
-                    style={{ marginTop: 16 }}
-                    type="primary"
                     onClick={() => {
                       if (BigNumber.from(asset.dealPrice ?? '0').gt(BigNumber.from(balance))) {
                         Modal.warn({
                           title: 'Add funds to complete this transaction',
                           content: `Please deposit ETH ${utils.formatEther(asset.dealPrice ?? '0')}`
-                        })
+                        });
                       } else {
-                        buy()
+                        buy();
                       }
-                    }}>
+                    }}
+                    style={{ marginTop: 16 }}
+                    type="primary"
+                  >
                     {t('asset.detail.buy')}
                   </EnableButton>
                 </div>
@@ -209,7 +214,7 @@ const Desc: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Desc
+export default Desc;

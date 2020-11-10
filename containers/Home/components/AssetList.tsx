@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer'
-import useTheme from '@/shared/hooks/useTheme'
+import useContainer from '@/shared/hooks/useContainer';
+import useTheme from '@/shared/hooks/useTheme';
 
 interface Props {
-  title: React.ReactNode
-  extra: React.ReactNode
+  title: React.ReactNode;
+  extra: React.ReactNode;
 }
 
 const AssetList: React.FunctionComponent<Props> = ({ title, extra, children }) => {
-  const { containerWidth } = useContainer()
-  const theme = useTheme()
+  const { containerWidth } = useContainer();
+  const theme = useTheme();
 
   return (
     <>
@@ -48,7 +48,7 @@ const AssetList: React.FunctionComponent<Props> = ({ title, extra, children }) =
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default AssetList
+export default AssetList;

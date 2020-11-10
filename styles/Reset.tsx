@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 
 const ResetCss: React.FunctionComponent = () => {
   return (
     <>
-      <style jsx global>{`
+      <style global jsx>{`
         .ant-space-item {
           display: flex;
           align-items: center;
@@ -25,7 +25,7 @@ const ResetCss: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default ResetCss
+export default ResetCss;

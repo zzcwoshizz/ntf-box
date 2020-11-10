@@ -1,23 +1,23 @@
-import DiscordSvg from '@icons/dapp_discord.svg'
-import IntroSvg from '@icons/dapp_intro.svg'
-import TelegramSvg from '@icons/dapp_telegram.svg'
-import TwitterSvg from '@icons/dapp_twitter.svg'
-import WebsiteSvg from '@icons/dapp_website.svg'
-import { Popover, Tag, Typography } from 'antd'
-import React from 'react'
+import DiscordSvg from '@icons/dapp_discord.svg';
+import IntroSvg from '@icons/dapp_intro.svg';
+import TelegramSvg from '@icons/dapp_telegram.svg';
+import TwitterSvg from '@icons/dapp_twitter.svg';
+import WebsiteSvg from '@icons/dapp_website.svg';
+import { Popover, Tag, Typography } from 'antd';
+import React from 'react';
 
-import { AssetType, IProject } from '@/api/types'
-import useTheme from '@/shared/hooks/useTheme'
-import { useConstants } from '@/shared/providers/ConstantsProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { hex2rgba } from '@/utils/color'
+import { AssetType, IProject } from '@/api/types';
+import useTheme from '@/shared/hooks/useTheme';
+import { useConstants } from '@/shared/providers/ConstantsProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { hex2rgba } from '@/utils/color';
 
-const { Text } = Typography
+const { Text } = Typography;
 
 const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }) => {
-  const theme = useTheme()
-  const { t } = useLanguage()
-  const { ASSET_TYPES } = useConstants()
+  const theme = useTheme();
+  const { t } = useLanguage();
+  const { ASSET_TYPES } = useConstants();
 
   return (
     <>
@@ -30,8 +30,6 @@ const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }
         )}
         {project.des && (
           <Popover
-            overlayClassName="project-info-popover"
-            trigger="hover"
             content={
               <div>
                 <div className="popover-content">
@@ -39,25 +37,31 @@ const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }
                 </div>
                 <div className="popover-footer">
                   <Tag
+                    color={hex2rgba(theme['@primary-color'], 0.06)}
                     style={{ color: theme['@primary-color'] }}
-                    color={hex2rgba(theme['@primary-color'], 0.06)}>
+                  >
                     {t('project.projectInfo.ranking')}: {project.ranking}
                   </Tag>
                   {project.type.split(',').map((type, index) => {
-                    const typeText = ASSET_TYPES[type as AssetType]
+                    const typeText = ASSET_TYPES[type as AssetType];
+
                     return typeText ? (
                       <Tag
-                        style={{ color: theme['@primary-color'] }}
                         color={hex2rgba(theme['@primary-color'], 0.06)}
-                        key={index}>
+                        key={index}
+                        style={{ color: theme['@primary-color'] }}
+                      >
                         {typeText}
                       </Tag>
-                    ) : null
+                    ) : null;
                   })}
                 </div>
               </div>
             }
-            placement="bottomLeft">
+            overlayClassName="project-info-popover"
+            placement="bottomLeft"
+            trigger="hover"
+          >
             <div className="item">
               <IntroSvg />
               {t('project.projectInfo.intro')}
@@ -126,7 +130,7 @@ const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default ProjectInfo
+export default ProjectInfo;

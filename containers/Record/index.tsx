@@ -1,16 +1,16 @@
-import { Typography } from 'antd'
-import React from 'react'
+import { Typography } from 'antd';
+import React from 'react';
 
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
 
-import Chart from './components/Chart'
-import Data from './components/Data'
+import Chart from './components/Chart';
+import Data from './components/Data';
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 const Record: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
 
   return (
     <>
@@ -60,7 +60,7 @@ const Record: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Record
+export default Record;

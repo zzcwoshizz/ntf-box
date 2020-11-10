@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import ItemsContainer from '@/containers/Account/Items'
-import AccountTop from '@/containers/Account/Top'
+import ItemsContainer from '@/containers/Account/Items';
+import AccountTop from '@/containers/Account/Top';
 
 const Items: React.FunctionComponent = () => {
   return (
@@ -9,7 +9,7 @@ const Items: React.FunctionComponent = () => {
       <AccountTop />
       <ItemsContainer />
     </>
-  )
-}
+  );
+};
 
-export default Items
+export default Items;

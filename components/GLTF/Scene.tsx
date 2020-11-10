@@ -1,8 +1,8 @@
-import React from 'react'
+import React from 'react';
 
-import Box from './Box'
-import CameraControls from './CameraControls'
-import Light from './Light'
+import Box from './Box';
+import CameraControls from './CameraControls';
+import Light from './Light';
 
 const Scene: React.FunctionComponent<{ url: string }> = ({ url }) => {
   return (
@@ -11,7 +11,7 @@ const Scene: React.FunctionComponent<{ url: string }> = ({ url }) => {
       <Light />
       <Box url={url} />
     </>
-  )
-}
+  );
+};
 
-export default Scene
+export default Scene;

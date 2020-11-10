@@ -1,80 +1,81 @@
-import { useRouter } from 'next/router'
-import React from 'react'
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { IAsset } from '@/api/types'
-import { AssetCell, AssetContainer } from '@/components/Asset'
-import MoreLink from '@/components/Link/MoreLink'
-import HotSvg from '@/icons/icon_hot.svg'
-import NewSvg from '@/icons/icon_new.svg'
-import { useApi } from '@/shared/providers/ApiProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { getHotGoods, getLatestGoods } from '@/api';
+import { IAsset } from '@/api/types';
+import { AssetCell, AssetContainer } from '@/components/Asset';
+import MoreLink from '@/components/Link/MoreLink';
+import HotSvg from '@/icons/icon_hot.svg';
+import NewSvg from '@/icons/icon_new.svg';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import AssetList from './components/AssetList'
-import Help from './components/Help'
-import Hero from './components/Hero'
-import Intro from './components/Intro'
+import AssetList from './components/AssetList';
+import Help from './components/Help';
+import Hero from './components/Hero';
+import Intro from './components/Intro';
 
 const Home: React.FunctionComponent = () => {
-  const { getHotGoods, getLatestGoods } = useApi()
-  const router = useRouter()
-  const [hot, setHot] = React.useState<IAsset[]>([])
-  const [latest, setLatest] = React.useState<IAsset[]>([])
-  const { t } = useLanguage()
+  const router = useRouter();
+  const [hot, setHot] = React.useState<IAsset[]>([]);
+  const [latest, setLatest] = React.useState<IAsset[]>([]);
+  const { t } = useLanguage();
 
   React.useEffect(() => {
     getHotGoods().then((res) => {
-      setHot(res.data)
-    })
+      setHot(res.data);
+    });
     getLatestGoods().then((res) => {
-      setLatest(res.data)
-    })
-  }, [])
+      setLatest(res.data);
+    });
+  }, []);
 
   const jumpUrl = (asset: IAsset) => {
     if (asset.tokens.length > 1) {
-      router.push(`/bundle/${asset.orderId}`)
+      router.push(`/bundle/${asset.orderId}`);
     } else {
-      router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`)
+      router.push(`/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`);
     }
-  }
+  };
 
   return (
     <div className="container">
       <Hero />
       <div className="list">
         <AssetList
+          extra={<MoreLink href="/market" />}
           title={
             <>
               <HotSvg style={{ marginRight: 4 }} /> {t('home.hot')}
             </>
           }
-          extra={<MoreLink href="/market" />}>
+        >
           <AssetContainer>
             {hot.map((asset, index) => (
               <AssetCell
-                key={index}
                 asset={asset}
+                key={index}
                 onClick={() => {
-                  jumpUrl(asset)
+                  jumpUrl(asset);
                 }}
               />
             ))}
           </AssetContainer>
         </AssetList>
         <AssetList
+          extra={<MoreLink href="/market" />}
           title={
             <>
               <NewSvg style={{ marginRight: 4 }} /> {t('home.newest')}
             </>
           }
-          extra={<MoreLink href="/market" />}>
+        >
           <AssetContainer>
             {latest.map((asset, index) => (
               <AssetCell
-                key={index}
                 asset={asset}
+                key={index}
                 onClick={() => {
-                  jumpUrl(asset)
+                  jumpUrl(asset);
                 }}
               />
             ))}
@@ -90,7 +91,7 @@ const Home: React.FunctionComponent = () => {
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
-export default Home
+export default Home;

@@ -1,83 +1,85 @@
-import { Button, Input, Modal, Switch } from 'antd'
-import React from 'react'
+import { Button, Input, Modal, Switch } from 'antd';
+import React from 'react';
 
-import { injected } from '@/connectors'
-import FhSvg from '@/icons/icon_fh.svg'
-import { useActiveWeb3React } from '@/shared/hooks'
-import useAutoLogin from '@/shared/hooks/useAutoLogin'
-import useContainer from '@/shared/hooks/useContainer'
-import useTheme from '@/shared/hooks/useTheme'
-import { useApp } from '@/shared/providers/AppProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { injected } from '@/connectors';
+import FhSvg from '@/icons/icon_fh.svg';
+import { useActiveWeb3React } from '@/shared/hooks';
+import useAutoLogin from '@/shared/hooks/useAutoLogin';
+import useContainer from '@/shared/hooks/useContainer';
+import useTheme from '@/shared/hooks/useTheme';
+import { useApp } from '@/shared/providers/AppProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const Setting: React.FunctionComponent = () => {
-  const { activate, active } = useActiveWeb3React()
-  const { containerWidth } = useContainer()
-  const theme = useTheme()
-  const { t } = useLanguage()
+  const { activate, active } = useActiveWeb3React();
+  const { containerWidth } = useContainer();
+  const theme = useTheme();
+  const { t } = useLanguage();
 
-  const { user, toogleUserInfo } = useApp()
-  const [email, setEmail] = React.useState('')
-  const [emailVisible, setEmailVisible] = React.useState(false)
-  const [name, setName] = React.useState('')
-  const [nameVisible, setNameVisible] = React.useState(false)
-  const [loading, setLoading] = React.useState(false)
+  const { user, toogleUserInfo } = useApp();
+  const [email, setEmail] = React.useState('');
+  const [emailVisible, setEmailVisible] = React.useState(false);
+  const [name, setName] = React.useState('');
+  const [nameVisible, setNameVisible] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
 
   React.useEffect(() => {
     if (!active) {
-      activate(injected)
+      activate(injected);
     }
-  }, [active])
-  useAutoLogin()
+  }, [activate, active]);
+  useAutoLogin();
 
   return (
     <>
       <Modal
-        visible={emailVisible}
-        title={t('account.emailModal.title')}
         confirmLoading={loading}
+        onCancel={() => {
+          setEmailVisible(false);
+        }}
         onOk={() => {
           toogleUserInfo({
             email
           }).finally(() => {
-            setLoading(false)
-            setEmailVisible(false)
-          })
+            setLoading(false);
+            setEmailVisible(false);
+          });
         }}
-        onCancel={() => {
-          setEmailVisible(false)
-        }}>
+        title={t('account.emailModal.title')}
+        visible={emailVisible}
+      >
         <Input
-          type="email"
-          placeholder={t('account.emailModal.inputEmail')}
-          value={email}
           onChange={(e) => {
-            setEmail(e.target.value)
+            setEmail(e.target.value);
           }}
+          placeholder={t('account.emailModal.inputEmail')}
+          type="email"
+          value={email}
         />
       </Modal>
       <Modal
-        visible={nameVisible}
-        title={t('account.nameModal.title')}
         confirmLoading={loading}
+        onCancel={() => {
+          setNameVisible(false);
+        }}
         onOk={() => {
           toogleUserInfo({
             userName: name
           }).finally(() => {
-            setLoading(false)
-            setNameVisible(false)
-          })
+            setLoading(false);
+            setNameVisible(false);
+          });
         }}
-        onCancel={() => {
-          setNameVisible(false)
-        }}>
+        title={t('account.nameModal.title')}
+        visible={nameVisible}
+      >
         <Input
-          type="text"
-          placeholder={t('account.nameModal.inputName')}
-          value={name}
           onChange={(e) => {
-            setName(e.target.value)
+            setName(e.target.value);
           }}
+          placeholder={t('account.nameModal.inputName')}
+          type="text"
+          value={name}
         />
       </Modal>
       <div className="container">
@@ -93,7 +95,7 @@ const Setting: React.FunctionComponent = () => {
           <span style={{ color: theme['@text-color-tertiary'] }}>{t('account.emailDesc')}</span>
           <span>{user?.email}</span>
           <span style={{ textAlign: 'right' }}>
-            <Button type="link" size="small" onClick={() => setEmailVisible(true)}>
+            <Button onClick={() => setEmailVisible(true)} size="small" type="link">
               {t('account.setUp')}
             </Button>
           </span>
@@ -103,7 +105,7 @@ const Setting: React.FunctionComponent = () => {
           <span style={{ color: theme['@text-color-tertiary'] }}>{t('account.nameDesc')}</span>
           <span>{user?.nickName}</span>
           <span style={{ textAlign: 'right' }}>
-            <Button type="link" size="small" onClick={() => setNameVisible(true)}>
+            <Button onClick={() => setNameVisible(true)} size="small" type="link">
               {t('account.setUp')}
             </Button>
           </span>
@@ -118,13 +120,13 @@ const Setting: React.FunctionComponent = () => {
           <span>
             {t('account.reminder')}
             <Switch
-              style={{ marginLeft: 16 }}
               checked={Boolean(user?.newAlert)}
               onChange={(value) => {
                 toogleUserInfo({
                   newAlert: Number(value)
-                })
+                });
               }}
+              style={{ marginLeft: 16 }}
             />
           </span>
         </div>
@@ -132,13 +134,13 @@ const Setting: React.FunctionComponent = () => {
           <span>
             {t('account.security')}
             <Switch
-              style={{ marginLeft: 16 }}
               checked={Boolean(user?.tradeAlert)}
               onChange={(value) => {
                 toogleUserInfo({
                   tradeAlert: Number(value)
-                })
+                });
               }}
+              style={{ marginLeft: 16 }}
             />
           </span>
         </div>
@@ -187,7 +189,7 @@ const Setting: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Setting
+export default Setting;

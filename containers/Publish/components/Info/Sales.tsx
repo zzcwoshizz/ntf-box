@@ -1,26 +1,27 @@
-import { Form, Input } from 'antd'
-import React from 'react'
+import { Form, Input } from 'antd';
+import React from 'react';
 
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import Content from './Content'
-import Select from './Select'
+import Content from './Content';
+import Select from './Select';
 
 const Sales: React.FunctionComponent = () => {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   return (
     <Content title={t('publish.saleMethod')}>
-      <Select value="1" options={[{ value: '1', title: t('publish.fixPrice') }]}></Select>
+      <Select options={[{ value: '1', title: t('publish.fixPrice') }]} value="1"></Select>
       <Form.Item
-        style={{ width: '48%', marginTop: 16 }}
-        name="price"
         label={t('publish.priceLabel')}
-        rules={[{ required: true }]}>
+        name="price"
+        rules={[{ required: true }]}
+        style={{ width: '48%', marginTop: 16 }}
+      >
         <Input addonAfter="ETH" placeholder={t('publish.inputPrice')} />
       </Form.Item>
     </Content>
-  )
-}
+  );
+};
 
-export default Sales
+export default Sales;

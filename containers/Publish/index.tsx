@@ -1,16 +1,16 @@
-import React from 'react'
+import React from 'react';
 
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
-import useTheme from '@/shared/hooks/useTheme'
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
+import useTheme from '@/shared/hooks/useTheme';
 
-import Info from './components/Info'
-import Preview from './components/Preview'
-import { DataProvider } from './context'
+import Info from './components/Info';
+import Preview from './components/Preview';
+import { DataProvider } from './context';
 
 const Publish: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const theme = useTheme()
+  const { containerWidth } = useContainer();
+  const theme = useTheme();
 
   return (
     <>
@@ -54,7 +54,7 @@ const Publish: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Publish
+export default Publish;

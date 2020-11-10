@@ -1,22 +1,22 @@
-import { Button, Space, Table } from 'antd'
-import { ColumnsType } from 'antd/lib/table'
-import { utils } from 'ethers'
-import moment from 'moment'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Button, Space, Table } from 'antd';
+import { ColumnsType } from 'antd/lib/table';
+import { utils } from 'ethers';
+import moment from 'moment';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { ITokenOwner } from '@/api/types'
-import { shortenAddress } from '@/utils/string'
+import { ITokenOwner } from '@/api/types';
+import { shortenAddress } from '@/utils/string';
 
-import Jdenticon from '../Jdenticon'
+import Jdenticon from '../Jdenticon';
 
 const TokenOwnerTable: React.FunctionComponent<{
-  data: ITokenOwner[]
-  address: string
-  loading?: boolean
+  data: ITokenOwner[];
+  address: string;
+  loading?: boolean;
 }> = ({ data, address, loading = false }) => {
-  const router = useRouter()
+  const router = useRouter();
 
   const columns: ColumnsType<ITokenOwner> = [
     {
@@ -53,19 +53,20 @@ const TokenOwnerTable: React.FunctionComponent<{
       render: (orderId, record) =>
         orderId && (
           <Button
-            type="primary"
             onClick={() => {
-              router.push(`/asset/${address}/${record.tokenId}`)
-            }}>
+              router.push(`/asset/${address}/${record.tokenId}`);
+            }}
+            type="primary"
+          >
             BUY NOW
           </Button>
         )
     }
-  ]
+  ];
 
   return (
-    <Table<ITokenOwner> columns={columns} dataSource={data} pagination={false} loading={loading} />
-  )
-}
+    <Table<ITokenOwner> columns={columns} dataSource={data} loading={loading} pagination={false} />
+  );
+};
 
-export default TokenOwnerTable
+export default TokenOwnerTable;

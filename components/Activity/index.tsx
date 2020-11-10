@@ -1,3 +1,3 @@
-import ActivityContent from './Content'
+import ActivityContent from './Content';
 
-export { ActivityContent }
+export { ActivityContent };

@@ -1,19 +1,17 @@
-import { Checkbox, Input, List, Menu, Row, Slider, Space } from 'antd'
-import Link from 'next/link'
-import React from 'react'
-import PerfectScrollbar from 'react-perfect-scrollbar'
+import { Input, Space } from 'antd';
+import Link from 'next/link';
+import React from 'react';
+import PerfectScrollbar from 'react-perfect-scrollbar';
 
-import { IProject } from '@/api/types'
-import { AssetItem } from '@/components/Asset'
-import CloseSvg from '@/icons/close.svg'
-import FhWhiteSvg from '@/icons/icon_fh_white.svg'
-import SearchSvg from '@/icons/icon_search.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { IProject } from '@/api/types';
+import { AssetItem } from '@/components/Asset';
+import CloseSvg from '@/icons/close.svg';
+import FhWhiteSvg from '@/icons/icon_fh_white.svg';
+import SearchSvg from '@/icons/icon_search.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import Img from '../Img'
-
-const { SubMenu } = Menu
+import Img from '../Img';
 
 // <Menu mode="inline">
 //   <SubMenu key="sub1" title="A selection-type">
@@ -58,12 +56,12 @@ const { SubMenu } = Menu
 // </Menu>
 
 export interface Props {
-  projects: IProject[]
-  project?: IProject
-  showItemExtra?: boolean
-  showHead?: boolean
-  onSelectProject?(project?: IProject): void
-  renderDetail?(): React.ReactNode
+  projects: IProject[];
+  project?: IProject;
+  showItemExtra?: boolean;
+  showHead?: boolean;
+  onSelectProject?(project?: IProject): void;
+  renderDetail?(): React.ReactNode;
 }
 
 const ActivityFilter: React.FunctionComponent<Props> = ({
@@ -74,16 +72,16 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
   onSelectProject,
   renderDetail
 }) => {
-  const theme = useTheme()
-  const { t } = useLanguage()
+  const theme = useTheme();
+  const { t } = useLanguage();
 
-  const [search, setSearch] = React.useState('')
+  const [search, setSearch] = React.useState('');
 
   const filterdProjects = React.useMemo(
     () =>
       projects.filter((project) => project.name.toUpperCase().indexOf(search.toUpperCase()) > -1),
     [search, projects]
-  )
+  );
 
   return (
     <>
@@ -98,19 +96,19 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
         )}
         <div className="search">
           <Input
-            prefix={project ? <Img width={16} src={project.logoUrl} /> : <SearchSvg />}
+            onChange={(e) => {
+              if (!project?.name) {
+                setSearch(e.target.value);
+              }
+            }}
             placeholder="Search"
+            prefix={project ? <Img src={project.logoUrl} width={16} /> : <SearchSvg />}
             suffix={
               project && (
-                <CloseSvg style={{ cursor: 'pointer' }} onClick={() => onSelectProject?.()} />
+                <CloseSvg onClick={() => onSelectProject?.()} style={{ cursor: 'pointer' }} />
               )
             }
             value={project?.name ?? search}
-            onChange={(e) => {
-              if (!project?.name) {
-                setSearch(e.target.value)
-              }
-            }}
           />
         </div>
         <div className="list">
@@ -122,16 +120,18 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
                 <Link
                   as={{ pathname: '/market', query: { id: project.id, name: project.name } }}
                   href="/market"
-                  key={index}>
+                  key={index}
+                >
                   <a
                     onClick={(e) => {
-                      e.preventDefault()
-                      onSelectProject?.(project)
-                    }}>
+                      e.preventDefault();
+                      onSelectProject?.(project);
+                    }}
+                  >
                     <AssetItem
+                      extra={showItemExtra ? project.num : null}
                       icon={project.logoUrl}
                       title={project.name}
-                      extra={showItemExtra ? project.num : null}
                     />
                   </a>
                 </Link>
@@ -215,7 +215,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default ActivityFilter
+export default ActivityFilter;

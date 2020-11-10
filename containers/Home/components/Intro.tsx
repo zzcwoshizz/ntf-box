@@ -1,23 +1,23 @@
-import { Col, Row, Typography } from 'antd'
-import React from 'react'
+import { Col, Row, Typography } from 'antd';
+import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import useContainer from '@/shared/hooks/useContainer';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 const Intro: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const { t } = useLanguage()
+  const { containerWidth } = useContainer();
+  const { t } = useLanguage();
 
   return (
     <>
       <div className="intro">
         <Row>
-          <Col xs={{ span: 24 }} lg={{ span: 12 }} style={{ padding: 10 }}>
-            <img className="desc" src="/imgs/home/intro.png" alt="ntf box" />
+          <Col lg={{ span: 12 }} style={{ padding: 10 }} xs={{ span: 24 }}>
+            <img alt="ntf box" className="desc" src="/imgs/home/intro.png" />
           </Col>
-          <Col xs={{ span: 24 }} lg={{ span: 11, offset: 1 }} style={{ padding: 10 }}>
+          <Col lg={{ span: 11, offset: 1 }} style={{ padding: 10 }} xs={{ span: 24 }}>
             <Title level={3}>{t('home.intro.title')}</Title>
             <Text type="secondary">{t('home.intro.desc')}</Text>
           </Col>
@@ -35,7 +35,7 @@ const Intro: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Intro
+export default Intro;

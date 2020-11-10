@@ -1,15 +1,15 @@
-import React from 'react'
+import React from 'react';
 
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
-import { AssetProvider } from '@/shared/providers/AssetProvider'
-import { ProjectProvider } from '@/shared/providers/ProjectProvider'
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
+import { AssetProvider } from '@/shared/providers/AssetProvider';
+import { ProjectProvider } from '@/shared/providers/ProjectProvider';
 
-import { AssetContent } from '../../components/Asset'
-import Filter from './components/Filter'
+import { AssetContent } from '../../components/Asset';
+import Filter from './components/Filter';
 
 const Market: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
 
   return (
     <>
@@ -42,7 +42,7 @@ const Market: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Market
+export default Market;

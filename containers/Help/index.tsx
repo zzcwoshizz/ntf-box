@@ -1,44 +1,43 @@
-import { Card, Collapse, Input, Typography } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Card, Collapse, Input, Typography } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import { IHelp } from '@/api/types'
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
-import { useList } from '@/shared/hooks/useList'
-import useTheme from '@/shared/hooks/useTheme'
-import { useApi } from '@/shared/providers/ApiProvider'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
-import { hex2rgba } from '@/utils/color'
+import { getHelp } from '@/api';
+import { IHelp } from '@/api/types';
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
+import { useList } from '@/shared/hooks/useList';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
+import { hex2rgba } from '@/utils/color';
 
-const { Title } = Typography
-const { Panel } = Collapse
-const { Search } = Input
+const { Title } = Typography;
+const { Panel } = Collapse;
+const { Search } = Input;
 
 const Help: React.FunctionComponent = () => {
-  const { getHelp } = useApi()
-  const { containerWidth } = useContainer()
-  const theme = useTheme()
-  const { query } = useRouter()
-  const { t } = useLanguage()
+  const { containerWidth } = useContainer();
+  const theme = useTheme();
+  const { query } = useRouter();
+  const { t } = useLanguage();
 
   const { state, action } = useList<IHelp, { keys?: string }>(
-    async (params) => {
+    React.useCallback(async (params) => {
       const { list, hasNextPage, total } = await getHelp({
         page: params.page,
         pageSize: params.pageSize,
         search: params.keys
-      })
+      });
 
       return {
         list,
         hasMore: hasNextPage,
         total
-      }
-    },
+      };
+    }, []),
     { keys: query.keys as string },
     { page: 1, pageSize: 20 }
-  )
+  );
 
   return (
     <>
@@ -47,20 +46,21 @@ const Help: React.FunctionComponent = () => {
         <Title>{t('help.title')}</Title>
         <div className="content">
           <Card
+            extra={
+              <Search
+                onSearch={(value) => action.setFilter({ keys: value })}
+                placeholder={t('help.inputKeys')}
+                style={{ width: 200 }}
+              />
+            }
             loading={state.fetching}
             title={
               <div className="title">{t('help.messages', { count: state.pagination.total })}</div>
             }
-            extra={
-              <Search
-                placeholder={t('help.inputKeys')}
-                onSearch={(value) => action.setFilter({ keys: value })}
-                style={{ width: 200 }}
-              />
-            }>
+          >
             <Collapse>
               {state.list.map((help) => (
-                <Panel header={help.title} showArrow={false} key={help.id}>
+                <Panel header={help.title} key={help.id} showArrow={false}>
                   <p>{help.des}</p>
                 </Panel>
               ))}
@@ -97,7 +97,7 @@ const Help: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Help
+export default Help;

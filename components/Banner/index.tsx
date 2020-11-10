@@ -1,69 +1,72 @@
-import { Carousel } from 'antd'
-import React from 'react'
+import { Carousel } from 'antd';
+import React from 'react';
 
-import { IBanner } from '@/api/types'
-import { useViewport } from '@/shared/providers/ViewportProvider'
-import theme from '@/styles/antd-custom.json'
+import { IBanner } from '@/api/types';
+import { useViewport } from '@/shared/providers/ViewportProvider';
+import theme from '@/styles/antd-custom.json';
 
 type Props = {
-  banner: IBanner[]
-}
+  banner: IBanner[];
+};
 
 const Banner: React.FunctionComponent<Props> = (props) => {
-  const { banner } = props
+  const { banner } = props;
 
-  const { size, width } = useViewport()
+  const { size, width } = useViewport();
 
   const arrArr = React.useMemo(() => {
-    const _arrArr: IBanner[][] = []
+    const _arrArr: IBanner[][] = [];
 
-    let count = 5
+    let count = 5;
+
     switch (size) {
       case 'xxl':
-        count = 5
-        break
+        count = 5;
+        break;
       case 'xl':
-        count = 4
-        break
+        count = 4;
+        break;
       case 'lg':
-        count = 3
-        break
+        count = 3;
+        break;
       case 'md':
-        count = 2
-        break
+        count = 2;
+        break;
       case 'sm':
-        count = 1
-        break
+        count = 1;
+        break;
       case 'xs':
-        count = 1
-        break
+        count = 1;
+        break;
       default:
-        count = 5
-        break
+        count = 5;
+        break;
     }
 
     for (let i = 0; i < banner.length; i++) {
-      const index = Math.floor(i / count)
-      _arrArr[index] ? _arrArr[index].push(banner[i]) : (_arrArr[index] = [banner[i]])
+      const index = Math.floor(i / count);
+
+      _arrArr[index] ? _arrArr[index].push(banner[i]) : (_arrArr[index] = [banner[i]]);
     }
 
-    return _arrArr
-  }, [size])
+    return _arrArr;
+  }, [banner, size]);
 
   return (
     <>
       <div className="container">
-        <Carousel dotPosition="left" key={size} autoplay={width <= 736 ? true : false}>
+        <Carousel autoplay={width <= 736 ? true : false} dotPosition="left" key={size}>
           {arrArr.map((arr, index) => (
             <div key={index}>
               <div className="cell">
                 {arr.map((banner) => (
                   <a
                     href={banner.officialWebsite}
-                    target="_blank"
+                    key={banner.id}
                     rel="noopener noreferrer"
-                    key={banner.id}>
-                    <img src={banner.imageUrl} alt={banner.imageUrl} />
+                    target="_blank"
+                  >
+                    <img alt={banner.imageUrl} src={banner.imageUrl} />
                   </a>
                 ))}
               </div>
@@ -122,7 +125,7 @@ const Banner: React.FunctionComponent<Props> = (props) => {
           box-shadow: 0 24px 10px -15px rgba(0, 0, 0, 0.3);
         }
       `}</style>
-      <style jsx global>{`
+      <style global jsx>{`
         .slick-slider {
           padding-left: 70px;
         }
@@ -187,7 +190,7 @@ const Banner: React.FunctionComponent<Props> = (props) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Banner
+export default Banner;

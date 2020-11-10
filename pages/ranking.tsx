@@ -1,7 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-import RankingContainer from '@/containers/Ranking'
+import RankingContainer from '@/containers/Ranking';
 
-export const Ranking: React.FunctionComponent = () => <RankingContainer />
+export const Ranking: React.FunctionComponent = () => <RankingContainer />;
 
-export default Ranking
+export default Ranking;

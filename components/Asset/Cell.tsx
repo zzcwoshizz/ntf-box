@@ -1,25 +1,25 @@
-import { Space, Tooltip } from 'antd'
-import { utils } from 'ethers'
-import React from 'react'
+import { Space, Tooltip } from 'antd';
+import { utils } from 'ethers';
+import React from 'react';
 
-import { IAsset } from '@/api/types'
-import PriceSvg from '@/icons/icon_price.svg'
-import TimeSvg from '@/icons/icon_time.svg'
-import TotalSvg from '@/icons/icon_total.svg'
-import SelectSvg from '@/icons/icon_xz.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useChain } from '@/shared/providers/ChainProvier'
-import { hex2rgba } from '@/utils/color'
+import { IAsset } from '@/api/types';
+import PriceSvg from '@/icons/icon_price.svg';
+import TimeSvg from '@/icons/icon_time.svg';
+import TotalSvg from '@/icons/icon_total.svg';
+import SelectSvg from '@/icons/icon_xz.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useChain } from '@/shared/providers/ChainProvier';
+import { hex2rgba } from '@/utils/color';
 
-import BlockLeft from '../Chain/BlockLeft'
-import Img from '../Img'
+import BlockLeft from '../Chain/BlockLeft';
+import Img from '../Img';
 
 interface Props {
-  showSelect?: boolean // 是否显示选择框
-  selected?: boolean // 选中状态
-  asset: IAsset
-  onClick?(): void
-  onSelect?(): void
+  showSelect?: boolean; // 是否显示选择框
+  selected?: boolean; // 选中状态
+  asset: IAsset;
+  onClick?(): void;
+  onSelect?(): void;
 }
 
 const Cell: React.FunctionComponent<Props> = ({
@@ -29,26 +29,28 @@ const Cell: React.FunctionComponent<Props> = ({
   onClick,
   onSelect
 }) => {
-  const theme = useTheme()
-  const { block } = useChain()
+  const theme = useTheme();
+  const { block } = useChain();
 
   if (!asset) {
-    return null
+    return null;
   }
 
   return (
     <>
       <div
         className={'cell' + (showSelect && selected ? ' cell-select' : '')}
-        onClick={() => onClick?.()}>
+        onClick={() => onClick?.()}
+      >
         {showSelect && (
           <div
-            style={{ display: selected ? 'block' : undefined }}
             className="cell__select"
             onClick={(e) => {
-              e.stopPropagation()
-              onSelect?.()
-            }}>
+              e.stopPropagation();
+              onSelect?.();
+            }}
+            style={{ display: selected ? 'block' : undefined }}
+          >
             <SelectSvg />
           </div>
         )}
@@ -190,7 +192,7 @@ const Cell: React.FunctionComponent<Props> = ({
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Cell
+export default Cell;

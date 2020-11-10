@@ -1,16 +1,16 @@
-import { utils } from 'ethers'
-import React from 'react'
+import { utils } from 'ethers';
+import React from 'react';
 
-import { IProject } from '@/api/types'
-import useTheme from '@/shared/hooks/useTheme'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import { IProject } from '@/api/types';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const ProjectData: React.FunctionComponent<{ project?: IProject }> = ({ project }) => {
-  const theme = useTheme()
-  const { t } = useLanguage()
+  const theme = useTheme();
+  const { t } = useLanguage();
 
   if (!project) {
-    return null
+    return null;
   }
 
   return (
@@ -42,7 +42,7 @@ const ProjectData: React.FunctionComponent<{ project?: IProject }> = ({ project 
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default ProjectData
+export default ProjectData;

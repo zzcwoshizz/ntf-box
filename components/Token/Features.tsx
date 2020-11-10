@@ -1,37 +1,35 @@
-import { Carousel } from 'antd'
-import React from 'react'
+import { Carousel } from 'antd';
+import React from 'react';
 
-import { IToken } from '@/api/types'
-import RightArrow from '@/icons/icon_right.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { hex2rgba } from '@/utils/color'
+import { IToken } from '@/api/types';
+import RightArrow from '@/icons/icon_right.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { hex2rgba } from '@/utils/color';
 
 const Features: React.FunctionComponent<{ token: IToken; size?: number }> = ({
   token,
   size = 6
 }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <>
       <div className="container">
         <Carousel
           arrows
-          prevArrow={
-            <div>
-              <RightArrow />
-            </div>
-          }
+          autoplay={false}
+          dots={false}
+          infinite={false}
           nextArrow={
             <div>
               <RightArrow />
             </div>
           }
-          infinite={false}
-          dots={false}
-          slidesToShow={size}
-          slidesToScroll={size}
-          autoplay={false}
+          prevArrow={
+            <div>
+              <RightArrow />
+            </div>
+          }
           responsive={[
             {
               breakpoint: 992,
@@ -40,7 +38,10 @@ const Features: React.FunctionComponent<{ token: IToken; size?: number }> = ({
                 slidesToScroll: 1
               }
             }
-          ]}>
+          ]}
+          slidesToScroll={size}
+          slidesToShow={size}
+        >
           {Object.keys(token.propertys ?? {}).map((key) => {
             return (
               <div className="item-wrapper" key={key}>
@@ -49,7 +50,7 @@ const Features: React.FunctionComponent<{ token: IToken; size?: number }> = ({
                   <div className="desc">{token.propertys?.[key]}</div>
                 </div>
               </div>
-            )
+            );
           })}
         </Carousel>
       </div>
@@ -111,7 +112,7 @@ const Features: React.FunctionComponent<{ token: IToken; size?: number }> = ({
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Features
+export default Features;

@@ -1,18 +1,18 @@
-import { Button, Col, Input, Row, Typography } from 'antd'
-import { useRouter } from 'next/router'
-import React from 'react'
+import { Button, Col, Input, Row, Typography } from 'antd';
+import { useRouter } from 'next/router';
+import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import useContainer from '@/shared/hooks/useContainer';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-const { Title, Text } = Typography
+const { Title, Text } = Typography;
 
 const Help: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
-  const router = useRouter()
-  const { t } = useLanguage()
+  const { containerWidth } = useContainer();
+  const router = useRouter();
+  const { t } = useLanguage();
 
-  const [keys, setKeys] = React.useState('')
+  const [keys, setKeys] = React.useState('');
 
   return (
     <>
@@ -23,17 +23,17 @@ const Help: React.FunctionComponent = () => {
             <Text>{t('home.help.desc')}</Text>
           </p>
           <Row>
-            <Col xs={{ span: 24 }} lg={{ span: 16 }} style={{ padding: 10 }}>
+            <Col lg={{ span: 16 }} style={{ padding: 10 }} xs={{ span: 24 }}>
               <Input
-                size="large"
-                placeholder={t('home.help.placeholder')}
                 allowClear
-                value={keys}
                 onChange={(e) => setKeys(e.target.value)}
+                placeholder={t('home.help.placeholder')}
+                size="large"
+                value={keys}
               />
             </Col>
-            <Col xs={{ span: 24 }} lg={{ span: 8 }} style={{ padding: 10 }}>
-              <Button size="large" type="primary" onClick={() => router.push(`/help?keys=${keys}`)}>
+            <Col lg={{ span: 8 }} style={{ padding: 10 }} xs={{ span: 24 }}>
+              <Button onClick={() => router.push(`/help?keys=${keys}`)} size="large" type="primary">
                 {t('home.help.submit')}
               </Button>
             </Col>
@@ -74,7 +74,7 @@ const Help: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Help
+export default Help;

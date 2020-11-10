@@ -1,19 +1,19 @@
-import { Button, Space, Spin, Tabs } from 'antd'
-import React from 'react'
+import { Button, Space, Spin, Tabs } from 'antd';
+import React from 'react';
 
-import NetActivityTable from '@/components/Table/NetActivityTable'
-import TokenOwnerTable from '@/components/Table/TokenOwnerTable'
-import Features from '@/components/Token/Features'
-import ActivitySvg from '@/icons/icon_acticity.svg'
-import useTheme from '@/shared/hooks/useTheme'
-import { useLanguage } from '@/shared/providers/LanguageProvider'
+import NetActivityTable from '@/components/Table/NetActivityTable';
+import TokenOwnerTable from '@/components/Table/TokenOwnerTable';
+import Features from '@/components/Token/Features';
+import ActivitySvg from '@/icons/icon_acticity.svg';
+import useTheme from '@/shared/hooks/useTheme';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
-import { useData } from '../context'
+import { useData } from '../context';
 
-const { TabPane } = Tabs
+const { TabPane } = Tabs;
 
 const Title: React.FunctionComponent<{ icon: React.ReactNode }> = ({ icon, children }) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <div>
@@ -32,11 +32,11 @@ const Title: React.FunctionComponent<{ icon: React.ReactNode }> = ({ icon, child
         }
       `}</style>
     </div>
-  )
-}
+  );
+};
 
 const Infos: React.FunctionComponent = () => {
-  const { t } = useLanguage()
+  const { t } = useLanguage();
 
   const {
     token,
@@ -47,7 +47,7 @@ const Infos: React.FunctionComponent = () => {
     hasMoreActivities,
     loadMoreTokenOwner,
     loadMoreActivity
-  } = useData()
+  } = useData();
 
   return (
     <>
@@ -56,13 +56,14 @@ const Infos: React.FunctionComponent = () => {
           <div className="head">
             <Tabs
               onChange={(key) => {
-                window.location.hash = '#' + key
-              }}>
+                window.location.hash = '#' + key;
+              }}
+            >
               {token.type === 'ERC1155' && (
-                <TabPane tab={t('asset.detail.holdAddress')} key="asset-hold-address" />
+                <TabPane key="asset-hold-address" tab={t('asset.detail.holdAddress')} />
               )}
-              <TabPane tab={t('asset.detail.features')} key="asset-features" />
-              <TabPane tab={t('asset.detail.activityRecord')} key="asset-activity-record" />
+              <TabPane key="asset-features" tab={t('asset.detail.features')} />
+              <TabPane key="asset-activity-record" tab={t('asset.detail.activityRecord')} />
             </Tabs>
           </div>
           {token.type === 'ERC1155' && (
@@ -71,8 +72,9 @@ const Infos: React.FunctionComponent = () => {
               <TokenOwnerTable address={token.contractAdd} data={tokenOwner} />
               {hasMoreTokenOwner && (
                 <Button
+                  onClick={loadMoreTokenOwner}
                   style={{ display: 'block', margin: '24px auto 0 auto' }}
-                  onClick={loadMoreTokenOwner}>
+                >
                   {t('asset.detail.more')}
                 </Button>
               )}
@@ -87,8 +89,9 @@ const Infos: React.FunctionComponent = () => {
             <NetActivityTable data={activities} />
             {hasMoreActivities && (
               <Button
+                onClick={loadMoreActivity}
                 style={{ display: 'block', margin: '24px auto 0 auto' }}
-                onClick={loadMoreActivity}>
+              >
                 {t('asset.detail.more')}
               </Button>
             )}
@@ -113,7 +116,7 @@ const Infos: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Infos
+export default Infos;

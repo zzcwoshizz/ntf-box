@@ -1,15 +1,15 @@
-import { Col, Row } from 'antd'
-import React from 'react'
+import { Col, Row } from 'antd';
+import React from 'react';
 
-import Header from '@/components/Header'
-import useContainer from '@/shared/hooks/useContainer'
+import Header from '@/components/Header';
+import useContainer from '@/shared/hooks/useContainer';
 
-import BundleList from './components/BundleList'
-import Info from './components/Info'
-import { DataProvider } from './context'
+import BundleList from './components/BundleList';
+import Info from './components/Info';
+import { DataProvider } from './context';
 
 const Publish: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer()
+  const { containerWidth } = useContainer();
 
   return (
     <>
@@ -17,10 +17,10 @@ const Publish: React.FunctionComponent = () => {
       <DataProvider>
         <div className="container">
           <Row>
-            <Col xs={{ span: 24 }} lg={{ span: 12 }}>
+            <Col lg={{ span: 12 }} xs={{ span: 24 }}>
               <Info />
             </Col>
-            <Col xs={{ span: 24 }} lg={{ span: 10, offset: 2 }}>
+            <Col lg={{ span: 10, offset: 2 }} xs={{ span: 24 }}>
               <BundleList />
             </Col>
           </Row>
@@ -34,7 +34,7 @@ const Publish: React.FunctionComponent = () => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default Publish
+export default Publish;

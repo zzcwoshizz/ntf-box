@@ -1,7 +1,7 @@
-import theme from '@/styles/antd-custom.json'
+import theme from '@/styles/antd-custom.json';
 
 const useTheme = () => {
-  return theme
-}
+  return theme;
+};
 
-export default useTheme
+export default useTheme;

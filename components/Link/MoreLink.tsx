@@ -1,12 +1,12 @@
-import { Space } from 'antd'
-import Link, { LinkProps } from 'next/link'
-import React from 'react'
+import { Space } from 'antd';
+import Link, { LinkProps } from 'next/link';
+import React from 'react';
 
-import MoreSvg from '@/icons/icon_more.svg'
-import useTheme from '@/shared/hooks/useTheme'
+import MoreSvg from '@/icons/icon_more.svg';
+import useTheme from '@/shared/hooks/useTheme';
 
 const MoreLink: React.FunctionComponent<LinkProps> = (props) => {
-  const theme = useTheme()
+  const theme = useTheme();
 
   return (
     <>
@@ -27,7 +27,7 @@ const MoreLink: React.FunctionComponent<LinkProps> = (props) => {
         }
       `}</style>
     </>
-  )
-}
+  );
+};
 
-export default MoreLink
+export default MoreLink;
