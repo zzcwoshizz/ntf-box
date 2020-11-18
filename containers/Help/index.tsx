@@ -19,22 +19,26 @@ const Help: React.FunctionComponent = () => {
   const { containerWidth } = useContainer();
   const theme = useTheme();
   const { query } = useRouter();
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
 
   const { state, action } = useList<IHelp, { keys?: string }>(
-    React.useCallback(async (params) => {
-      const { list, hasNextPage, total } = await getHelp({
-        page: params.page,
-        pageSize: params.pageSize,
-        search: params.keys
-      });
+    React.useCallback(
+      async (params) => {
+        const { list, hasNextPage, total } = await getHelp({
+          page: params.page,
+          pageSize: params.pageSize,
+          search: params.keys
+        });
 
-      return {
-        list,
-        hasMore: hasNextPage,
-        total
-      };
-    }, []),
+        return {
+          list,
+          hasMore: hasNextPage,
+          total
+        };
+      },
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+      [lang]
+    ),
     { keys: query.keys as string },
     { page: 1, pageSize: 20 }
   );

@@ -1,3 +1,5 @@
+import Cookie from 'js-cookie';
+
 import { API_URL } from '@/api/config';
 import {
   ActivityType,
@@ -34,7 +36,7 @@ export const api: Api = new Api(baseURL, {
   timeout: 30000,
   headers: {
     jwt: process.browser ? getCache('token') ?? '' : '',
-    lan: process.browser ? (getCache('lang') === 'zh-CN' ? 'zh' : 'en') : ''
+    lan: process.browser ? (Cookie.get('lang') === 'zh-CN' ? 'zh' : 'en') : ''
   }
 });
 

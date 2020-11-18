@@ -5,6 +5,17 @@ export default {
     login: '登录',
     logging: '登录中'
   },
+  wallet: {
+    metamask: '在几秒钟内开始探索区块链应用程序。受到全球超过100万用户的信任。',
+    fortmatic: '让用户从任何地方访问您的Ethereum应用程序。没有更多的浏览器扩展和种子短语。',
+    walletconnect: '连接钱包和Dapps的开放协议',
+    walletlink: 'WalletLink是一个开放协议，允许用户将他们的移动密码钱包连接到你的DApp上。',
+    torus: 'Torus是一个开源的密钥管理系统，它让Web3.0应用程序感觉就像Web2.0一样',
+    dapper: '一个值得信赖的浏览器扩展插件，为您支付gas费用。',
+    authereum: '不需要下载，不需要短语认证。简单的Web3体验在您的指尖。',
+    portis: 'Portis使每个人的应用程序变得简单。',
+    squarelink: 'Squarelink提供了通往区块链生态系统的捷径，而不会损害安全性和隐私性。'
+  },
   errorMessage: {
     N01: 'Token验证失败',
     N02: '邮箱已订阅',
@@ -40,10 +51,15 @@ export default {
     myItems: '我的物品',
     myActivity: '我的记录',
     gift: '赠送物品',
-    learnMore: '了解更多',
-    activity: '全站记录',
-    helpCenter: '帮助中心',
-    ranking: '排行榜列表'
+    setting: '账户设置',
+    market: '市场',
+    ranking: '排行榜',
+    activity: '网站活动记录',
+    hot: '热门商品',
+    service: '服务',
+    help: '常见问题',
+    blog: '博客',
+    subscribe: '订阅'
   },
   home: {
     title: '去中心化非同质化资产交易平台',
@@ -53,9 +69,9 @@ export default {
     hot: '热门',
     newest: '最新',
     intro: {
-      title: 'Finannel建立的初衷和的愿景',
+      title: 'Finannel是一个去中心化的平台，用于非同质化资产的交易。',
       desc:
-        'Finannel这个名字的由来，是取自于Finance和Channel。寓意也希望非同质化的概念被更多的人了解、使用、甚至普及给更多的人。NFT存在可以便捷我们的生活，现在我们只是迈出了一小步，会通过不断的探索与创新，让愿景不再只是愿景.'
+        'Finannel是取自于Finance和Channel。我们希望非同质化通证的概念被更多的人了解并使用，甚至自发的普及给更多的人。<br/>在Finannel去中心化平台上，你可以寻找想要的非同质化资产，并与世界上任何一个出售这些资产的人交易。包括数字艺术品、收藏品、游戏资产、卡牌、域名和其他区块链领域内的资产。<br/>在Finannel，你可以看到一个全新的区块链世界和一种新型的数字商品，NFT（非同质化代币）是Finannel的核心资产形式，这种唯一的，独特的资产使得区块链世界又进行了一次革命性的扩张。'
     },
     help: {
       title: '新手帮助，帮助您更快的解决问题',
@@ -82,7 +98,8 @@ export default {
       0: '最新创建',
       1: '即将过期',
       2: '价格最低',
-      3: '价格最高'
+      3: '价格最高',
+      4: '热门关注'
     },
     orderType: {
       0: '所有物品',
@@ -120,15 +137,16 @@ export default {
     goToMarket: '跳转到市场',
     selectType: '选择类型',
     realtime: '* 实时更新',
-    buy: '购买',
-    sell: '卖出',
+    sell: '出售',
+    onShelf: '上架物品',
     transfer: '转赠',
-    offShelf: '下架',
-    modifyPrice: '{address} 修改了价钱',
+    offShelf: '下架物品',
+    modifyPrice: '{address} 修改价钱',
     bundle: '捆绑出售',
     columns: {
       time: '时间',
       commodity: '项目',
+      asset: '物品',
       changeDetail: '流转详情',
       price: '价格（ETH）',
       txid: 'Txid'

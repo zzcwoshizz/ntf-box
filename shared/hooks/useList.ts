@@ -52,7 +52,6 @@ export const useList = <T1, T2 = { [key: string]: any }>(
   getList: (params: IPage & T2) => Promise<{ list: T1[]; total: number; hasMore: boolean }>,
   _filter: T2,
   _pagination?: IPage,
-  deps: any[] = [],
   syncUrl = true
 ) => {
   const initialState: StateType<T1, T2> = React.useMemo(
@@ -115,8 +114,7 @@ export const useList = <T1, T2 = { [key: string]: any }>(
       .finally(() => {
         dispatch({ type: 'SET_FETCHING', payload: false });
       });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [getList, search, ...deps]);
+  }, [getList, search]);
 
   return React.useMemo(
     () => ({

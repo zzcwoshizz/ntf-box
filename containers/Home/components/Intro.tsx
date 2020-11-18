@@ -19,7 +19,9 @@ const Intro: React.FunctionComponent = () => {
           </Col>
           <Col lg={{ span: 11, offset: 1 }} style={{ padding: 10 }} xs={{ span: 24 }}>
             <Title level={3}>{t('home.intro.title')}</Title>
-            <Text type="secondary">{t('home.intro.desc')}</Text>
+            <Text type="secondary">
+              <span dangerouslySetInnerHTML={{ __html: t('home.intro.desc') }} />
+            </Text>
           </Col>
         </Row>
       </div>

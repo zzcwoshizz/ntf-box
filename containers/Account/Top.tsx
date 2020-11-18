@@ -9,7 +9,7 @@ import Jdenticon from '@/components/Jdenticon';
 import { useActiveWeb3React } from '@/shared/hooks';
 import useContainer from '@/shared/hooks/useContainer';
 import { useApp } from '@/shared/providers/AppProvider';
-import { shortenAddress } from '@/utils/string';
+import { shortenAddress, shortenAddressLast } from '@/utils/string';
 
 const { Text } = Typography;
 
@@ -33,7 +33,7 @@ const AccountTop: React.FunctionComponent = () => {
               />
               <div>
                 <h6>
-                  {user?.nickName ? user?.nickName : shortenAddress(user?.address ?? account)}
+                  {user?.nickName ? user?.nickName : shortenAddressLast(user?.address ?? account)}
                   <Button
                     icon={<LogoutOutlined />}
                     onClick={() => {

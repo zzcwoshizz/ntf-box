@@ -5,7 +5,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Jdenticon from '@/components/Jdenticon';
 import useContainer from '@/shared/hooks/useContainer';
-import { shortenAddress } from '@/utils/string';
+import { shortenAddress, shortenAddressLast } from '@/utils/string';
 
 const { Text } = Typography;
 
@@ -26,7 +26,7 @@ const AccountTop: React.FunctionComponent = () => {
             <Space>
               <Jdenticon size={64} value={address} />
               <div>
-                <h6>{shortenAddress(address)}</h6>
+                <h6>{shortenAddressLast(address)}</h6>
                 <Text copyable>{address}</Text>
               </div>
             </Space>

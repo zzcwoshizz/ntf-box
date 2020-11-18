@@ -27,6 +27,14 @@ export const shortenAddress = (address?: string | null) => {
   return address.slice(0, 6) + '...' + address.slice(-4);
 };
 
+export const shortenAddressLast = (address?: string | null, index = -6) => {
+  if (!address) return '';
+
+  if (address.length < 7) return address;
+
+  return address.slice(index).toUpperCase();
+};
+
 export const isEqualIgnoreCase = (str1?: string, str2?: string) => {
   return str1?.toUpperCase() === str2?.toUpperCase();
 };

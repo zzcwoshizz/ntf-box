@@ -1,4 +1,5 @@
 import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers';
+import { utils } from 'ethers';
 import React from 'react';
 import { useAsync } from 'react-use';
 
@@ -74,7 +75,10 @@ const AppProvider: React.FunctionComponent = ({ children }) => {
       return Promise.resolve();
     }
 
-    const signature = (await library.getSigner(account).signMessage(SIGN_TEXT)) ?? '';
+    const signature = await library.send('personal_sign', [
+      utils.hexlify(utils.toUtf8Bytes(SIGN_TEXT)),
+      account
+    ]);
 
     await api
       .post<IResponse<string>>('/login', {

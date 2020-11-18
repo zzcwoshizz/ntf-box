@@ -42,10 +42,10 @@ const Hero: React.FunctionComponent = () => {
                   <Button onClick={() => router.push('/market')} size="large" type="primary">
                     {t('home.buyNow')}
                   </Button>
-                  <Button onClick={() => router.push('/account/setting')} size="large" type="link">
+                  {/* <Button onClick={() => router.push('/account/setting')} size="large" type="link">
                     {t('home.subscribe')}{' '}
                     <JTSvg style={{ marginLeft: 4, verticalAlign: 'middle' }} />
-                  </Button>
+                  </Button> */}
                 </div>
               </Col>
               <Col lg={{ span: 8, offset: 1 }} xs={{ span: 24 }}>

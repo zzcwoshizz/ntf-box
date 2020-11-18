@@ -52,7 +52,7 @@ export interface IBanner {
   officialWebsite: string;
 }
 
-export type ItemOrder = '0' | '1' | '2' | '3';
+export type ItemOrder = '0' | '1' | '2' | '3' | '4';
 
 export type OrderType = '0' | '1' | '2';
 
@@ -177,11 +177,19 @@ export interface IActivity {
    * @description 来源地址
    */
   fromAdd: string;
+  /**
+   * @description 来源用户昵称
+   */
+  fromName?: string;
   id: number;
   /**
-   * @description 价格
+   * @description 初始价格
    */
   price: string;
+  /**
+   * @description 出售价格
+   */
+  dealPrice: string;
   /**
    * @description 项目信息
    */
@@ -198,6 +206,10 @@ export interface IActivity {
    * @description to address
    */
   toAdd?: string;
+  /**
+   * @description to name
+   */
+  toName?: string;
   tokens: IToken[];
 }
 

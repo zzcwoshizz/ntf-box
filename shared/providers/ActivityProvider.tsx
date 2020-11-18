@@ -28,7 +28,7 @@ const ActivityProvider: React.FunctionComponent<{ address?: string | null }> = (
 
   const { query } = useRouter();
   const defaultFilter: FilterType = {
-    type: (Number(query.type) ?? 0) as ReqActivityType,
+    type: (Number(query.type ?? 0) ?? 0) as ReqActivityType,
     id: query.id ? Number(query.id) : undefined,
     name: query.name as string
   };
@@ -53,8 +53,7 @@ const ActivityProvider: React.FunctionComponent<{ address?: string | null }> = (
       [address]
     ),
     defaultFilter,
-    undefined,
-    [address]
+    undefined
   );
 
   const onScrollBottom = _.debounce(() => {

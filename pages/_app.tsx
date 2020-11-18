@@ -36,6 +36,10 @@ function MyApp({ Component, pageProps }: AppProps) {
                       <meta content="no-cache" httpEquiv="pragma" />
                       <meta content="no-cache, must-revalidate" httpEquiv="Cache-Control" />
                       <meta content="0" httpEquiv="expires" />
+                      <script
+                        src="https://js.users.51.la/20991843.js"
+                        type="text/javascript"
+                      ></script>
                     </Head>
                     <div className="page">
                       <div>

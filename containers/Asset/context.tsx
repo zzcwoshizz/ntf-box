@@ -112,7 +112,6 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     ),
     {},
     undefined,
-    [JSON.stringify(token)],
     false
   );
 
@@ -154,7 +153,6 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     ),
     {},
     undefined,
-    [JSON.stringify(token)],
     false
   );
 

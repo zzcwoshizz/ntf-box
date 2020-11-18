@@ -44,15 +44,17 @@ const Desc: React.FunctionComponent = () => {
                 <Space align="center">
                   <Jdenticon size={32} value={token.contractAdd} />
                   <b>{token.name ?? shortenAddress(token.contractAdd)}</b>
-                  <span>
-                    {t('asset.detail.holders')} {holders}
-                  </span>
+                  {token.type === 'ERC1155' && (
+                    <span>
+                      {t('asset.detail.holders')} {holders}
+                    </span>
+                  )}
                 </Space>
               </div>
               {token.type === 'ERC721' && token.owners && (
                 <p style={{ marginTop: 15 }}>
                   {t('asset.detail.holders')}:
-                  <Link href={`/user/${token.owners[0]}`}>
+                  <Link href={`/user/${token.owners[0]}/items`}>
                     <a>{token.owners[0]}</a>
                   </Link>
                 </p>

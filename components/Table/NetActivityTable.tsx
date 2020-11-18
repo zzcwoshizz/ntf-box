@@ -9,7 +9,7 @@ import Img from '@/components/Img';
 import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants';
 import { useActiveWeb3React } from '@/shared/hooks';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
-import { shortenAddress } from '@/utils/string';
+import { shortenAddress, shortenAddressLast } from '@/utils/string';
 
 import Jdenticon from '../Jdenticon';
 import TimeLeft from '../TimeLeft';
@@ -73,14 +73,14 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
             <Space>
               <Jdenticon size={24} value={record.fromAdd} />
               <Link href={`/user/${record.fromAdd}/items`}>
-                <a>{shortenAddress(record.fromAdd)}</a>
+                <a>{shortenAddressLast(record.fromAdd)}</a>
               </Link>
             </Space>
             to
             <Space>
               <Jdenticon size={24} value={record.toAdd} />
               <Link href={`/user/${record.toAdd}/items`}>
-                <a>{shortenAddress(record.toAdd)}</a>
+                <a>{shortenAddressLast(record.toAdd)}</a>
               </Link>
             </Space>
           </div>

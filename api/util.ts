@@ -1,4 +1,7 @@
 import ifetch from 'isomorphic-fetch';
+import Cookie from 'js-cookie';
+
+import { delay } from '@/utils/time';
 
 import { IResponse } from './types';
 
@@ -73,7 +76,9 @@ export class Api {
     this.config = this.combineConfig(this.config, config);
   }
 
-  public request<T = IResponse<any>>(url: string, config: IConfig = {}): Promise<T> {
+  public async request<T = IResponse<any>>(url: string, config: IConfig = {}): Promise<T> {
+    await delay(1);
+
     config = this.combineConfig(this.config, config);
     config = this.wrapHeaders(config);
     config = this.warpBody(config);
@@ -156,7 +161,8 @@ export class Api {
       ...config,
       headers: {
         'Content-Type': 'application/json',
-        ...config.headers
+        ...config.headers,
+        lan: process.browser ? (Cookie.get('lang') === 'zh-CN' ? 'zh' : 'en') : ''
       }
     };
   }

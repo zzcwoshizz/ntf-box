@@ -29,7 +29,8 @@ const ConstantsProvider: React.FunctionComponent = ({ children }) => {
     0: t('asset.itemOrder.0'),
     1: t('asset.itemOrder.1'),
     2: t('asset.itemOrder.2'),
-    3: t('asset.itemOrder.3')
+    3: t('asset.itemOrder.3'),
+    4: t('asset.itemOrder.4')
   };
 
   const ORDER_TYPE: { [key in OrderType]: string } = {

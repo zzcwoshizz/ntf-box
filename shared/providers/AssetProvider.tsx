@@ -55,8 +55,7 @@ const AssetProvider: React.FunctionComponent<{ address?: string | null }> = ({
       [address]
     ),
     defaultFilter,
-    undefined,
-    [address]
+    undefined
   );
 
   const onScrollBottom = _.debounce(() => {

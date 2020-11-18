@@ -111,7 +111,7 @@ const Setting: React.FunctionComponent = () => {
           </span>
         </div>
       </div>
-      <div className="container">
+      {/* <div className="container">
         <div className="title">
           <FhSvg style={{ marginRight: 8 }} />
           {t('account.subscribe')}
@@ -144,7 +144,7 @@ const Setting: React.FunctionComponent = () => {
             />
           </span>
         </div>
-      </div>
+      </div> */}
       <style jsx>{`
         .container {
           width: ${containerWidth}px;

@@ -1,4 +1,4 @@
-import { Space, Table } from 'antd';
+import { Space, Table, Tooltip } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { utils } from 'ethers';
 import moment from 'moment';
@@ -7,10 +7,11 @@ import React from 'react';
 
 import { IActivity } from '@/api/types';
 import Img from '@/components/Img';
+import ArrowRight from '@/icons/arrow-right.svg';
 import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants';
 import { useActiveWeb3React } from '@/shared/hooks';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
-import { shortenAddress } from '@/utils/string';
+import { shortenAddress, shortenAddressLast } from '@/utils/string';
 
 import Jdenticon from '../Jdenticon';
 import TimeLeft from '../TimeLeft';
@@ -29,7 +30,14 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       key: 'createTime',
       render: (value) => (
         <>
-          <TimeLeft left={Date.now() - moment(value).valueOf()} /> ago
+          <span>
+            <TimeLeft left={Date.now() - moment(value).valueOf()} /> ago
+          </span>
+          <style jsx>{`
+            span {
+              white-space: nowrap;
+            }
+          `}</style>
         </>
       )
     },
@@ -64,6 +72,40 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       )
     },
     {
+      title: t('activity.columns.asset'),
+      dataIndex: 'tokens',
+      key: 'tokens',
+      render: (_, record) => (
+        <>
+          <div>
+            {[0, 1, 2, 6, 7, 8, 9].includes(record.type) && record.tokens[0] && (
+              <Space>
+                <Img src={record.tokens[0].images?.[0] ?? ''} width={24} />
+                <Link href={`/asset/${record.tokens[0].contractAdd}/${record.tokens[0].tokenId}`}>
+                  <a>{record.tokens[0].name}</a>
+                </Link>
+              </Space>
+            )}
+            {(record.type === 3 || record.type === 4 || record.type === 5) && (
+              <Space>
+                <Img src={record.tokens[0].images?.[0] ?? ''} width={24} />
+                <Link href={`/asset/${record.tokens[0].contractAdd}/${record.tokens[0].tokenId}`}>
+                  <a>{record.tokens[0].name}</a>
+                </Link>{' '}
+                ... {record.tokens.length} items
+              </Space>
+            )}
+          </div>
+          <style jsx>{`
+            div {
+              display: flex;
+              align-items: center;
+            }
+          `}</style>
+        </>
+      )
+    },
+    {
       title: t('activity.columns.changeDetail'),
       dataIndex: 'address',
       key: 'address',
@@ -75,20 +117,10 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                 <Space>
                   <Jdenticon size={24} value={record.fromAdd} />
                   <Link href={`/user/${record.fromAdd}/items`}>
-                    <a>{shortenAddress(record.fromAdd)}</a>
+                    <a>{record.fromName ? record.fromName : shortenAddressLast(record.fromAdd)}</a>
                   </Link>
                 </Space>
-                {t('activity.sell')}
-                {record.tokens[0] && (
-                  <Space>
-                    <Img src={record.tokens[0].images?.[0] ?? ''} width={24} />
-                    <Link
-                      href={`/asset/${record.tokens[0].contractAdd}/${record.tokens[0].tokenId}`}
-                    >
-                      <a>{record.tokens[0].name}</a>
-                    </Link>
-                  </Space>
-                )}
+                {t('activity.onShelf')}
               </Space>
             )}
             {(record.type === 3 || record.type === 4 || record.type === 5) && (
@@ -96,7 +128,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                 <Space>
                   <Jdenticon size={24} value={record.fromAdd} />
                   <Link href={`/user/${record.fromAdd}/items`}>
-                    <a>{shortenAddress(record.fromAdd)}</a>
+                    <a>{record.fromName ? record.fromName : shortenAddressLast(record.fromAdd)}</a>
                   </Link>
                 </Space>
                 <Link href={`/bundle/${record.orderId}`}>
@@ -109,7 +141,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                 <Space>
                   <Jdenticon size={24} value={record.fromAdd} />
                   <Link href={`/user/${record.fromAdd}/items`}>
-                    <a>{shortenAddress(record.fromAdd)}</a>
+                    <a>{record.fromName ? record.fromName : shortenAddressLast(record.fromAdd)}</a>
                   </Link>
                 </Space>
                 {t('activity.transfer')}
@@ -117,7 +149,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                   <Space>
                     <Jdenticon size={24} value={record.toAdd} />
                     <Link href={`/user/${record.toAdd}/items`}>
-                      <a>{shortenAddress(record.toAdd)}</a>
+                      <a>{record.toName ? record.toName : shortenAddressLast(record.toAdd)}</a>
                     </Link>
                   </Space>
                 )}
@@ -128,7 +160,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                 <Space>
                   <Jdenticon size={24} value={record.fromAdd} />
                   <Link href={`/user/${record.fromAdd}/items`}>
-                    <a>{shortenAddress(record.fromAdd)}</a>
+                    <a>{record.fromName ? record.fromName : shortenAddressLast(record.fromAdd)}</a>
                   </Link>
                 </Space>
                 {t('activity.offShelf')}
@@ -150,7 +182,9 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                   <Space>
                     <Jdenticon size={24} value={record.fromAdd} />
                     <Link href={`/user/${record.fromAdd}/items`}>
-                      <a>{shortenAddress(record.fromAdd)}</a>
+                      <a>
+                        {record.fromName ? record.fromName : shortenAddressLast(record.fromAdd)}
+                      </a>
                     </Link>
                   </Space>
                 )
@@ -160,17 +194,15 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
                 <Space>
                   <Jdenticon size={24} value={record.fromAdd} />
                   <Link href={`/user/${record.fromAdd}/items`}>
-                    <a>{shortenAddress(record.fromAdd)}</a>
+                    <a>{record.fromName ? record.fromName : shortenAddressLast(record.fromAdd)}</a>
                   </Link>
                 </Space>
-                {t('activity.buy')}
-                {record.tokens[0] && (
+                {t('activity.sell')}
+                {record.toAdd && (
                   <Space>
-                    <Img src={record.tokens[0].images?.[0]} width={24} />
-                    <Link
-                      href={`/asset/${record.tokens[0].contractAdd}/${record.tokens[0].tokenId}`}
-                    >
-                      <a>{record.projectDO?.name}</a>
+                    <Jdenticon size={24} value={record.toAdd} />
+                    <Link href={`/user/${record.toAdd}/items`}>
+                      <a>{record.toName ? record.toName : shortenAddressLast(record.toAdd)}</a>
                     </Link>
                   </Space>
                 )}
@@ -190,30 +222,41 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       title: t('activity.columns.price'),
       dataIndex: 'price',
       key: 'price',
-      render: (_, record) => <span>{utils.formatEther(record.price + '')}</span>
+      render: (_, record) =>
+        record.type === 8 ? (
+          <Space>
+            {utils.formatEther(record.price + '')}
+            <ArrowRight />
+            {utils.formatEther(record.dealPrice + '')}
+          </Space>
+        ) : (
+          utils.formatEther(record.price + '')
+        )
     },
     {
       title: t('activity.columns.txid'),
       key: 'txid',
       render: (_, record) =>
         record.txid && (
-          <div>
-            <a
-              href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID]}
-              rel="noopener noreferrer"
-              target="_blank"
-            >
-              {record.txid}
-            </a>
-            <style jsx>{`
-              div {
-                width: 120px;
-                white-space: nowrap;
-                text-overflow: ellipsis;
-                overflow: hidden;
-              }
-            `}</style>
-          </div>
+          <Tooltip title={record.txid}>
+            <div>
+              <a
+                href={SCAN_URLS[chainId ?? DEFAULT_CHAIN_ID]}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                {record.txid}
+              </a>
+              <style jsx>{`
+                div {
+                  width: 88px;
+                  white-space: nowrap;
+                  text-overflow: ellipsis;
+                  overflow: hidden;
+                }
+              `}</style>
+            </div>
+          </Tooltip>
         )
     }
   ];

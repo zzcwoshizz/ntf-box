@@ -76,6 +76,10 @@ const Banner: React.FunctionComponent<Props> = (props) => {
       </div>
 
       <style jsx>{`
+        .container {
+          max-height: 180px;
+        }
+
         .cell {
           display: flex;
           align-items: center;

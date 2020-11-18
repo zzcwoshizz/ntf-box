@@ -5,6 +5,23 @@ export default {
     login: 'Log in',
     logging: 'Logging in'
   },
+  wallet: {
+    metamask:
+      'Start exploring blockchain applications in seconds.  Trusted by over 1 million users worldwide.',
+    fortmatic:
+      'Let users access your Ethereum app from anywhere.No more browser extensions and seed phrases.',
+    walletconnect: 'Open protocol for connecting Wallets to Dapps.',
+    walletlink:
+      'WalletLink is an open protocol that lets users connect their mobile crypto wallets to your DApp.',
+    torus:
+      'Torus is an open-source key management system that makes Web3.0 applications feel just like Web2.0.',
+    dapper: 'The trusted gateway to your digital goods.',
+    authereum:
+      'No downloads, no seed phrases. Simply, the best Web3 experience at your fingertips.',
+    portis: 'The Non-Custodial Blockchain Wallet that Makes Apps Simple for Everyone.',
+    squarelink:
+      'Squarelink provides a shortcut to the blockchain ecosystem, without compromising security and privacy.'
+  },
   errorMessage: {
     N01: 'Token verify fail',
     N02: 'Email already subscribed',
@@ -40,10 +57,15 @@ export default {
     myItems: 'My items',
     myActivity: 'My Activity',
     gift: 'Gift good',
-    learnMore: 'Learn more',
-    activity: 'Network wide activity',
-    helpCenter: 'Help Center',
-    ranking: 'Ranking list'
+    setting: 'Setting',
+    market: 'Market',
+    ranking: 'Ranking',
+    activity: 'Activity',
+    hot: 'Hot',
+    service: 'Services',
+    help: 'Ask for',
+    blog: 'Blog',
+    subscribe: 'Subscribe'
   },
   home: {
     title: 'Decentralized and heterogeneous asset trading platform',
@@ -53,8 +75,8 @@ export default {
     hot: 'Hot',
     newest: 'Newest',
     intro: {
-      title: 'Introduce the original intention and vision of the platform',
-      desc: 'You should know how much wealth you idle. You should know how much wealth you idle.'
+      title: 'The original purpose and vision of Finannel',
+      desc: `Finannel is taken from Finance and Channel. We hope that the concept of non-homogeneous general certificate will be understood and used by more people, and even popularized to more people spontaneously.<br/>At Finannel's decentralised platform, you can look for non-homogeneous assets you want and trade them with anyone in the world who sells them. This includes digital art, collectibles, game assets, CARDS, domain names and other blockchain assets.<br/>At Finannel, you can see a whole new world of blockchains and a new kind of digital commodity. NFT (non-homogeneous tokens) is Finannel's core asset form.`
     },
     help: {
       title: 'Novice help - help you solve problems faster',
@@ -81,7 +103,8 @@ export default {
       0: 'Recently Created',
       1: 'Expiring Soon',
       2: 'Lowest Price',
-      3: 'Highest Price'
+      3: 'Highest Price',
+      4: 'Hot Good'
     },
     orderType: {
       0: 'All items',
@@ -119,8 +142,8 @@ export default {
     goToMarket: 'Go to the market',
     selectType: 'Select type',
     realtime: '* Realtime',
-    buy: 'Buy',
-    sell: 'Sell',
+    sell: 'Sell to',
+    onShelf: 'On shelf',
     transfer: 'Gift',
     offShelf: 'Off shelf',
     modifyPrice: '{address} modify the price',
@@ -128,6 +151,7 @@ export default {
     columns: {
       time: 'Time',
       commodity: 'Commodity',
+      asset: 'Asset',
       changeDetail: 'Change details',
       price: 'Price(ETH)',
       txid: 'Txid'

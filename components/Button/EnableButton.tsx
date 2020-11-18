@@ -1,17 +1,19 @@
 import Button, { ButtonProps } from 'antd/lib/button';
 import React from 'react';
 
-import { injected } from '@/connectors';
 import { useActiveWeb3React } from '@/shared/hooks';
 import { useApp } from '@/shared/providers/AppProvider';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 
+import WalletModal from '../WalletModal';
+
 const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
   const { user } = useApp();
   const { login } = useApp();
-  const { account, activate } = useActiveWeb3React();
+  const { account } = useActiveWeb3React();
   const [loading, setLoading] = React.useState(false);
   const { t } = useLanguage();
+  const [visible, setVisible] = React.useState(false);
 
   let text: React.ReactNode;
 
@@ -23,32 +25,30 @@ const EnableButton: React.FunctionComponent<ButtonProps> = ({ ...props }) => {
     text = loading ? t('common.logging') : t('common.login');
   }
 
-  let onClick;
-
-  if (account && user) {
-    onClick = props.onClick;
-  } else if (!account) {
-    onClick = (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      setLoading(true);
-      activate(injected).finally(() => {
-        setLoading(false);
-      });
-    };
-  } else if (!user) {
-    onClick = (e: React.MouseEvent<HTMLElement>) => {
-      e.preventDefault();
-      setLoading(true);
-      login().finally(() => {
-        setLoading(false);
-      });
-    };
-  }
-
   return (
-    <Button {...props} loading={account && user ? props.loading : loading} onClick={onClick}>
-      {text}
-    </Button>
+    <>
+      <Button
+        {...props}
+        loading={account && user ? props.loading : loading}
+        onClick={(e) => {
+          if (account && user) {
+            props.onClick?.(e);
+          } else if (!account) {
+            e.preventDefault();
+            setVisible(true);
+          } else if (!user) {
+            e.preventDefault();
+            setLoading(true);
+            login().finally(() => {
+              setLoading(false);
+            });
+          }
+        }}
+      >
+        {text}
+      </Button>
+      <WalletModal setVisible={setVisible} visible={visible} />
+    </>
   );
 };
 

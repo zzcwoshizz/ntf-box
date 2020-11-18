@@ -6,7 +6,7 @@ const useContainer = () => {
   let containerWidth = 1200;
 
   if (width > 1600) {
-    containerWidth = 1200;
+    containerWidth = 1440;
   } else if (width > 1200) {
     containerWidth = 1200;
   } else if (width > 992) {
