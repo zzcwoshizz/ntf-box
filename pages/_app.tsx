@@ -48,16 +48,11 @@ function MyApp({ Component, pageProps }: AppProps) {
                       ></script>
                     </Head>
                     <div className="page">
-                      <div>
-                        <Component {...pageProps} />
-                      </div>
-                      <Footer />
+                      <Component {...pageProps} />
                     </div>
+                    <Footer />
                     <style jsx>{`
                       .page {
-                        display: flex;
-                        flex-direction: column;
-                        justify-content: space-between;
                         min-height: 100vh;
                       }
                     `}</style>
