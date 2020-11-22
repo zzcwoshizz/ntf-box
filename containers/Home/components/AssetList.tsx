@@ -1,6 +1,6 @@
 import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 import useTheme from '@/shared/hooks/useTheme';
 
 interface Props {
@@ -9,28 +9,18 @@ interface Props {
 }
 
 const AssetList: React.FunctionComponent<Props> = ({ title, extra, children }) => {
-  const { containerWidth } = useContainer();
   const theme = useTheme();
 
   return (
     <>
-      <div className="container">
+      <Container style={{ margin: '60px auto 0 auto' }}>
         <div className="head">
           <span>{title}</span>
           <span>{extra}</span>
         </div>
         <div className="content">{children}</div>
-      </div>
+      </Container>
       <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 60px auto 0 auto;
-        }
-
-        .container:nth-of-type(1) {
-          margin-top: 0;
-        }
-
         .head {
           display: flex;
           align-items: center;

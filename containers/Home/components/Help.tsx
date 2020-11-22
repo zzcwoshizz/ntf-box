@@ -2,13 +2,12 @@ import { Button, Col, Input, Row, Typography } from 'antd';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const { Title, Text } = Typography;
 
 const Help: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
   const router = useRouter();
   const { t } = useLanguage();
 
@@ -17,7 +16,7 @@ const Help: React.FunctionComponent = () => {
   return (
     <>
       <div className="help">
-        <div className="content">
+        <Container style={{ margin: '0 auto', textAlign: 'center' }}>
           <Title level={3}>{t('home.help.title')}</Title>
           <p>
             <Text>{t('home.help.desc')}</Text>
@@ -38,7 +37,7 @@ const Help: React.FunctionComponent = () => {
               </Button>
             </Col>
           </Row>
-        </div>
+        </Container>
       </div>
       <style jsx>{`
         .help {
@@ -48,29 +47,17 @@ const Help: React.FunctionComponent = () => {
           background-size: cover;
           background-position: center;
         }
-        .content {
-          width: ${containerWidth * 0.53}px;
-          margin: 0 auto;
 
-          text-align: center;
-        }
-
-        .content :global(.ant-typography) {
+        .help :global(.ant-typography) {
           color: #fff;
         }
         p {
           opacity: 0.8;
         }
 
-        .content :global(.ant-btn) {
+        .help :global(.ant-btn) {
           width: 100%;
           background-color: #699bff;
-        }
-
-        @media screen and (max-width: 992px) {
-          .content {
-            width: ${containerWidth}px;
-          }
         }
       `}</style>
     </>

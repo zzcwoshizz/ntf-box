@@ -4,13 +4,12 @@ import React from 'react';
 
 import Header from '@/components/Header';
 import Jdenticon from '@/components/Jdenticon';
-import useContainer from '@/shared/hooks/useContainer';
-import { shortenAddress, shortenAddressLast } from '@/utils/string';
+import Container from '@/components/Layout/Container';
+import { shortenAddressLast } from '@/utils/string';
 
 const { Text } = Typography;
 
 const AccountTop: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
   let {
     query: { address }
   } = useRouter();
@@ -21,17 +20,19 @@ const AccountTop: React.FunctionComponent = () => {
     <>
       <Header />
       <div className="hero">
-        <div className="container">
-          <div className="info">
-            <Space>
-              <Jdenticon size={64} value={address} />
-              <div>
-                <h6>{shortenAddressLast(address)}</h6>
-                <Text copyable>{address}</Text>
-              </div>
-            </Space>
+        <Container style={{ margin: '0 auto' }}>
+          <div className="container">
+            <div className="info">
+              <Space>
+                <Jdenticon size={64} value={address} />
+                <div>
+                  <h6>{shortenAddressLast(address)}</h6>
+                  <Text copyable>{address}</Text>
+                </div>
+              </Space>
+            </div>
           </div>
-        </div>
+        </Container>
       </div>
       <style jsx>{`
         .hero {
@@ -42,9 +43,7 @@ const AccountTop: React.FunctionComponent = () => {
           display: flex;
           justify-content: space-between;
           align-items: center;
-          width: ${containerWidth}px;
           height: 120px;
-          margin: 0 auto;
         }
 
         .info {

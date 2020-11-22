@@ -32,7 +32,8 @@ const TokenOwnerTable: React.FunctionComponent<{
             </Space>
           </a>
         </Link>
-      )
+      ),
+      fixed: 'left'
     },
     {
       title: 'Time',
@@ -65,7 +66,13 @@ const TokenOwnerTable: React.FunctionComponent<{
   ];
 
   return (
-    <Table<ITokenOwner> columns={columns} dataSource={data} loading={loading} pagination={false} />
+    <Table<ITokenOwner>
+      columns={columns}
+      dataSource={data}
+      loading={loading}
+      pagination={false}
+      scroll={{ x: 800 }}
+    />
   );
 };
 

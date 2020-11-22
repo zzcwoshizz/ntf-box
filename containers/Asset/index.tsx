@@ -1,30 +1,22 @@
 import React from 'react';
 
 import Header from '@/components/Header';
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 
 import Desc from './components/Desc';
 import Infos from './components/Infos';
 import { DataProvider } from './context';
 
 const Asset: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
-
   return (
     <>
       <Header />
       <DataProvider>
-        <div className="container">
+        <Container style={{ margin: '32px auto' }}>
           <Desc />
           <Infos />
-        </div>
+        </Container>
       </DataProvider>
-      <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 32px auto;
-        }
-      `}</style>
     </>
   );
 };

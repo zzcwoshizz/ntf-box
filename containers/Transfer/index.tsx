@@ -7,7 +7,7 @@ import { getToken } from '@/api';
 import EnableButton from '@/components/Button/EnableButton';
 import Header from '@/components/Header';
 import Jdenticon from '@/components/Jdenticon';
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 import useERC721 from '@/shared/hooks/useERC721';
 import useServerError from '@/shared/hooks/useServerError';
 import useTheme from '@/shared/hooks/useTheme';
@@ -16,7 +16,6 @@ import { useLanguage } from '@/shared/providers/LanguageProvider';
 const { Title } = Typography;
 
 const Transfer: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
   const theme = useTheme();
   const { t } = useLanguage();
 
@@ -37,54 +36,56 @@ const Transfer: React.FunctionComponent = () => {
     <>
       <Header />
       <Spin spinning={loading}>
-        <div className="container">
-          <Jdenticon size={156} value={token?.contractAdd} />
-          <Title>{token?.name}</Title>
-          <Form<{ amount?: string; address: string }>
-            layout="vertical"
-            onFinish={(data) => {
-              if (!token) {
-                return;
-              }
+        <Container style={{ margin: '25px auto' }}>
+          <div className="container">
+            <Jdenticon size={156} value={token?.contractAdd} />
+            <Title>{token?.name}</Title>
+            <Form<{ amount?: string; address: string }>
+              layout="vertical"
+              onFinish={(data) => {
+                if (!token) {
+                  return;
+                }
 
-              setPending(true);
-              safeTransferFrom(data.address, token.tokenId)
-                .catch((e) => {
-                  showError(e);
-                })
-                .finally(() => {
-                  setPending(false);
-                });
-            }}
-            onValuesChange={(values) => {
-              setToAddress(values.address);
-            }}
-            style={{ width: '60%' }}
-          >
-            <Form.Item label={t('transfer.amountLabel')} name="amount">
-              <Input placeholder={t('transfer.inputAmount')} />
-            </Form.Item>
-            <Form.Item
-              label={t('transfer.addressLabel')}
-              name="address"
-              rules={[{ required: true }]}
+                setPending(true);
+                safeTransferFrom(data.address, token.tokenId)
+                  .catch((e) => {
+                    showError(e);
+                  })
+                  .finally(() => {
+                    setPending(false);
+                  });
+              }}
+              onValuesChange={(values) => {
+                setToAddress(values.address);
+              }}
+              style={{ width: '60%' }}
             >
-              <Input placeholder={t('transfer.inputAddress')} />
-            </Form.Item>
-            <p>{t('transfer.tip', { name: token?.name, address: toAddress })}</p>
-            <Form.Item>
-              <EnableButton
-                htmlType="submit"
-                loading={pending}
-                size="large"
-                style={{ width: '100%' }}
-                type="primary"
+              <Form.Item label={t('transfer.amountLabel')} name="amount">
+                <Input placeholder={t('transfer.inputAmount')} />
+              </Form.Item>
+              <Form.Item
+                label={t('transfer.addressLabel')}
+                name="address"
+                rules={[{ required: true }]}
               >
-                TRANSFER
-              </EnableButton>
-            </Form.Item>
-          </Form>
-        </div>
+                <Input placeholder={t('transfer.inputAddress')} />
+              </Form.Item>
+              <p>{t('transfer.tip', { name: token?.name, address: toAddress })}</p>
+              <Form.Item>
+                <EnableButton
+                  htmlType="submit"
+                  loading={pending}
+                  size="large"
+                  style={{ width: '100%' }}
+                  type="primary"
+                >
+                  TRANSFER
+                </EnableButton>
+              </Form.Item>
+            </Form>
+          </div>
+        </Container>
       </Spin>
       <style jsx>{`
         .container {
@@ -92,11 +93,6 @@ const Transfer: React.FunctionComponent = () => {
           flex-direction: column;
           align-items: center;
           justify-content: center;
-        }
-
-        .container {
-          width: ${containerWidth}px;
-          margin: 25px auto;
           padding: 66px 0;
 
           background-color: #fff;

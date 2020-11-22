@@ -1,11 +1,11 @@
 import { Button, Col, Row, Select, Space, Spin } from 'antd';
 import { useRouter } from 'next/router';
 import React from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import { ItemOrder, OrderType } from '@/api/types';
 import { AssetCell, AssetContainer } from '@/components/Asset';
 import ProjectInfo from '@/components/Project/ProjectInfo';
+import useScrollDown from '@/shared/hooks/useScrollDown';
 import useTheme from '@/shared/hooks/useTheme';
 import { useAsset } from '@/shared/providers/AssetProvider';
 import { useConstants } from '@/shared/providers/ConstantsProvider';
@@ -28,6 +28,8 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
   const { project } = useProject();
   const { assets, page, fetching, filter, toogleFilter, onScrollBottom } = useAsset();
   const { ORDER_TYPE, ITEM_ORDER } = useConstants();
+
+  useScrollDown(onScrollBottom);
 
   const { query } = router;
   const { selType } = query as { selType?: string };
@@ -105,41 +107,32 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
         </div>
         <Spin spinning={fetching && page.page === 1}>
           <div className="list">
-            <PerfectScrollbar
-              onScrollDown={(e) => {
-                if (e.scrollHeight === e.scrollTop + e.clientHeight) {
-                  onScrollBottom();
-                }
-              }}
-              style={{ height: '100%' }}
-            >
-              <AssetContainer>
-                {assets.map((asset, index) => (
-                  <AssetCell
-                    asset={asset}
-                    key={index}
-                    onClick={() => {
-                      if (canSelect) {
-                        toogleSelected(index);
-                      } else {
-                        if (asset.tokens.length > 1) {
-                          router.push(`/bundle/${asset.orderId}`);
-                        } else {
-                          router.push(
-                            `/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`
-                          );
-                        }
-                      }
-                    }}
-                    onSelect={() => {
+            <AssetContainer>
+              {assets.map((asset, index) => (
+                <AssetCell
+                  asset={asset}
+                  key={index}
+                  onClick={() => {
+                    if (canSelect) {
                       toogleSelected(index);
-                    }}
-                    selected={selected.indexOf(index) > -1}
-                    showSelect={canSelect}
-                  />
-                ))}
-              </AssetContainer>
-            </PerfectScrollbar>
+                    } else {
+                      if (asset.tokens.length > 1) {
+                        router.push(`/bundle/${asset.orderId}`);
+                      } else {
+                        router.push(
+                          `/asset/${asset.tokens[0].contractAdd}/${asset.tokens[0].tokenId}`
+                        );
+                      }
+                    }
+                  }}
+                  onSelect={() => {
+                    toogleSelected(index);
+                  }}
+                  selected={selected.indexOf(index) > -1}
+                  showSelect={canSelect}
+                />
+              ))}
+            </AssetContainer>
             {canSelect && selected.length > 0 && (
               <div className="action">
                 <span>{t('asset.content.selectedCount', { count: selected.length })}</span>
@@ -227,7 +220,6 @@ const Content: React.FunctionComponent<{ canSelect?: boolean; showHead?: boolean
         }
 
         .list {
-          height: 500px;
           padding: 16px;
         }
 

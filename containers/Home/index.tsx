@@ -4,6 +4,7 @@ import React from 'react';
 import { getHotGoods, getLatestGoods } from '@/api';
 import { IAsset } from '@/api/types';
 import { AssetCell, AssetContainer } from '@/components/Asset';
+import Container from '@/components/Layout/Container';
 import MoreLink from '@/components/Link/MoreLink';
 import HotSvg from '@/icons/icon_hot.svg';
 import NewSvg from '@/icons/icon_new.svg';
@@ -38,7 +39,7 @@ const Home: React.FunctionComponent = () => {
   };
 
   return (
-    <div className="container">
+    <div>
       <Hero />
       <div className="list">
         <AssetList

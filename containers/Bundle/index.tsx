@@ -2,20 +2,18 @@ import { Col, Row } from 'antd';
 import React from 'react';
 
 import Header from '@/components/Header';
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 
 import BundleList from './components/BundleList';
 import Info from './components/Info';
 import { DataProvider } from './context';
 
 const Publish: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
-
   return (
     <>
       <Header />
       <DataProvider>
-        <div className="container">
+        <Container style={{ margin: '32px auto', padding: 24 }}>
           <Row>
             <Col lg={{ span: 12 }} xs={{ span: 24 }}>
               <Info />
@@ -24,15 +22,8 @@ const Publish: React.FunctionComponent = () => {
               <BundleList />
             </Col>
           </Row>
-        </div>
+        </Container>
       </DataProvider>
-      <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 32px auto;
-          padding: 24px;
-        }
-      `}</style>
     </>
   );
 };

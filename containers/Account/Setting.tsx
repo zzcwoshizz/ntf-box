@@ -1,18 +1,19 @@
-import { Button, Input, Modal, Switch } from 'antd';
+import { Button, Input, Modal } from 'antd';
 import React from 'react';
 
+import Container from '@/components/Layout/Container';
 import { injected } from '@/connectors';
 import FhSvg from '@/icons/icon_fh.svg';
 import { useActiveWeb3React } from '@/shared/hooks';
 import useAutoLogin from '@/shared/hooks/useAutoLogin';
-import useContainer from '@/shared/hooks/useContainer';
+import useStyle from '@/shared/hooks/useStyle';
 import useTheme from '@/shared/hooks/useTheme';
 import { useApp } from '@/shared/providers/AppProvider';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const Setting: React.FunctionComponent = () => {
   const { activate, active } = useActiveWeb3React();
-  const { containerWidth } = useContainer();
+  const style = useStyle();
   const theme = useTheme();
   const { t } = useLanguage();
 
@@ -82,7 +83,7 @@ const Setting: React.FunctionComponent = () => {
           value={name}
         />
       </Modal>
-      <div className="container">
+      <Container style={{ margin: '16px auto', padding: 24, background: '#fff', borderRadius: 4 }}>
         <div className="title">
           <FhSvg style={{ marginRight: 8 }} />
           My Account
@@ -110,7 +111,7 @@ const Setting: React.FunctionComponent = () => {
             </Button>
           </span>
         </div>
-      </div>
+      </Container>
       {/* <div className="container">
         <div className="title">
           <FhSvg style={{ marginRight: 8 }} />
@@ -146,14 +147,6 @@ const Setting: React.FunctionComponent = () => {
         </div>
       </div> */}
       <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 16px auto;
-          padding: 24px;
-
-          background: #ffffff;
-          border-radius: 4px;
-        }
         .title {
           display: flex;
           align-items: center;
@@ -176,16 +169,24 @@ const Setting: React.FunctionComponent = () => {
           white-space: nowrap;
         }
         .item > span:nth-of-type(1) {
-          width: 15%;
+          width: 10%;
         }
         .item > span:nth-of-type(2) {
           width: 45%;
         }
         .item > span:nth-of-type(3) {
-          width: 25%;
+          width: 30%;
         }
         .item > span:nth-of-type(4) {
           width: 15%;
+        }
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.md.endpoint}px) {
+          .item > span:nth-of-type(2) {
+            width: 0;
+            display: none;
+          }
         }
       `}</style>
     </>

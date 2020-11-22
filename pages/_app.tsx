@@ -1,5 +1,3 @@
-import 'react-perfect-scrollbar/dist/css/styles.css';
-
 import { Web3ReactProvider } from '@web3-react/core';
 import cookies from 'next-cookies';
 import App, { AppContext, AppProps } from 'next/app';
@@ -27,7 +25,15 @@ function MyApp({ Component, pageProps }: AppProps) {
                 <TransactionProvider>
                   <ViewportProvider>
                     <Head>
-                      <title>Finannel</title>
+                      <title>Finannel.com ｜ 在这里你可以购买以太坊、波卡链上的加密收藏品</title>
+                      <meta
+                        content="一个稀有数字物品和加密收藏品的点对点市场.购买,出售,拍卖,和发现Dego,CryptoKitties,加密猫,Sandbox,Axie infinity, Decentraland,区块链游戏物品等等。超过15000件收藏品正在出售"
+                        name="description"
+                      />
+                      <meta
+                        content="nft交易所，nft交易平台，Non-Fungible Token，非同质化代币，nft是什么，nft概念币有哪些，nft币怎么挖，nft收藏品，nft画，nft域名，nft市场，nft代币有哪些，nft交易所，加密猫，mana，sandbox，dego，Axie infinity，Decentraland，sandbox游戏。"
+                        name="keywords"
+                      />
                       <link href="/favicon.svg" rel="icon" />
                       <meta
                         content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"

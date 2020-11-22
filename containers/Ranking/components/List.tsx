@@ -15,11 +15,6 @@ const List: React.FunctionComponent = () => {
 
   const columns: ColumnsType<IRanking> = [
     {
-      title: '',
-      dataIndex: 'ranking',
-      key: 'ranking'
-    },
-    {
       title: t('ranking.columns.dapp'),
       dataIndex: 'name',
       key: 'name',
@@ -28,38 +23,45 @@ const List: React.FunctionComponent = () => {
           <Img src={record.logoUrl} width={24} />
           {record.name}
         </Space>
-      )
+      ),
+      responsive: ['xxl', 'xl', 'lg', 'md', 'sm', 'xs']
     },
     {
       title: t('ranking.columns.transactions'),
       dataIndex: 'transactions',
-      key: 'transactions'
+      key: 'transactions',
+      responsive: ['xxl', 'xl', 'lg', 'md', 'sm', 'xs']
     },
     {
       title: t('ranking.columns.avgPrice'),
       dataIndex: 'avgPrice',
-      key: 'avgPrice'
+      key: 'avgPrice',
+      responsive: ['xxl', 'xl', 'lg', 'md', 'sm', 'xs']
     },
     {
       title: t('ranking.columns.assets'),
       key: 'assets',
-      dataIndex: 'assets'
+      dataIndex: 'assets',
+      responsive: ['xxl', 'xl', 'lg', 'md']
     },
     {
       title: t('ranking.columns.owners'),
       key: 'owners',
-      dataIndex: 'owners'
+      dataIndex: 'owners',
+      responsive: ['xxl', 'xl', 'lg', 'md']
     },
     {
       title: t('ranking.columns.total'),
       key: 'total',
-      dataIndex: 'total'
+      dataIndex: 'total',
+      responsive: ['xxl', 'xl', 'lg', 'md']
     },
     {
       title: t('ranking.columns.rate'),
       key: 'turnoverRate',
       dataIndex: 'turnoverRate',
-      render: (_, record) => (record.turnoverRate * 100).toFixed(2) + '%'
+      render: (_, record) => (record.turnoverRate * 100).toFixed(2) + '%',
+      responsive: ['xxl', 'xl', 'lg', 'md']
     }
   ];
 

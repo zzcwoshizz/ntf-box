@@ -11,7 +11,7 @@ import ArrowRight from '@/icons/arrow-right.svg';
 import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants';
 import { useActiveWeb3React } from '@/shared/hooks';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
-import { shortenAddress, shortenAddressLast } from '@/utils/string';
+import { shortenAddressLast } from '@/utils/string';
 
 import Jdenticon from '../Jdenticon';
 import TimeLeft from '../TimeLeft';
@@ -39,7 +39,9 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
             }
           `}</style>
         </>
-      )
+      ),
+      width: 100,
+      fixed: 'left'
     },
     {
       title: t('activity.columns.commodity'),
@@ -262,7 +264,13 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
   ];
 
   return (
-    <Table<IActivity> columns={columns} dataSource={data} loading={loading} pagination={false} />
+    <Table<IActivity>
+      columns={columns}
+      dataSource={data}
+      loading={loading}
+      pagination={false}
+      scroll={{ x: 800 }}
+    />
   );
 };
 

@@ -9,7 +9,7 @@ import Img from '@/components/Img';
 import { DEFAULT_CHAIN_ID, SCAN_URLS } from '@/shared/constants';
 import { useActiveWeb3React } from '@/shared/hooks';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
-import { shortenAddress, shortenAddressLast } from '@/utils/string';
+import { shortenAddressLast } from '@/utils/string';
 
 import Jdenticon from '../Jdenticon';
 import TimeLeft from '../TimeLeft';
@@ -30,7 +30,9 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
         <>
           <TimeLeft left={Date.now() - moment(value).valueOf()} /> ago
         </>
-      )
+      ),
+      width: 120,
+      fixed: 'left'
     },
     {
       title: t('activity.columns.commodity'),
@@ -119,7 +121,13 @@ const NetActivityTable: React.FunctionComponent<{ data: INetActivity[]; loading?
   ];
 
   return (
-    <Table<INetActivity> columns={columns} dataSource={data} loading={loading} pagination={false} />
+    <Table<INetActivity>
+      columns={columns}
+      dataSource={data}
+      loading={loading}
+      pagination={false}
+      scroll={{ x: 800 }}
+    />
   );
 };
 

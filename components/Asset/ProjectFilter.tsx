@@ -1,7 +1,6 @@
 import { Input, Space } from 'antd';
 import Link from 'next/link';
 import React from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import { IProject } from '@/api/types';
 import { AssetItem } from '@/components/Asset';
@@ -112,11 +111,9 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
           />
         </div>
         <div className="list">
-          {project ? (
-            renderDetail?.()
-          ) : (
-            <PerfectScrollbar style={{ height: '100%' }}>
-              {filterdProjects.map((project, index) => (
+          {project
+            ? renderDetail?.()
+            : filterdProjects.map((project, index) => (
                 <Link
                   as={{ pathname: '/market', query: { id: project.id, name: project.name } }}
                   href="/market"
@@ -136,13 +133,11 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
                   </a>
                 </Link>
               ))}
-            </PerfectScrollbar>
-          )}
         </div>
       </div>
       <style jsx>{`
         .container {
-          width: 240px;
+          width: 100%;
           border: 1px solid ${theme['@border-color-base']};
 
           background: #ffffff;
@@ -179,6 +174,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
 
         .list {
           height: 500px;
+          overflow: scroll;
         }
 
         .list :global(.ant-menu-submenu-title) {

@@ -2,7 +2,7 @@ import { Typography } from 'antd';
 import React from 'react';
 
 import Header from '@/components/Header';
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 
 import Chart from './components/Chart';
 import Data from './components/Data';
@@ -10,12 +10,10 @@ import Data from './components/Data';
 const { Title, Text } = Typography;
 
 const Record: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
-
   return (
     <>
       <Header />
-      <div className="container">
+      <Container style={{ margin: '32px auto' }}>
         <Title level={2} style={{ textIndent: 24 }}>
           Record
         </Title>
@@ -40,15 +38,8 @@ const Record: React.FunctionComponent = () => {
             </Text>
           </div>
         </div>
-      </div>
+      </Container>
       <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 32px auto;
-        }
-
-        .content {
-        }
         .chart {
           margin: 16px auto;
           padding: 24px 0;

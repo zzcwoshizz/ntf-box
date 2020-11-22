@@ -1,20 +1,21 @@
 import { MenuOutlined } from '@ant-design/icons';
-import { Dropdown, Menu, Space } from 'antd';
+import { Dropdown, Menu } from 'antd';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer';
+import useStyle from '@/shared/hooks/useStyle';
 import useTheme from '@/shared/hooks/useTheme';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 
+import Container from '../Layout/Container';
 import ActiveLink from '../Link/ActiveLink';
 import Language from './Language';
 import MyAccount from './MyAccount';
 
 const Header: React.FunctionComponent = () => {
   const theme = useTheme();
-  const { containerWidth } = useContainer();
+  const style = useStyle();
   const { t } = useLanguage();
 
   const navs = [
@@ -49,47 +50,47 @@ const Header: React.FunctionComponent = () => {
   return (
     <>
       <header>
-        <div className="container">
-          <Link href="/">
-            <a>
-              <img alt="logo" className="logo" src="/imgs/logo.svg" />
-            </a>
-          </Link>
-          <nav>
-            {navs.map((nav, index) => (
-              <ActiveLink href={nav.href} key={index}>
-                <a>{nav.title}</a>
-              </ActiveLink>
-            ))}
-          </nav>
-          <div className="right">
-            <Space size="large">
+        <Container style={{ margin: '0 auto', padding: '0 12px' }}>
+          <div className="container">
+            <Link href="/">
+              <a>
+                <img alt="logo" className="logo" src="/imgs/logo.svg" />
+              </a>
+            </Link>
+            <nav>
+              {navs.map((nav, index) => (
+                <ActiveLink href={nav.href} key={index}>
+                  <a>{nav.title}</a>
+                </ActiveLink>
+              ))}
+            </nav>
+            <div className="right">
               <MyAccount />
-              <div className="language">
+              <div className="language" style={{ marginLeft: 12 }}>
                 <Language />
               </div>
-            </Space>
-            <div className="mb-menu">
-              <Dropdown
-                overlay={
-                  <Menu>
-                    {navs.map((nav, index) => (
-                      <Menu.Item key={index}>
-                        <ActiveLink href={nav.href}>
-                          <a>{nav.title}</a>
-                        </ActiveLink>
-                      </Menu.Item>
-                    ))}
-                  </Menu>
-                }
-                placement={'bottomLeft'}
-                trigger={['click']}
-              >
-                <MenuOutlined />
-              </Dropdown>
+              <div className="mb-menu" style={{ marginLeft: 12 }}>
+                <Dropdown
+                  overlay={
+                    <Menu>
+                      {navs.map((nav, index) => (
+                        <Menu.Item key={index}>
+                          <ActiveLink href={nav.href}>
+                            <a>{nav.title}</a>
+                          </ActiveLink>
+                        </Menu.Item>
+                      ))}
+                    </Menu>
+                  }
+                  placement={'bottomRight'}
+                  trigger={['click']}
+                >
+                  <MenuOutlined />
+                </Dropdown>
+              </div>
             </div>
           </div>
-        </div>
+        </Container>
       </header>
       <style jsx>{`
         a {
@@ -100,18 +101,17 @@ const Header: React.FunctionComponent = () => {
         }
 
         header {
-          width: 100%;
-          background-color: ${router.asPath === '/' ? 'transparent' : '#fff'};
-          box-shadow: ${router.asPath === '/' ? 'none' : '0px 2px 8px 0px rgba(60, 77, 111, 0.1)'};
+          background-color: ${router.pathname === '/' ? 'transparent' : '#fff'};
+          box-shadow: ${router.pathname === '/'
+            ? 'none'
+            : '0px 2px 8px 0px rgba(60, 77, 111, 0.1)'};
         }
 
         .container {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          width: ${containerWidth}px;
           height: 64px;
-          margin: 0 auto;
         }
 
         .right {
@@ -133,23 +133,28 @@ const Header: React.FunctionComponent = () => {
         .mb-menu {
           display: none;
         }
-
-        @media screen and (max-width: 1200px) {
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.lg.endpoint}px) {
           nav a {
             margin-right: 20px;
           }
         }
-        @media screen and (max-width: 992px) {
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.md.endpoint}px) {
           .mb-menu {
-            display: block;
+            display: block !important;
           }
           nav {
-            display: none;
+            display: none !important;
           }
         }
-        @media screen and (max-width: 576px) {
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.xs.endpoint}px) {
           .language {
-            display: none;
+            display: none !important;
           }
         }
       `}</style>

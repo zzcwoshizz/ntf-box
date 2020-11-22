@@ -39,7 +39,7 @@ const useServerError = () => {
         }
 
         notification.error({
-          message: serverMessage[code] ?? msg?.message?.toString?.() ?? '未知错误',
+          message: serverMessage[code] ?? msg?.message ?? '未知错误',
           duration: 15
         });
       }

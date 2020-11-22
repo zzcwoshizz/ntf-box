@@ -1,18 +1,17 @@
 import { Col, Row, Typography } from 'antd';
 import React from 'react';
 
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const { Title, Text } = Typography;
 
 const Intro: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
   const { t } = useLanguage();
 
   return (
     <>
-      <div className="intro">
+      <Container style={{ margin: '0 auto', padding: '100px 0' }}>
         <Row>
           <Col lg={{ span: 12 }} style={{ padding: 10 }} xs={{ span: 24 }}>
             <img alt="ntf box" className="desc" src="/imgs/home/intro.png" />
@@ -24,14 +23,8 @@ const Intro: React.FunctionComponent = () => {
             </Text>
           </Col>
         </Row>
-      </div>
+      </Container>
       <style jsx>{`
-        .intro {
-          width: ${containerWidth}px;
-          margin: 0 auto;
-          padding: 100px 0;
-        }
-
         img {
           width: 100%;
         }

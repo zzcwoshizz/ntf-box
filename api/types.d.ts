@@ -103,7 +103,7 @@ export interface IProject {
   telegram: string;
   twitter: string;
   discord: string;
-  website: string;
+  officialWebsite: string;
   weight: number;
   avgPrice?: string;
   owners?: string;

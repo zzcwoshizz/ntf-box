@@ -4,6 +4,10 @@ const ResetCss: React.FunctionComponent = () => {
   return (
     <>
       <style global jsx>{`
+        html,
+        body {
+          height: 100vh;
+        }
         .ant-space-item {
           display: flex;
           align-items: center;

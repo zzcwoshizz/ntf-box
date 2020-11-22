@@ -97,9 +97,8 @@ const Preview: React.FunctionComponent = () => {
         }
 
         .tip {
-          position: absolute;
-          bottom: 0;
           width: 100%;
+          margin-top: 60px;
           padding: 16px;
 
           background-color: ${theme['@body-background']};

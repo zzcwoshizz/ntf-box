@@ -22,8 +22,8 @@ const ProjectInfo: React.FunctionComponent<{ project: IProject }> = ({ project }
   return (
     <>
       <div className="container">
-        {project.website && (
-          <div className="item" onClick={() => window.open(project.website)}>
+        {project.officialWebsite && (
+          <div className="item" onClick={() => window.open(project.officialWebsite)}>
             <WebsiteSvg />
             {t('project.projectInfo.website')}
           </div>

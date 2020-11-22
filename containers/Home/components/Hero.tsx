@@ -6,17 +6,17 @@ import { getBanner } from '@/api';
 import { IBanner } from '@/api/types';
 import Banner from '@/components/Banner';
 import Header from '@/components/Header';
+import Container from '@/components/Layout/Container';
 import Toolbar from '@/components/Toolbar';
-import JTSvg from '@/icons/icon_jt.svg';
-import useContainer from '@/shared/hooks/useContainer';
+import useStyle from '@/shared/hooks/useStyle';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const { Title, Text } = Typography;
 
 const Hero: React.FunctionComponent = () => {
   const router = useRouter();
+  const style = useStyle();
   const [banners, setBanners] = React.useState<IBanner[]>([]);
-  const { containerWidth } = useContainer();
   const { t } = useLanguage();
 
   React.useEffect(() => {
@@ -29,10 +29,18 @@ const Hero: React.FunctionComponent = () => {
     <>
       <div className="hero">
         <Toolbar />
-        <div className="container">
+        <Container
+          style={{
+            margin: '0 auto',
+            borderRadius: '40px 40px 0 0',
+            background: 'url(/imgs/commingsoon/banner_bg.png) no-repeat',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center'
+          }}
+        >
           <Header />
-          <div className="content">
-            <Row>
+          <div className="container">
+            <Row style={{ marginTop: 40 }}>
               <Col lg={{ span: 15 }} xs={{ span: 24 }}>
                 <div className="text">
                   <Title>{t('home.title')}</Title>
@@ -54,24 +62,11 @@ const Hero: React.FunctionComponent = () => {
             </Row>
             {banners.length > 0 && <Banner banner={banners} />}
           </div>
-        </div>
+        </Container>
       </div>
       <style jsx>{`
         .hero {
-          padding: 0 52px;
           background-color: #001d42;
-        }
-
-        .container {
-          border-radius: 40px 40px 0 0;
-          background: url(/imgs/commingsoon/banner_bg.png) no-repeat;
-          background-size: cover;
-          background-position: center;
-        }
-
-        .content {
-          width: ${containerWidth}px;
-          margin: 40px auto 0 auto;
         }
 
         img.desc {
@@ -84,50 +79,47 @@ const Hero: React.FunctionComponent = () => {
         .action {
           margin-top: 40px;
         }
+      `}</style>
 
-        @media screen and (max-width: 1600px) {
-          .hero {
+      <style jsx>{`
+        @media screen and (max-width: ${style.xxl.endpoint}px) {
+          .container {
             padding: 0 40px;
           }
+        }
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.xl.endpoint}px) {
           .container {
-            border-radius: 36px 36px 0 0;
-          }
-        }
-
-        @media screen and (max-width: 1320px) {
-          .hero {
-            padding: 0 20px;
-          }
-        }
-
-        @media screen and (max-width: 1280px) {
-          .hero {
-            padding: 0 10px;
-          }
-        }
-
-        @media screen and (max-width: 1200px) {
-          .hero {
             padding: 0 32px;
           }
-          .container {
-            border-radius: 32px 32px 0 0;
-          }
         }
-        @media screen and (max-width: 992px) {
-          .hero {
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.lg.endpoint}px) {
+          .container {
             padding: 0 24px;
           }
-          .container {
-            border-radius: 28px 28px 0 0;
-          }
         }
-        @media screen and (max-width: 768px) {
-          .hero {
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.md.endpoint}px) {
+          .container {
             padding: 0 16px;
           }
+        }
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.sm.endpoint}px) {
           .container {
-            border-radius: 24px 24px 0 0;
+            padding: 0 16px;
+          }
+        }
+      `}</style>
+      <style jsx>{`
+        @media screen and (max-width: ${style.xs.endpoint}px) {
+          .container {
+            padding: 0 8px;
           }
         }
       `}</style>

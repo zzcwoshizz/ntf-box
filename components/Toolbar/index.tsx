@@ -4,20 +4,20 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { AssetType } from '@/api/types';
-import useContainer from '@/shared/hooks/useContainer';
 import { useConstants } from '@/shared/providers/ConstantsProvider';
 import { hex2rgba } from '@/utils/color';
+
+import Container from '../Layout/Container';
 
 const { TabPane } = Tabs;
 
 const Toolbar: React.FunctionComponent = () => {
   const { ASSET_TYPES } = useConstants();
-  const { containerWidth } = useContainer();
   const router = useRouter();
 
   return (
     <>
-      <div className="container">
+      <Container style={{ margin: '0 auto' }}>
         <Tabs
           activeKey=""
           onChange={(value) => {
@@ -42,13 +42,7 @@ const Toolbar: React.FunctionComponent = () => {
             />
           ))}
         </Tabs>
-      </div>
-      <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 0 auto;
-        }
-      `}</style>
+      </Container>
       <style global jsx>{`
         .ant-tabs-top > .ant-tabs-nav::before,
         .ant-tabs-top > div > .ant-tabs-nav::before {

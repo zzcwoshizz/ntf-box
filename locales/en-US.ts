@@ -1,7 +1,7 @@
 export default {
   common: {
     connecting: 'Connecting',
-    connectWallet: 'Connect wallet',
+    connectWallet: 'Connect Wallet',
     login: 'Log in',
     logging: 'Logging in'
   },
@@ -27,8 +27,8 @@ export default {
     N02: 'Email already subscribed',
     N03: 'Signature not be null',
     N04: 'Signature verify error',
-    N05: 'Param error',
-    N06: 'Token expired',
+    N05: 'Param Error',
+    N06: 'Token Expired',
     N07: 'Order info error',
     N08: 'Insert order fail',
     N09: 'Order type error',
@@ -53,35 +53,35 @@ export default {
     myAccount: 'My Account'
   },
   footer: {
-    aboutUs: 'About us',
-    myItems: 'My items',
+    aboutUs: 'My Account',
+    myItems: 'My Items',
     myActivity: 'My Activity',
-    gift: 'Gift good',
+    gift: 'Gift Items',
     setting: 'Setting',
-    market: 'Market',
+    market: 'Marketplac',
     ranking: 'Ranking',
     activity: 'Activity',
-    hot: 'Hot',
+    hot: 'Hot Sales',
     service: 'Services',
-    help: 'Ask for',
+    help: 'FAQ',
     blog: 'Blog',
     subscribe: 'Subscribe'
   },
   home: {
-    title: 'Decentralized and heterogeneous asset trading platform',
-    desc: 'Secondary title text introduction text introduction text introduction',
+    title: 'Decentralized non-fungible asset trading platform',
+    desc: 'Committed to becoming an efficient and convenient non-fungible asset trading platform',
     buyNow: 'BUY NOW',
     subscribe: 'Subscribe',
     hot: 'Hot',
     newest: 'Newest',
     intro: {
-      title: 'The original purpose and vision of Finannel',
-      desc: `Finannel is taken from Finance and Channel. We hope that the concept of non-homogeneous general certificate will be understood and used by more people, and even popularized to more people spontaneously.<br/>At Finannel's decentralised platform, you can look for non-homogeneous assets you want and trade them with anyone in the world who sells them. This includes digital art, collectibles, game assets, CARDS, domain names and other blockchain assets.<br/>At Finannel, you can see a whole new world of blockchains and a new kind of digital commodity. NFT (non-homogeneous tokens) is Finannel's core asset form.`
+      title: 'Finannel is a decentralized platform for the transaction of non-fungible assets.',
+      desc: `Finannel is taken from Finance and Channel. We hope that the concept of non-fungible token will be understood and used by more people, and even spontaneously popularized to more people.<br/>On the Finannel decentralized platform, you can find the non-fungible assets you want and trade with anyone in the world who sells these assets. Including digital art, collectibles, game assets, cards, domain names and other assets in the blockchain field.<br/>In Finannel, you can see a new blockchain world and a new type of digital goods, NFT (non-fungible token) is Finannel’s core asset form. This unique asset has made the blockchain world a revolutionary expansion.`
     },
     help: {
-      title: 'Novice help - help you solve problems faster',
-      desc: 'You should know how much wealth you have left unused',
-      placeholder: 'Search for keywords for questions',
+      title: 'Help you solve problems more quickly',
+      desc: 'Search for keyworkd about the problem, we well match you',
+      placeholder: 'Search for keywords about the problem',
       submit: 'Ask for help'
     }
   },
@@ -90,10 +90,10 @@ export default {
       title: 'DAPP Set'
     },
     content: {
-      title: 'All items',
+      title: 'All Items',
       desc: 'On the shelf {count}',
       selectType: 'Select type',
-      sort: 'Sort by',
+      sort: 'Sort By',
       cancel: 'Cancel',
       transfer: 'Transfer',
       sell: 'Sell',
@@ -107,17 +107,17 @@ export default {
       4: 'Hot Good'
     },
     orderType: {
-      0: 'All items',
-      1: 'Single items',
+      0: 'All Items',
+      1: 'Single Items',
       2: 'Bundles'
     },
     types: {
       HOT: 'Hot',
       NEW: 'New',
-      VIRTUAL_WORLDS: 'Virtual worlds',
-      DOMAIN_NAMES: 'Domain names',
-      BLOCKCHAIN_ART: 'Blockchain art',
-      TRADING_CARDS: 'Trading cards',
+      VIRTUAL_WORLDS: 'Virtual Worlds',
+      DOMAIN_NAMES: 'Domain Names',
+      BLOCKCHAIN_ART: 'Blockchain Art',
+      TRADING_CARDS: 'Trading Cards',
       COLLECTIBLES: 'Collectibles',
       SPORTS: 'Sports',
       UTILITY: 'Utility',
@@ -128,42 +128,42 @@ export default {
       inputPrice: 'Revise the appropriate price',
       modifyPrice: 'MODIFY PRICE',
       sell: 'SELL',
-      cancel: 'Off shelf',
+      cancel: 'Off Shelf',
       gift: 'GIFT',
       buy: 'BUY NOW',
       born: 'Born on {time}',
-      holdAddress: 'Holding address',
+      holdAddress: 'Holding Address',
       features: 'Features',
-      activityRecord: 'Activity record',
+      activityRecord: 'Activity Record',
       more: 'MORE'
     }
   },
   activity: {
     goToMarket: 'Go to the market',
-    selectType: 'Select type',
+    selectType: 'Select Type',
     realtime: '* Realtime',
-    sell: 'Sell to',
-    onShelf: 'On shelf',
+    sell: 'Sell To',
+    onShelf: 'On Shelf',
     transfer: 'Gift',
-    offShelf: 'Off shelf',
+    offShelf: 'Off Shelf',
     modifyPrice: '{address} modify the price',
-    bundle: 'Bundle sell',
+    bundle: 'Bundle Sell',
     columns: {
       time: 'Time',
       commodity: 'Commodity',
       asset: 'Asset',
-      changeDetail: 'Change details',
+      changeDetail: 'Change Details',
       price: 'Price(ETH)',
       txid: 'Txid'
     }
   },
   publish: {
-    price: 'Last price',
-    saleMethod: 'Sales method',
+    price: 'Last Price',
+    saleMethod: 'Sales Method',
     fixPrice: 'Fix a price',
     priceLabel: 'Price',
     inputPrice: 'Please input price',
-    otherSetting: 'Other settings',
+    otherSetting: 'Other Settings',
     timeLabel: 'Time of bill',
     inputTime: 'Expired date (default all time)',
     preview: {
@@ -171,7 +171,7 @@ export default {
       goods: 'Goods',
       count: '{count} piece',
       price: 'Price',
-      end: 'End block',
+      end: 'End Block',
       endDesc: 'The deal / Self removal is the end',
       submit: 'Confirm and put on the shelf',
       tipTitle: 'Cost',
@@ -184,11 +184,11 @@ export default {
     columns: {
       dapp: 'DAPP',
       transactions: 'Transactions',
-      avgPrice: 'Avg price(ETH)',
+      avgPrice: 'Avg Price(ETH)',
       assets: 'Assets',
       owners: 'Owners',
       total: 'Total(USDT)',
-      rate: 'Turnover rate'
+      rate: 'Turnover Rate'
     }
   },
   transfer: {
@@ -224,7 +224,7 @@ export default {
   project: {
     projectData: {
       holder: 'Holder',
-      avgPrice: 'Average price',
+      avgPrice: 'Average Price',
       turnover: 'Turnover'
     },
     projectInfo: {

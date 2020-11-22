@@ -5,7 +5,7 @@ import React from 'react';
 import { getHelp } from '@/api';
 import { IHelp } from '@/api/types';
 import Header from '@/components/Header';
-import useContainer from '@/shared/hooks/useContainer';
+import Container from '@/components/Layout/Container';
 import { useList } from '@/shared/hooks/useList';
 import useTheme from '@/shared/hooks/useTheme';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
@@ -16,7 +16,6 @@ const { Panel } = Collapse;
 const { Search } = Input;
 
 const Help: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
   const theme = useTheme();
   const { query } = useRouter();
   const { t, lang } = useLanguage();
@@ -46,7 +45,7 @@ const Help: React.FunctionComponent = () => {
   return (
     <>
       <Header />
-      <div className="container">
+      <Container style={{ margin: '25px auto' }}>
         <Title>{t('help.title')}</Title>
         <div className="content">
           <Card
@@ -71,12 +70,8 @@ const Help: React.FunctionComponent = () => {
             </Collapse>
           </Card>
         </div>
-      </div>
+      </Container>
       <style jsx>{`
-        .container {
-          width: ${containerWidth}px;
-          margin: 25px auto;
-        }
         .title {
           display: inline-block;
           padding: 0 16px;

@@ -1,9 +1,9 @@
 import { Col, Row, Select, Typography } from 'antd';
 import React from 'react';
-import PerfectScrollbar from 'react-perfect-scrollbar';
 
 import { ReqActivityType } from '@/api/types';
 import ActivityTable from '@/components/Table/ActivityTable';
+import useScrollDown from '@/shared/hooks/useScrollDown';
 import useTheme from '@/shared/hooks/useTheme';
 import { useActivity } from '@/shared/providers/ActivityProvider';
 import { useConstants } from '@/shared/providers/ConstantsProvider';
@@ -20,6 +20,10 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
   const { filter, toogleFilter } = useActivity();
   const { ACTIVITY_TYPES } = useConstants();
   const { activities, fetching, onScrollBottom } = useActivity();
+
+  useScrollDown(() => {
+    onScrollBottom();
+  });
 
   return (
     <>
@@ -54,16 +58,7 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
           </Row>
         </div>
         <div className="list">
-          <PerfectScrollbar
-            onScrollDown={(e) => {
-              if (e.scrollHeight === e.scrollTop + e.clientHeight) {
-                onScrollBottom();
-              }
-            }}
-            style={{ height: '100%' }}
-          >
-            <ActivityTable data={activities} loading={fetching} />
-          </PerfectScrollbar>
+          <ActivityTable data={activities} loading={fetching} />
         </div>
       </div>
       <style jsx>{`
@@ -100,7 +95,6 @@ const Content: React.FunctionComponent<{ showHead?: boolean }> = ({ showHead = t
         }
 
         .list {
-          height: 500px;
           padding: 16px;
         }
       `}</style>

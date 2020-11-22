@@ -9,14 +9,14 @@ import Reddit from '@/icons/reddit.svg';
 import Telegram from '@/icons/telegram.svg';
 import Twitter from '@/icons/twitter.svg';
 import Wechat from '@/icons/wechat.svg';
-import useContainer from '@/shared/hooks/useContainer';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
 import { hex2rgba } from '@/utils/color';
+
+import Container from '../Layout/Container';
 
 const { Title } = Typography;
 
 const Footer: React.FunctionComponent = () => {
-  const { containerWidth } = useContainer();
   const { t } = useLanguage();
 
   const linkSpan = {
@@ -29,8 +29,8 @@ const Footer: React.FunctionComponent = () => {
 
   return (
     <>
-      <footer>
-        <div className="content">
+      <footer id="footer">
+        <Container style={{ margin: '0 auto' }}>
           <Row>
             <Col lg={{ span: 8 }} style={styles} xs={{ span: 24 }}>
               <img alt="ntf box" src="/imgs/logo_bottom.svg" />
@@ -121,7 +121,7 @@ const Footer: React.FunctionComponent = () => {
                 <a href="https://twitter.com/finannel" rel="noopener noreferrer" target="_blank">
                   <Twitter />
                 </a>
-                <a href="https://discord.gg/ZjsXWDSz" rel="noopener noreferrer" target="_blank">
+                <a href="https://discord.gg/uZnXtUwafT" rel="noopener noreferrer" target="_blank">
                   <Discord />
                 </a>
                 <a href="mailto:business@finannel.com" rel="noopener noreferrer" target="_blank">
@@ -138,20 +138,14 @@ const Footer: React.FunctionComponent = () => {
               </div>
             </Col>
           </Row>
-        </div>
+        </Container>
       </footer>
       <style jsx>{`
         footer {
           padding: 60px 0;
           background-color: #001d42;
         }
-
-        .content {
-          width: ${containerWidth}px;
-          margin: 0 auto;
-        }
-
-        .content :global(.ant-typography) {
+        footer :global(.ant-typography) {
           color: #fff;
         }
 
