@@ -5,14 +5,20 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { IOffer } from '@/api/types';
 import EnableButton from '@/components/Button/EnableButton';
+import ERC20ApproveButton from '@/components/Button/ERC20ApproveButton';
 import Jdenticon from '@/components/Jdenticon';
+import TimeLeft from '@/components/TimeLeft';
+import Tip_WETH from '@/components/Tip/Tip_WETH';
 import BornSvg from '@/icons/icon_born.svg';
 import PriceSvg from '@/icons/icon_price.svg';
+import { APPROVE_ADDRESS, WETH_ADDRESS } from '@/shared/constants';
+import { useActiveWeb3React } from '@/shared/hooks';
 import useTheme from '@/shared/hooks/useTheme';
 import { useApp } from '@/shared/providers/AppProvider';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
-import { shortenAddress } from '@/utils/string';
+import { shortenAddress, shortenAddressLast } from '@/utils/string';
 
 import { useData } from '../context';
 import Images from './Images';
@@ -23,10 +29,26 @@ const Desc: React.FunctionComponent = () => {
   const theme = useTheme();
   const router = useRouter();
   const { t } = useLanguage();
-  const { balance } = useApp();
-  const { asset, token, isMine, fetching, holders, changePrice, cancelOrder, buy } = useData();
+  const { balance, wethBalance } = useApp();
+  const { chainId } = useActiveWeb3React();
+  const {
+    asset,
+    token,
+    isMine,
+    fetching,
+    holders,
+    changePrice,
+    cancelOrder,
+    maxOfferPrice,
+    buy,
+    offer,
+    auctions
+  } = useData();
 
   const [price, setPrice] = React.useState('');
+  const [offerPrice, setOfferPrice] = React.useState<string>();
+
+  const maxOffer: IOffer | undefined = auctions[0];
 
   return (
     <>
@@ -60,22 +82,51 @@ const Desc: React.FunctionComponent = () => {
                 </p>
               )}
               {token.des && <div className="intro">{token.des}</div>}
-              {asset && (
+              {/* 直接挂单出售 */}
+              {asset && asset.orderType === 0 && (
                 <div className="price">
                   <Space align="center">
                     <PriceSvg />
-                    {utils.formatEther(asset.dealPrice ?? '0')} ETH
+                    {utils.formatEther(asset.dealPrice || '0')} ETH
                   </Space>
+                </div>
+              )}
+              {/* 拍卖出售 */}
+              {asset && asset.orderType === 2 && (
+                <div className="price">
+                  <Space align="center">
+                    <PriceSvg />
+                    <span>起拍价：</span>
+                    {utils.formatEther(asset.dealPrice || '0')} WETH
+                    <Tip_WETH />
+                  </Space>
+                  <span style={{ fontSize: 14, fontWeight: 400 }}>
+                    剩余时间：
+                    <TimeLeft left={Number(asset.expirationHeight) ?? 0} />
+                  </span>
                 </div>
               )}
               {isMine && (
                 <div className="form">
-                  {asset && (
+                  {asset && !maxOffer && (
                     <Input
                       onChange={(e) => setPrice(e.target.value)}
                       placeholder={t('asset.detail.inputPrice')}
-                      style={{ width: '100%', marginTop: 10 }}
+                      style={{ width: '100%', marginTop: 16 }}
                       value={price}
+                    />
+                  )}{' '}
+                  {asset && maxOffer && (
+                    <Input
+                      addonAfter={
+                        <Space>
+                          <Jdenticon size={16} value={maxOffer.buyer} />
+                          {shortenAddressLast(maxOffer.buyer)}
+                        </Space>
+                      }
+                      addonBefore="最高报价"
+                      style={{ width: '100%', marginTop: 16 }}
+                      value={utils.formatEther(maxOffer.price)}
                     />
                   )}
                   {asset && (
@@ -93,10 +144,6 @@ const Desc: React.FunctionComponent = () => {
                       </EnableButton>
                       <EnableButton
                         onClick={() => {
-                          if (!asset.orderId) {
-                            return;
-                          }
-
                           return cancelOrder(asset.orderId);
                         }}
                         style={{ marginTop: 16 }}
@@ -140,24 +187,73 @@ const Desc: React.FunctionComponent = () => {
               )}
               {!isMine && asset && (
                 <div className="form">
-                  <EnableButton
-                    onClick={() => {
-                      if (BigNumber.from(asset.dealPrice ?? '0').gt(BigNumber.from(balance))) {
-                        Modal.warn({
-                          title: 'Add funds to complete this transaction',
-                          content: `Please deposit ETH ${utils.formatEther(asset.dealPrice ?? '0')}`
-                        });
-                      } else {
-                        buy();
-                      }
-                    }}
-                    style={{ marginTop: 16 }}
-                    type="primary"
-                  >
-                    {t('asset.detail.buy')}
-                  </EnableButton>
+                  {asset.orderType === 2 && (
+                    <>
+                      <Input
+                        onChange={(e) => setOfferPrice(e.target.value)}
+                        placeholder={t('asset.detail.inputPrice')}
+                        style={{ marginTop: 16, display: 'block', width: '100%' }}
+                        value={offerPrice}
+                      />
+                      <ERC20ApproveButton
+                        address={WETH_ADDRESS[chainId || 1]}
+                        approveAddress={APPROVE_ADDRESS[chainId || 1]}
+                        name="WETH"
+                        onClick={() => {
+                          if (
+                            BigNumber.from(utils.parseEther(offerPrice || '0')).gt(
+                              BigNumber.from(wethBalance)
+                            )
+                          ) {
+                            Modal.warn({
+                              title: 'Add funds to complete this transaction',
+                              content: `Please deposit WETH ${offerPrice || '0'}`
+                            });
+                          } else if (
+                            BigNumber.from(utils.parseEther(offerPrice || '0')).lte(
+                              BigNumber.from(maxOfferPrice)
+                            )
+                          ) {
+                            Modal.warn({
+                              title: 'Warning',
+                              content: `Offer must greater than ${utils.formatEther(
+                                maxOfferPrice
+                              )} ETH`
+                            });
+                          } else {
+                            offer(asset.orderId, offerPrice || '0');
+                          }
+                        }}
+                        style={{ marginTop: 16 }}
+                        type="primary"
+                      >
+                        {t('asset.detail.offer')}
+                      </ERC20ApproveButton>
+                    </>
+                  )}
+                  {asset.orderType === 0 && (
+                    <EnableButton
+                      onClick={() => {
+                        if (BigNumber.from(asset.dealPrice || '0').gt(BigNumber.from(balance))) {
+                          Modal.warn({
+                            title: 'Add funds to complete this transaction',
+                            content: `Please deposit ETH ${utils.formatEther(
+                              asset.dealPrice || '0'
+                            )}`
+                          });
+                        } else {
+                          buy();
+                        }
+                      }}
+                      style={{ marginTop: 16 }}
+                      type="primary"
+                    >
+                      {t('asset.detail.buy')}
+                    </EnableButton>
+                  )}
                 </div>
               )}
+
               <div className="birth">
                 <Space>
                   <BornSvg />
@@ -200,12 +296,20 @@ const Desc: React.FunctionComponent = () => {
         }
 
         .price {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
           margin-top: 30px;
 
           font-size: 20px;
           font-weight: bold;
           color: ${theme['@primary-color']};
           line-height: 20px;
+        }
+
+        .price span {
+          color: ${theme['@text-color-tertiary']};
         }
 
         .birth {

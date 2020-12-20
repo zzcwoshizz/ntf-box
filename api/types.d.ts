@@ -56,12 +56,24 @@ export type ItemOrder = '0' | '1' | '2' | '3' | '4';
 
 export type OrderType = '0' | '1' | '2';
 
+/**
+ * type
+ * 0  单个商品，直接出售挂单 不可还价
+ * 1  单个商品，直接出售挂单 可还价
+ * 2  单个商品，拍卖
+ * 3 捆绑商品，直接出售挂单 不可还价
+ * 4 捆绑商品，直接出售挂单 可还价
+ * 5 捆绑商品，进行拍卖
+ * 6 转赠
+ */
+export type AssetOrderType = 0 | 1 | 2 | 3 | 4 | 5 | 6;
+
 export interface IToken {
   contractAdd: string;
   des?: string;
   images?: string[];
   name?: string;
-  orderIds?: [];
+  orderIds?: string[];
   propertys?: any;
   tokenId: string;
   birth?: string;
@@ -75,8 +87,8 @@ export interface IAsset {
   dealPrice?: string;
   operator: string;
   expirationHeight?: string;
-  orderId?: string;
-  orderType: string;
+  orderId: string;
+  orderType: AssetOrderType;
   tokens: IToken[];
   viewNum: number;
   num: number;
@@ -241,4 +253,34 @@ export interface IHelp {
   des: string;
   id: number;
   title: string;
+}
+
+export interface IOffer {
+  buyer: string;
+  createTime: string;
+  entrustOrderId: string;
+  id: number;
+  price: string;
+  status: number;
+  updateTime: string;
+}
+
+export interface IDealOffer {
+  auctionEndTime: string;
+  buyer: string;
+  createHeight: number;
+  dealPrice: string;
+  entrustInfos: { approval: boolean; contractAdd: string; tokenId: string }[];
+  erc20FuncEncodes: any[];
+  orderHash: string;
+  orderId: string;
+  orderType: AssetOrderType;
+  platformFee: string;
+  price: string;
+  salt: string;
+  seller: string;
+  side: string;
+  sign: string;
+  erc20ContractAdd: string;
+  transferFuncEncodes: any[];
 }

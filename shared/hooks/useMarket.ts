@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { buy as buyApi, getOrder, modifyPrice, verifyOrder } from '@/api';
-import { IToken } from '@/api/types';
+import { AssetOrderType, IToken } from '@/api/types';
 
 import { DEFAULT_CHAIN_ID, MARKET_ABI, MARKET_ADDRESS } from '../constants';
 import { useTransaction } from '../providers/TransactionProvider';
@@ -25,7 +25,12 @@ const useMarket = (tokens: IToken[]) => {
    * 6 转赠
    */
   const makeOrder = React.useCallback(
-    async (expirationHeight: string, price: string, type: 0 | 1 | 2 | 3 | 4 | 5 | 6) => {
+    async (
+      expirationHeight: string,
+      price: string,
+      type: AssetOrderType,
+      auctionEndTime?: number
+    ) => {
       if (!account || !library) {
         return;
       }
@@ -42,7 +47,8 @@ const useMarket = (tokens: IToken[]) => {
         })),
         expirationHeight,
         price,
-        type
+        type,
+        auctionEndTime
       );
 
       // const signature = await library.send('personal_sign', [data.orderHash, account])

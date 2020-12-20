@@ -5,6 +5,7 @@ import { useAsync } from 'react-use';
 
 import { getToken } from '@/api';
 import EnableButton from '@/components/Button/EnableButton';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Jdenticon from '@/components/Jdenticon';
 import Container from '@/components/Layout/Container';
@@ -109,6 +110,7 @@ const Transfer: React.FunctionComponent = () => {
           line-height: 20px;
         }
       `}</style>
+      <Footer />
     </>
   );
 };

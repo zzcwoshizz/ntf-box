@@ -1,6 +1,7 @@
 import ifetch from 'isomorphic-fetch';
 import Cookie from 'js-cookie';
 
+import { event } from '@/shared/Events';
 import { delay } from '@/utils/time';
 
 import { IResponse } from './types';
@@ -114,6 +115,10 @@ export class Api {
           resolve(json);
         })
         .catch((e: any) => {
+          if (e.message === 'N01' || e.message === 'N06') {
+            event.emit('logout');
+          }
+
           clearTimeout(abortId);
           reject(e);
         });

@@ -8,6 +8,10 @@ const css = require('@zeit/next-css')
 const themeVariables = require('./styles/antd-custom.json')
 
 const nextConfig = {
+  i18n: {
+    locales: ['en', 'zh'],
+    defaultLocale: 'en'
+  },
   webpack: function (config, { isServer }) {
     if (isServer) {
       const antStyles = /antd\/.*?\/style.*?/

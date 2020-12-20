@@ -6,10 +6,12 @@ import {
   cancelOrder as cancelOrderApi,
   getAsset,
   getNetActivity,
+  getOfferList,
   getToken,
-  getTokenOwner
+  getTokenOwner,
+  offer as offerApi
 } from '@/api';
-import { IAsset, INetActivity, IToken, ITokenOwner } from '@/api/types';
+import { IAsset, INetActivity, IOffer, IToken, ITokenOwner } from '@/api/types';
 import { useActiveWeb3React } from '@/shared/hooks';
 import { useList } from '@/shared/hooks/useList';
 import useMarket from '@/shared/hooks/useMarket';
@@ -20,6 +22,7 @@ import { delay } from '@/utils/time';
 const dataContext = React.createContext<{
   asset?: IAsset;
   activities: INetActivity[];
+  auctions: IOffer[];
   token: IToken;
   fetching: boolean;
   holders: number;
@@ -27,11 +30,15 @@ const dataContext = React.createContext<{
   isMine: boolean;
   hasMoreTokenOwner: boolean;
   hasMoreActivities: boolean;
+  hasMoreAuctions: boolean;
+  maxOfferPrice: string;
   changePrice(price: string): Promise<void>;
   cancelOrder(orderId: string): Promise<void>;
   loadMoreTokenOwner(): void;
   loadMoreActivity(): void;
+  loadMoreAuction(): void;
   buy(): Promise<any>;
+  offer(orderId: string, price: string): Promise<any>;
 }>({} as any);
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
@@ -56,22 +63,21 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     return data;
   }, [address, tokenId]);
 
-  const orderIds = token.orderIds?.map((id) => id) ?? [];
-
-  const { value: assets = [], loading: assetLoading, retry } = useAsyncRetry(async () => {
-    let assets: IAsset[] = [];
-
-    if (orderIds.length > 0) {
-      const res = await Promise.all(orderIds.map((orderId) => getAsset({ orderId })));
-
-      assets = res.map(({ data }) => data);
+  const orderId = React.useMemo(() => {
+    if (token.orderIds) {
+      return token.orderIds[0];
+    } else {
+      return undefined;
     }
+  }, [token]);
 
-    return assets;
-  }, [...orderIds.map((id) => id), apiToken]);
-
-  const asset: IAsset | undefined = assets[0];
-  const orderId = orderIds[0] ?? '';
+  const { value: asset, loading: assetLoading, retry } = useAsyncRetry(async () => {
+    if (orderId) {
+      return (await getAsset({ orderId })).data;
+    } else {
+      return undefined;
+    }
+  }, [orderId, apiToken]);
 
   const market = useMarket([token]);
 
@@ -165,11 +171,50 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     }
   };
 
+  // 竞价列表
+  const { state: auctionState, action: auctionAction } = useList<IOffer>(
+    React.useCallback(
+      async (params) => {
+        if (!orderId) {
+          return {
+            list: [],
+            total: 0,
+            hasMore: false
+          };
+        }
+
+        const res = await getOfferList(orderId, {
+          page: params.page,
+          pageSize: params.pageSize
+        });
+
+        return {
+          list: res.list,
+          total: res.total,
+          hasMore: res.hasNextPage
+        };
+      },
+      [orderId]
+    ),
+    {},
+    undefined,
+    false
+  );
+
+  const loadMoreAuction = () => {
+    if (auctionState.hasMore && auctionState.list.length > 0 && !auctionState.fetching) {
+      auctionAction.setPagination({
+        ...auctionState.pagination,
+        page: auctionState.pagination.page + 1
+      });
+    }
+  };
+
   // 是否是本人物品
   const isMine = token.owner ?? false;
 
   const changePrice = async (price: string) => {
-    if (!account) {
+    if (!account || !orderId) {
       return;
     }
 
@@ -195,9 +240,21 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   };
 
   const buy = async () => {
+    if (!orderId) {
+      return;
+    }
+
     try {
       await market.buy(orderId);
       retry();
+    } catch (e) {
+      showError(e);
+    }
+  };
+
+  const offer = async (orderId: string, price: string) => {
+    try {
+      await offerApi(orderId, { price });
     } catch (e) {
       showError(e);
     }
@@ -208,6 +265,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
       value={{
         asset,
         activities: activityState.list,
+        auctions: auctionState.list,
         token,
         fetching: tokenLoading || assetLoading,
         holders: state.pagination.total ?? 0,
@@ -215,11 +273,15 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
         isMine,
         hasMoreTokenOwner: state.hasMore,
         hasMoreActivities: activityState.hasMore,
+        hasMoreAuctions: auctionState.hasMore,
+        maxOfferPrice: auctionState.list?.[0]?.price || asset?.dealPrice || '0',
         changePrice,
         cancelOrder,
         loadMoreTokenOwner,
         loadMoreActivity,
-        buy
+        loadMoreAuction,
+        buy,
+        offer
       }}
     >
       {children}

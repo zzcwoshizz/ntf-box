@@ -23,7 +23,7 @@ const Items: React.FunctionComponent = () => {
       {address && (
         <ProjectProvider address={address}>
           <AssetProvider address={address}>
-            <Container style={{ margin: '32px auo' }}>
+            <Container style={{ margin: '32px auto' }}>
               <LRContainer left={<Filter />} right={<AssetContent showHead={false} />} />
             </Container>
           </AssetProvider>

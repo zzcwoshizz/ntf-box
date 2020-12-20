@@ -123,6 +123,17 @@ const WalletModal: React.FunctionComponent<{
               <p>{selectConnector.desc}</p>
               <Button
                 onClick={() => {
+                  if (
+                    selectConnector.name === 'metamask' &&
+                    typeof window.ethereum === 'undefined'
+                  ) {
+                    window.open(
+                      'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'
+                    );
+
+                    return;
+                  }
+
                   setLoading(true);
                   activate(selectConnector.connector).finally(() => {
                     setLoading(false);

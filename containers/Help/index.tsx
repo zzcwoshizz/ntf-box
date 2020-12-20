@@ -4,6 +4,7 @@ import React from 'react';
 
 import { getHelp } from '@/api';
 import { IHelp } from '@/api/types';
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Container from '@/components/Layout/Container';
 import { useList } from '@/shared/hooks/useList';
@@ -95,6 +96,7 @@ const Help: React.FunctionComponent = () => {
           background-color: ${theme['@body-background']};
         }
       `}</style>
+      <Footer />
     </>
   );
 };

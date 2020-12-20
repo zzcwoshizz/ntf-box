@@ -1,6 +1,7 @@
 import { Button, Input, Modal } from 'antd';
 import React from 'react';
 
+import Footer from '@/components/Footer';
 import Container from '@/components/Layout/Container';
 import { injected } from '@/connectors';
 import FhSvg from '@/icons/icon_fh.svg';
@@ -189,6 +190,7 @@ const Setting: React.FunctionComponent = () => {
           }
         }
       `}</style>
+      <Footer />
     </>
   );
 };

@@ -21,14 +21,21 @@ const LRContainer: React.FunctionComponent<Props> = ({ left, right }) => {
         <MenuOutlined />
       </span>
       <div className="modal">
-        <Modal centered footer={null} onCancel={() => setVisible(false)} visible={visible}>
-          <div style={{ height: 44 }}></div>
+        <Modal
+          bodyStyle={{ height: '75vh', paddingTop: 60 }}
+          centered
+          footer={null}
+          onCancel={() => setVisible(false)}
+          visible={visible}
+        >
           {left}
         </Modal>
       </div>
       <div className="container">
         <div className="left">
-          <Affix offsetTop={20}>{left}</Affix>
+          <Affix offsetTop={0}>
+            <div style={{ height: 'calc(100vh - 120px)' }}>{left}</div>
+          </Affix>
         </div>
         <div className="right">{right}</div>
       </div>
@@ -44,7 +51,6 @@ const LRContainer: React.FunctionComponent<Props> = ({ left, right }) => {
           position: relative;
           flex: 0 0 auto;
           width: 240px;
-          height: 500px;
         }
         .modal {
           display: none;

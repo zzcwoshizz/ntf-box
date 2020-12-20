@@ -2,19 +2,25 @@ import React from 'react';
 
 import useTheme from '@/shared/hooks/useTheme';
 
+// TODO fix this value types
 interface Props {
   value: any;
   options: { value: any; title: React.ReactNode }[];
+  onChange?(value: any): void;
 }
 
-const Select: React.FunctionComponent<Props> = ({ value, options }) => {
+const Select: React.FunctionComponent<Props> = ({ value, options, onChange }) => {
   const theme = useTheme();
 
   return (
     <>
       <div className="select-wrapper">
         {options.map(({ value: _value, title }) => (
-          <div className={'select' + (_value === value ? ' selected' : '')} key={_value}>
+          <div
+            className={'select' + (_value === value ? ' selected' : '')}
+            key={_value}
+            onClick={() => onChange?.(_value)}
+          >
             {title}
           </div>
         ))}

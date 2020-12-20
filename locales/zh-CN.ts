@@ -31,7 +31,13 @@ export default {
     N12: '订单不存在',
     N13: '长度为0',
     N14: '物品信息获取失败',
-    N15: '合约错误'
+    N15: '合约错误',
+    N16: '物品不存在',
+    N17: '新旧价钱一致',
+    N18: '未授权',
+    N19: '授权数不足',
+    N20: '该笔订单是拍卖',
+    N21: '出价必须大于之前出价'
   },
   header: {
     home: '首页',
@@ -124,10 +130,13 @@ export default {
       modifyPrice: '修改价格',
       sell: '卖出',
       cancel: '下架物品',
+      offer: '竞价',
+      cancelOffer: '取消竞价',
       gift: '赠送',
       buy: '立即购买',
       born: '出生于 {time}',
       holdAddress: '持有地址',
+      offerList: '竞价列表',
       features: '物品属性',
       activityRecord: '全网记录',
       more: '更多'
@@ -157,6 +166,7 @@ export default {
     saleMethod: '售卖方式',
     fixPrice: '固定价格',
     priceLabel: '价格',
+    offer: '拍卖',
     inputPrice: '请输入价格（ETH）',
     otherSetting: '其他设置',
     timeLabel: '过期时间',

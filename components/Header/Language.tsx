@@ -1,7 +1,7 @@
 import { Dropdown, Menu } from 'antd';
 import React from 'react';
 
-import { LangType, useLanguage } from '@/shared/providers/LanguageProvider';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 
 const Language: React.FunctionComponent = () => {
   const { supportLang, lang, toogleLang } = useLanguage();
@@ -12,8 +12,8 @@ const Language: React.FunctionComponent = () => {
         overlay={
           <Menu>
             {Object.keys(supportLang).map((key) => (
-              <Menu.Item key={key} onClick={() => toogleLang(key as LangType)}>
-                <img alt="language" src={supportLang[key as LangType].icon} />
+              <Menu.Item key={key} onClick={() => toogleLang(key)}>
+                <img alt="language" src={supportLang[key].icon} />
               </Menu.Item>
             ))}
           </Menu>

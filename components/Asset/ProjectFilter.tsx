@@ -138,6 +138,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
       <style jsx>{`
         .container {
           width: 100%;
+          height: 100%;
           border: 1px solid ${theme['@border-color-base']};
 
           background: #ffffff;
@@ -173,7 +174,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
         }
 
         .list {
-          height: 500px;
+          height: 100%;
           overflow: scroll;
         }
 

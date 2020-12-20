@@ -22,7 +22,13 @@ const useServerError = () => {
       N12: t('errorMessage.N12'),
       N13: t('errorMessage.N13'),
       N14: t('errorMessage.N14'),
-      N15: t('errorMessage.N15')
+      N15: t('errorMessage.N15'),
+      N16: t('errorMessage.N16'),
+      N17: t('errorMessage.N17'),
+      N18: t('errorMessage.N18'),
+      N19: t('errorMessage.N19'),
+      N20: t('errorMessage.N20'),
+      N21: t('errorMessage.N21')
     }),
     [t]
   );
@@ -38,8 +44,9 @@ const useServerError = () => {
           code = msg.message;
         }
 
+        console.log(serverMessage[code] ?? msg?.message ?? 'Unknow');
         notification.error({
-          message: serverMessage[code] ?? msg?.message ?? '未知错误',
+          message: serverMessage[code] ?? msg?.message ?? 'Unknow',
           duration: 15
         });
       }

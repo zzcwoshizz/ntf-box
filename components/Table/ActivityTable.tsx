@@ -111,6 +111,7 @@ const ActivityTable: React.FunctionComponent<{ data: IActivity[]; loading?: bool
       title: t('activity.columns.changeDetail'),
       dataIndex: 'address',
       key: 'address',
+      width: 300,
       render: (_, record) => (
         <>
           <div>

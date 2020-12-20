@@ -4,7 +4,7 @@ import React from 'react';
 import { getHotGoods, getLatestGoods } from '@/api';
 import { IAsset } from '@/api/types';
 import { AssetCell, AssetContainer } from '@/components/Asset';
-import Container from '@/components/Layout/Container';
+import Footer from '@/components/Footer';
 import MoreLink from '@/components/Link/MoreLink';
 import HotSvg from '@/icons/icon_hot.svg';
 import NewSvg from '@/icons/icon_new.svg';
@@ -39,59 +39,80 @@ const Home: React.FunctionComponent = () => {
   };
 
   return (
-    <div>
-      <Hero />
-      <div className="list">
-        <AssetList
-          extra={<MoreLink href="/market" />}
-          title={
-            <>
-              <HotSvg style={{ marginRight: 4 }} /> {t('home.hot')}
-            </>
-          }
-        >
-          <AssetContainer>
-            {hot.map((asset, index) => (
-              <AssetCell
-                asset={asset}
-                key={index}
-                onClick={() => {
-                  jumpUrl(asset);
+    <>
+      <div>
+        <Hero />
+        <div className="list">
+          <AssetList
+            extra={
+              <MoreLink
+                href={{
+                  pathname: '/market',
+                  query: {
+                    itemOrder: 4
+                  }
                 }}
               />
-            ))}
-          </AssetContainer>
-        </AssetList>
-        <AssetList
-          extra={<MoreLink href="/market" />}
-          title={
-            <>
-              <NewSvg style={{ marginRight: 4 }} /> {t('home.newest')}
-            </>
-          }
-        >
-          <AssetContainer>
-            {latest.map((asset, index) => (
-              <AssetCell
-                asset={asset}
-                key={index}
-                onClick={() => {
-                  jumpUrl(asset);
+            }
+            title={
+              <>
+                <HotSvg style={{ marginRight: 4 }} /> {t('home.hot')}
+              </>
+            }
+          >
+            <AssetContainer>
+              {hot.map((asset, index) => (
+                <AssetCell
+                  asset={asset}
+                  key={index}
+                  onClick={() => {
+                    jumpUrl(asset);
+                  }}
+                />
+              ))}
+            </AssetContainer>
+          </AssetList>
+          <AssetList
+            extra={
+              <MoreLink
+                href={{
+                  pathname: '/market',
+                  query: {
+                    itemOrder: 0
+                  }
                 }}
               />
-            ))}
-          </AssetContainer>
-        </AssetList>
+            }
+            title={
+              <>
+                <NewSvg style={{ marginRight: 4 }} /> {t('home.newest')}
+              </>
+            }
+          >
+            <AssetContainer>
+              {latest.map((asset, index) => (
+                <AssetCell
+                  asset={asset}
+                  key={index}
+                  onClick={() => {
+                    jumpUrl(asset);
+                  }}
+                />
+              ))}
+            </AssetContainer>
+          </AssetList>
+        </div>
+        <Intro />
+        <Help />
+        <style jsx>{`
+          .list {
+            padding: 100px 0;
+            background-color: #fff;
+          }
+        `}</style>
       </div>
-      <Intro />
-      <Help />
-      <style jsx>{`
-        .list {
-          padding: 100px 0;
-          background-color: #fff;
-        }
-      `}</style>
-    </div>
+      <Footer />
+    </>
   );
 };
 

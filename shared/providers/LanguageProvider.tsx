@@ -1,21 +1,17 @@
-import Cookie from 'js-cookie';
 import { useRouter } from 'next/dist/client/router';
 import React from 'react';
 
 import en_US from '@/locales/en-US';
 import zh_CN from '@/locales/zh-CN';
 
-export type LangType = 'zh-CN' | 'en-US';
-
-type SupportType = { [key in LangType]: { name: string; icon: string } };
 type TextType = string | number;
 
 const languageContext = React.createContext<{
-  lang: LangType;
-  supportLang: SupportType;
+  lang: string;
+  supportLang: { [key: string]: any };
   messages: any;
   message: any;
-  toogleLang(lang: LangType): void;
+  toogleLang(lang: string): void;
   getMessage<T>(
     id: string,
     message: any,
@@ -30,48 +26,37 @@ const languageContext = React.createContext<{
   ): React.ReactNode[];
 }>({} as any);
 
-const LanguageProvider: React.FunctionComponent<{ defaultLang?: LangType }> = ({
-  children,
-  defaultLang = 'en-US'
-}) => {
-  const [lang, setLang] = React.useState<LangType>(defaultLang);
-  const supportLang: SupportType = {
-    'zh-CN': {
+const LanguageProvider: React.FunctionComponent = ({ children }) => {
+  const router = useRouter();
+
+  // const [lang, setLang] = React.useState<LangType>();
+  const lang = router.locale ?? 'en';
+  const supportLang = {
+    zh: {
       name: '中文',
       icon: require('@/icons/icon_cn.png')
     },
-    'en-US': {
+    en: {
       name: 'English',
       icon: require('@/icons/icon_en.png')
     }
   };
   const messages: any = React.useMemo(
     () => ({
-      'zh-CN': zh_CN,
-      'en-US': en_US
+      zh: zh_CN,
+      en: en_US
     }),
     []
   );
-
-  const { query } = useRouter();
-
-  React.useEffect(() => {
-    Cookie.set('lang', lang);
-  }, [lang]);
-
-  React.useEffect(() => {
-    if (query.lang) {
-      setLang(query.lang as LangType);
-    }
-  }, [query.lang]);
 
   const message: any = React.useMemo(() => {
     return messages[lang];
   }, [messages, lang]);
 
-  const toogleLang = (lang: LangType) => {
+  const toogleLang = (lang: string) => {
     if (Object.keys(supportLang).indexOf(lang) > -1) {
-      setLang(lang);
+      // setLang(lang);
+      router.replace(router.pathname, undefined, { locale: lang });
     }
   };
 

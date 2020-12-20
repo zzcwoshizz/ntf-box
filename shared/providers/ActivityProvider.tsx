@@ -3,7 +3,7 @@ import { useRouter } from 'next/router';
 import React from 'react';
 
 import { getActivity } from '@/api';
-import { ActivityType, IActivity, ReqActivityType } from '@/api/types';
+import { IActivity, ReqActivityType } from '@/api/types';
 import { useList } from '@/shared/hooks/useList';
 import { IPage } from '@/types';
 

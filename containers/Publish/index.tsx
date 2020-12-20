@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Container from '@/components/Layout/Container';
 import useStyle from '@/shared/hooks/useStyle';
@@ -68,6 +69,7 @@ const Publish: React.FunctionComponent = () => {
           }
         }
       `}</style>
+      <Footer />
     </>
   );
 };

@@ -11,7 +11,7 @@ import useMarket from '@/shared/hooks/useMarket';
 import useServerError from '@/shared/hooks/useServerError';
 import { delay } from '@/utils/time';
 
-type FormData = { price: string; expiredTime: Moment };
+type FormData = { price: string; expiredTime?: Moment };
 
 const dataContext = React.createContext<{
   tokens: IToken[];
@@ -20,6 +20,8 @@ const dataContext = React.createContext<{
   disabled: boolean;
   price: string;
   expiredTime?: Moment;
+  value: '1' | '2';
+  setValue(_value: '1' | '2'): void;
 }>({} as any);
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
@@ -30,6 +32,8 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   const [loading, setLoading] = React.useState(false);
   const [price, setPrice] = React.useState('');
   const [expiredTime, setExpiredTime] = React.useState<Moment>();
+
+  const [value, setValue] = React.useState<'1' | '2'>('1');
 
   const { address, tokenId } = router.query;
 
@@ -53,22 +57,14 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     }
   }, [address, tokenId]);
 
-  const disabled = React.useMemo(() => {
-    let disabled = false;
-
-    tokens.forEach((token) => {
-      if (token.orderIds && token.orderIds.length > 0) {
-        disabled = true;
-      }
-    });
-
-    return disabled;
-  }, [tokens]);
+  const disabled = false;
 
   const market = useMarket(tokens);
 
   return (
-    <dataContext.Provider value={{ tokens, fetching, loading, disabled, price, expiredTime }}>
+    <dataContext.Provider
+      value={{ tokens, fetching, loading, disabled, price, expiredTime, value, setValue }}
+    >
       <Form<FormData>
         onFinish={async (data) => {
           if (!library) {
@@ -91,7 +87,8 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
             const orderId = await market.makeOrder(
               expirationHeight,
               data.price,
-              tokens.length > 1 ? 3 : 0
+              tokens.length > 1 ? (value === '2' ? 5 : 3) : value === '2' ? 2 : 0,
+              Math.ceil((data.expiredTime?.valueOf() || 0) / 1000)
             );
 
             notification.success({ message: 'Transaction success!' });

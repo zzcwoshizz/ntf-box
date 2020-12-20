@@ -1,23 +1,24 @@
 import { Web3ReactProvider } from '@web3-react/core';
-import cookies from 'next-cookies';
 import App, { AppContext, AppProps } from 'next/app';
 import Head from 'next/head';
 import React from 'react';
 
-import Footer from '@/components/Footer';
+import usePageScrollTop from '@/shared/hooks/usePageScrollTop';
 import { AppProvider } from '@/shared/providers/AppProvider';
 import { ChainProvider } from '@/shared/providers/ChainProvier';
 import { ConstantsProvider } from '@/shared/providers/ConstantsProvider';
-import { LangType, LanguageProvider } from '@/shared/providers/LanguageProvider';
+import { LanguageProvider } from '@/shared/providers/LanguageProvider';
 import { TransactionProvider } from '@/shared/providers/TransactionProvider';
 import { ViewportProvider } from '@/shared/providers/ViewportProvider';
 import ResetCss from '@/styles/Reset';
 import getLibrary from '@/utils/getLibrary';
 
 function MyApp({ Component, pageProps }: AppProps) {
+  usePageScrollTop();
+
   return (
     <>
-      <LanguageProvider defaultLang={pageProps.defaultLang}>
+      <LanguageProvider>
         <ConstantsProvider>
           <Web3ReactProvider getLibrary={getLibrary}>
             <AppProvider>
@@ -47,15 +48,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                         type="text/javascript"
                       ></script>
                     </Head>
-                    <div className="page">
-                      <Component {...pageProps} />
-                    </div>
-                    <Footer />
-                    <style jsx>{`
-                      .page {
-                        min-height: 100vh;
-                      }
-                    `}</style>
+                    <Component {...pageProps} />
                   </ViewportProvider>
                 </TransactionProvider>
               </ChainProvider>
@@ -70,22 +63,11 @@ function MyApp({ Component, pageProps }: AppProps) {
 
 MyApp.getInitialProps = async (appContext: AppContext) => {
   const appProps = await App.getInitialProps(appContext);
-  const acceptLanguages: LangType[] = [];
-
-  appContext.ctx.req?.headers['accept-language']?.split(';').forEach((language) => {
-    if (language.indexOf('zh') !== -1) {
-      acceptLanguages.push('zh-CN');
-    } else {
-      acceptLanguages.push('en-US');
-    }
-  });
-  const lang = cookies(appContext.ctx).lang;
 
   return {
     ...appProps,
     pageProps: {
-      ...appProps.pageProps,
-      defaultLang: lang || acceptLanguages[0]
+      ...appProps.pageProps
     }
   };
 };

@@ -2,6 +2,7 @@ import { Button, Space, Spin, Tabs } from 'antd';
 import React from 'react';
 
 import NetActivityTable from '@/components/Table/NetActivityTable';
+import AuctionTable from '@/components/Table/OfferTable';
 import TokenOwnerTable from '@/components/Table/TokenOwnerTable';
 import Features from '@/components/Token/Features';
 import ActivitySvg from '@/icons/icon_acticity.svg';
@@ -39,14 +40,18 @@ const Infos: React.FunctionComponent = () => {
   const { t } = useLanguage();
 
   const {
+    isMine,
     token,
     fetching,
     tokenOwner,
     activities,
+    auctions,
     hasMoreTokenOwner,
     hasMoreActivities,
+    hasMoreAuctions,
     loadMoreTokenOwner,
-    loadMoreActivity
+    loadMoreActivity,
+    loadMoreAuction
   } = useData();
 
   return (
@@ -59,12 +64,25 @@ const Infos: React.FunctionComponent = () => {
                 window.location.hash = '#' + key;
               }}
             >
+              <TabPane key="offer-list" tab={t('asset.detail.offerList')} />
               {token.type === 'ERC1155' && (
                 <TabPane key="asset-hold-address" tab={t('asset.detail.holdAddress')} />
               )}
               <TabPane key="asset-features" tab={t('asset.detail.features')} />
               <TabPane key="asset-activity-record" tab={t('asset.detail.activityRecord')} />
             </Tabs>
+          </div>
+          <div className="content" id="offer-list">
+            <Title icon={<ActivitySvg />}>{t('asset.detail.offerList')}</Title>
+            <AuctionTable data={auctions} isMine={isMine} />
+            {hasMoreAuctions && (
+              <Button
+                onClick={loadMoreAuction}
+                style={{ display: 'block', margin: '24px auto 0 auto' }}
+              >
+                {t('asset.detail.more')}
+              </Button>
+            )}
           </div>
           {token.type === 'ERC1155' && (
             <div className="content" id="asset-hold-address">
