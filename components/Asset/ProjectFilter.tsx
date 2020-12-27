@@ -81,6 +81,13 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
       projects.filter((project) => project.name.toUpperCase().indexOf(search.toUpperCase()) > -1),
     [search, projects]
   );
+  const height = React.useMemo(() => {
+    if (showHead) {
+      return 'calc(100% - 55px - 50px)';
+    } else {
+      return 'calc(100% - 50px)';
+    }
+  }, [showHead]);
 
   return (
     <>
@@ -110,7 +117,7 @@ const ActivityFilter: React.FunctionComponent<Props> = ({
             value={project?.name ?? search}
           />
         </div>
-        <div className="list">
+        <div className="list" style={{ height }}>
           {project
             ? renderDetail?.()
             : filterdProjects.map((project, index) => (
