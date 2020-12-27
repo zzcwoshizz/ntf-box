@@ -129,57 +129,57 @@ const Banner: React.FunctionComponent<Props> = (props) => {
           box-shadow: 0 24px 10px -15px rgba(0, 0, 0, 0.3);
         }
       `}</style>
-      <style global jsx>{`
-        .slick-slider {
+      <style jsx>{`
+        .container :global(.slick-slider) {
           padding-left: 70px;
         }
 
         @media screen and (max-width: 768px) {
-          .slick-slider {
+          .container :global(.slick-slider) {
             padding-left: 70px;
           }
         }
-        .slick-list {
+        .container :global(.slick-list) {
           width: 1200px;
         }
 
         @media screen and (max-width: 1600px) {
-          .slick-list {
+          .container :global(.slick-list) {
             width: 970px;
           }
         }
 
         @media screen and (max-width: 1200px) {
-          .slick-list {
+          .container :global(.slick-list) {
             width: 770px;
           }
         }
 
         @media screen and (max-width: 992px) {
-          .slick-list {
+          .container :global(.slick-list) {
             width: 490px;
           }
         }
 
         @media screen and (max-width: 768px) {
-          .slick-list {
+          .container :global(.slick-list) {
             width: 280px;
           }
         }
 
         @media screen and (max-width: 576px) {
-          .slick-list {
+          .container :global(.slick-list) {
             width: 220px;
           }
         }
-        .ant-carousel .slick-dots li.slick-active button {
+        .container :global(.ant-carousel .slick-dots li.slick-active button) {
           width: 10px;
           height: 20px;
           border-radius: 5px;
           background-color: ${theme['@primary-color']};
           opacity: 1;
         }
-        .ant-carousel .slick-dots li button {
+        .container :global(.ant-carousel .slick-dots li button) {
           width: 10px;
           height: 10px;
           border-radius: 5px;
@@ -188,7 +188,7 @@ const Banner: React.FunctionComponent<Props> = (props) => {
         }
 
         @media screen and (max-width: 768px) {
-          .ant-carousel .slick-dots {
+          .container :global(.ant-carousel .slick-dots) {
             display: none !important;
           }
         }

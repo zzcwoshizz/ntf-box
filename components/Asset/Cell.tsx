@@ -29,28 +29,37 @@ const Banner: React.FunctionComponent<{ images: string[]; width: number }> = ({
   const theme = useTheme();
 
   return (
-    <>
-      <Carousel style={{ width }}>
+    <div>
+      <Carousel
+        appendDots={(dot) => <div onClick={(e) => e.stopPropagation()}>{dot}</div>}
+        style={{ width }}
+      >
         {images.map((image, index) => (
-          <Img key={index} src={image} style={{ width: '100%' }} />
+          <div key={index} style={{ width }}>
+            <Img key={index} src={image} />
+          </div>
         ))}
       </Carousel>
-      <style global jsx>{`
-        .ant-carousel .slick-dots li button {
-          width: 6px;
-          height: 6px;
-          border-radius: 3px;
+      <style jsx>{`
+        div :global(.ant-carousel .slick-dots li button) {
+          width: 8px;
+          height: 8px;
+          border-radius: 4px;
 
           background-color: ${theme['@primary-color']} !important;
         }
-        .ant-carousel .slick-dots-bottom {
-          bottom: 0;
+        div :global(.ant-carousel .slick-dots-bottom) {
+          bottom: 8px;
           margin-right: 5%;
           margin-left: 5%;
           justify-content: flex-start;
         }
+
+        div :global(.ant-carousel .slick-dots li) {
+          width: 8px;
+        }
       `}</style>
-    </>
+    </div>
   );
 };
 
@@ -102,7 +111,7 @@ const Cell: React.FunctionComponent<Props> = ({
             <SelectSvg />
           </div>
         )}
-        {width && <Banner images={images} width={width} />}
+        <div>{width && <Banner images={images} key={width} width={width} />}</div>
         <div className="content">
           <p>
             {asset.tokens?.[0]?.name ?? '- -'}
