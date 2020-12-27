@@ -24,11 +24,16 @@ const Help: React.FunctionComponent = () => {
   const { state, action } = useList<IHelp, { keys?: string }>(
     React.useCallback(
       async (params) => {
-        const { list, hasNextPage, total } = await getHelp({
-          page: params.page,
-          pageSize: params.pageSize,
-          search: params.keys
-        });
+        const { list, hasNextPage, total } = await getHelp(
+          {
+            page: params.page,
+            pageSize: params.pageSize,
+            search: params.keys
+          },
+          {
+            lan: lang === 'zh' ? 'zh' : 'en'
+          }
+        );
 
         return {
           list,
@@ -36,7 +41,6 @@ const Help: React.FunctionComponent = () => {
           total
         };
       },
-      // eslint-disable-next-line react-hooks/exhaustive-deps
       [lang]
     ),
     { keys: query.keys as string },

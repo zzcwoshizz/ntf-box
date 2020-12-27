@@ -92,6 +92,7 @@ export interface IAsset {
   tokens: IToken[];
   viewNum: number;
   num: number;
+  bindingNum: number; // 绑定数量
 }
 
 export interface PageParam {

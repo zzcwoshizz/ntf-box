@@ -39,8 +39,7 @@ export const getApi = (): Api => {
   return new Api(baseURL, {
     timeout: 30000,
     headers: {
-      jwt: process.browser ? getCache('token') ?? '' : '',
-      lan: process.browser ? (Cookie.get('lang') === 'zh-CN' ? 'zh' : 'en') : ''
+      jwt: process.browser ? getCache('token') ?? '' : ''
     }
   });
 };
@@ -207,9 +206,10 @@ export const getNetActivity = (
   return getApi().get<IListResponse<INetActivity>>('/token/activity', { params });
 };
 
-export const getHelp = (params: PageParam & { search?: string }) => {
+export const getHelp = (params: PageParam & { search?: string }, headers: { lan: 'zh' | 'en' }) => {
   return getApi().get<IListResponse<IHelp>>('/help', {
-    params
+    params,
+    headers
   });
 };
 

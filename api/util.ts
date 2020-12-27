@@ -166,8 +166,7 @@ export class Api {
       ...config,
       headers: {
         'Content-Type': 'application/json',
-        ...config.headers,
-        lan: process.browser ? (Cookie.get('lang') === 'zh-CN' ? 'zh' : 'en') : ''
+        ...config.headers
       }
     };
   }

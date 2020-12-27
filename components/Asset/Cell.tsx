@@ -1,4 +1,4 @@
-import { Space, Tooltip } from 'antd';
+import { Carousel, Space, Tooltip } from 'antd';
 import { utils } from 'ethers';
 import React from 'react';
 
@@ -22,6 +22,38 @@ interface Props {
   onSelect?(): void;
 }
 
+const Banner: React.FunctionComponent<{ images: string[]; width: number }> = ({
+  images,
+  width
+}) => {
+  const theme = useTheme();
+
+  return (
+    <>
+      <Carousel style={{ width }}>
+        {images.map((image, index) => (
+          <Img key={index} src={image} style={{ width: '100%' }} />
+        ))}
+      </Carousel>
+      <style global jsx>{`
+        .ant-carousel .slick-dots li button {
+          width: 6px;
+          height: 6px;
+          border-radius: 3px;
+
+          background-color: ${theme['@primary-color']} !important;
+        }
+        .ant-carousel .slick-dots-bottom {
+          bottom: 0;
+          margin-right: 5%;
+          margin-left: 5%;
+          justify-content: flex-start;
+        }
+      `}</style>
+    </>
+  );
+};
+
 const Cell: React.FunctionComponent<Props> = ({
   asset,
   showSelect = false,
@@ -32,15 +64,31 @@ const Cell: React.FunctionComponent<Props> = ({
   const theme = useTheme();
   const { block } = useChain();
 
-  if (!asset) {
-    return null;
-  }
+  const containerRef = React.useRef<HTMLDivElement>(null);
+  const [width, setWidth] = React.useState(0);
+
+  React.useEffect(() => {
+    setWidth(containerRef.current?.clientWidth ?? 0);
+  }, []);
+
+  const images = React.useMemo(() => {
+    const _images: string[] = [];
+
+    asset.tokens.slice(0, 10).forEach((token) => {
+      if (token.images && token.images.length > 0) {
+        _images.push(token.images[0]);
+      }
+    });
+
+    return _images;
+  }, [asset]);
 
   return (
     <>
       <div
         className={'cell' + (showSelect && selected ? ' cell-select' : '')}
         onClick={() => onClick?.()}
+        ref={containerRef}
       >
         {showSelect && (
           <div
@@ -54,7 +102,7 @@ const Cell: React.FunctionComponent<Props> = ({
             <SelectSvg />
           </div>
         )}
-        <Img src={asset.tokens?.[0]?.images?.[0]} />
+        {width && <Banner images={images} width={width} />}
         <div className="content">
           <p>
             {asset.tokens?.[0]?.name ?? '- -'}

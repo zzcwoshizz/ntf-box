@@ -16,10 +16,10 @@ const Publish: React.FunctionComponent = () => {
       <DataProvider>
         <Container style={{ margin: '32px auto', padding: 24 }}>
           <Row>
-            <Col lg={{ span: 12 }} xs={{ span: 24 }}>
+            <Col lg={{ span: 14 }} xs={{ span: 24 }}>
               <Info />
             </Col>
-            <Col lg={{ span: 10, offset: 2 }} xs={{ span: 24 }}>
+            <Col lg={{ span: 8, offset: 2 }} xs={{ span: 24 }}>
               <BundleList />
             </Col>
           </Row>
