@@ -19,8 +19,8 @@ const Sales: React.FunctionComponent = () => {
           setValue(value);
         }}
         options={[
-          { value: '1', title: t('publish.fixPrice') }
-          // { value: '2', title: t('publish.offer') }
+          { value: '1', title: t('publish.fixPrice') },
+          { value: '2', title: t('publish.offer') }
         ]}
         value={value}
       ></Select>

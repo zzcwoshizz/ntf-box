@@ -24,7 +24,7 @@ export const MARKET_ADDRESS: Record<number, string> = {
   4: '0xA00704FbFb382925802899B23bf5466453641F19'
 };
 export const OFFER_ADDRESS: Record<number, string> = {
-  1: '0x4fE1657786B013BfD5Db5EA5Cdc4996021a0DcE3',
+  1: '0xc458d822433Ae8b36940d37714B32d7581B703f7',
   4: '0xB7A9FDE99C55F481B67d920FA57456128783108B'
 };
 export const APPROVE_ADDRESS: Record<number, string> = {
