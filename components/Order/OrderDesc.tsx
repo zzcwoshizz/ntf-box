@@ -32,7 +32,7 @@ interface Props {
   changePrice(price: string): Promise<void>;
   cancelOrder(orderId: string): Promise<void>;
   offer(orderId: string, price: string): Promise<void>;
-  buy(): Promise<void>;
+  buy(orderId: string): Promise<void>;
 }
 
 const OrderDesc: React.FunctionComponent<Props> = ({
@@ -239,7 +239,7 @@ const OrderDesc: React.FunctionComponent<Props> = ({
                     content: `Please deposit ETH ${utils.formatEther(asset.dealPrice || '0')}`
                   });
                 } else {
-                  buy();
+                  buy(asset.orderId);
                 }
               }}
               style={{ marginTop: 16 }}

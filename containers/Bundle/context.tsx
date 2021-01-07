@@ -15,10 +15,12 @@ const dataContext = React.createContext<{
   fetching: boolean;
   offers: IOffer[];
   maxOfferPrice: string;
+  hasMoreOffers: boolean;
   buy(): Promise<any>;
   offer(orderId: string, price: string): Promise<any>;
   changePrice(price: string): Promise<void>;
   cancelOrder(orderId: string): Promise<void>;
+  loadMoreOffers(): void;
 }>({} as any);
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
@@ -35,7 +37,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
   }, [orderId]);
 
   // 竞价列表
-  const { state: offerState } = useList<IOffer>(
+  const { state: offerState, action: offerAction } = useList<IOffer>(
     React.useCallback(
       async (params) => {
         if (!orderId) {
@@ -114,6 +116,15 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     }
   };
 
+  const loadMoreOffers = () => {
+    if (offerState.hasMore && offerState.list.length > 0 && !offerState.fetching) {
+      offerAction.setPagination({
+        ...offerState.pagination,
+        page: offerState.pagination.page + 1
+      });
+    }
+  };
+
   return (
     <dataContext.Provider
       value={{
@@ -121,9 +132,11 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
         tokens,
         offers: offerState.list,
         fetching,
+        hasMoreOffers: offerState.hasMore,
         maxOfferPrice: offerState.list?.[0]?.price || asset?.dealPrice || '0',
         buy,
         offer,
+        loadMoreOffers,
         cancelOrder,
         changePrice
       }}

@@ -1,23 +1,21 @@
-import { Button, Space, Table } from 'antd';
+import { Space, Table } from 'antd';
 import { ColumnsType } from 'antd/lib/table';
 import { utils } from 'ethers';
 import moment from 'moment';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
 import React from 'react';
 
 import { ITokenOwner } from '@/api/types';
 import { shortenAddress } from '@/utils/string';
 
+import AsyncButton from '../Button/AsyncButton';
 import Jdenticon from '../Jdenticon';
 
 const TokenOwnerTable: React.FunctionComponent<{
   data: ITokenOwner[];
-  address: string;
   loading?: boolean;
-}> = ({ data, address, loading = false }) => {
-  const router = useRouter();
-
+  onSee?(orderId: string): Promise<void>;
+}> = ({ data, onSee, loading = false }) => {
   const columns: ColumnsType<ITokenOwner> = [
     {
       title: 'Owner',
@@ -51,16 +49,16 @@ const TokenOwnerTable: React.FunctionComponent<{
       title: 'Operation',
       dataIndex: 'orderId',
       key: 'orderId',
-      render: (orderId, record) =>
-        orderId && (
-          <Button
-            onClick={() => {
-              router.push(`/asset/${address}/${record.tokenId}`);
+      render: (_, record) =>
+        record.orderId && (
+          <AsyncButton
+            onClick={async () => {
+              await onSee?.(record.orderId);
             }}
             type="primary"
           >
-            BUY NOW
-          </Button>
+            SEE DETAIL
+          </AsyncButton>
         )
     }
   ];

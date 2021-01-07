@@ -1,4 +1,4 @@
-import { Col, Row, Spin } from 'antd';
+import { Col, Row } from 'antd';
 import React from 'react';
 
 import OrderDesc from '@/components/Order/OrderDesc';
@@ -11,7 +11,6 @@ const Desc: React.FunctionComponent = () => {
     asset,
     token,
     isMine,
-    fetching,
     holders,
     changePrice,
     cancelOrder,
@@ -23,29 +22,27 @@ const Desc: React.FunctionComponent = () => {
 
   return (
     <>
-      <Spin spinning={fetching}>
-        <div className="container">
-          <Row>
-            <Col lg={{ span: 8 }} style={{ padding: 20 }} xs={{ span: 24 }}>
-              <Images images={token.images} />
-            </Col>
-            <Col lg={{ span: 16 }} style={{ padding: 20 }} xs={{ span: 24 }}>
-              <OrderDesc
-                asset={asset}
-                buy={buy}
-                cancelOrder={cancelOrder}
-                changePrice={changePrice}
-                holders={holders}
-                isMine={isMine}
-                maxOfferPrice={maxOfferPrice}
-                offer={offer}
-                offers={auctions}
-                token={token}
-              />
-            </Col>
-          </Row>
-        </div>
-      </Spin>
+      <div className="container">
+        <Row>
+          <Col lg={{ span: 8 }} style={{ padding: 20 }} xs={{ span: 24 }}>
+            <Images images={token.images} />
+          </Col>
+          <Col lg={{ span: 16 }} style={{ padding: 20 }} xs={{ span: 24 }}>
+            <OrderDesc
+              asset={asset}
+              buy={buy}
+              cancelOrder={cancelOrder}
+              changePrice={changePrice}
+              holders={holders}
+              isMine={isMine}
+              maxOfferPrice={maxOfferPrice}
+              offer={offer}
+              offers={auctions}
+              token={token}
+            />
+          </Col>
+        </Row>
+      </div>
       <style jsx>{`
         .container {
           padding: 20px;

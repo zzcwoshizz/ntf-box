@@ -4,6 +4,8 @@ import { useAsync } from 'react-use';
 import { getProject, getProjectList } from '@/api';
 import { IProject } from '@/api/types';
 
+import { useLanguage } from './LanguageProvider';
+
 const projectContext = React.createContext<{
   projects: IProject[];
   project?: IProject;
@@ -16,6 +18,7 @@ const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
 }) => {
   const [projects, setProjects] = React.useState<IProject[]>([]);
   const [projectId, setProjectId] = React.useState<number>();
+  const { lang } = useLanguage();
 
   React.useEffect(() => {
     getProjectList({ address: address ?? undefined }).then(({ data }) => {
@@ -28,7 +31,7 @@ const ProjectProvider: React.FunctionComponent<{ address?: string | null }> = ({
       return;
     }
 
-    const { data } = await getProject(projectId);
+    const { data } = await getProject(projectId, { lan: lang === 'zh' ? 'zh' : 'en' });
 
     return data;
   }, [projectId]);

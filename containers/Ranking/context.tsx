@@ -5,6 +5,7 @@ import React from 'react';
 import { getRanking } from '@/api';
 import { AssetType, ItemOrder } from '@/api/types';
 import { useList } from '@/shared/hooks/useList';
+import { useLanguage } from '@/shared/providers/LanguageProvider';
 import { IPage } from '@/types';
 
 type FilterType = { type: AssetType; itemOrder: ItemOrder; order: 'desc' | 'asc' };
@@ -20,27 +21,36 @@ const dataContext = React.createContext<{
 
 const DataProvider: React.FunctionComponent = ({ children }) => {
   const { query } = useRouter();
+  const { lang } = useLanguage();
   const defaultFilter: FilterType = {
     type: (query.type as AssetType) ?? 'HOT',
     itemOrder: (query.itemOrder as ItemOrder) ?? '0',
     order: (query.order as 'desc' | 'asc') ?? 'desc'
   };
 
-  const getList = React.useCallback(async (params: IPage & FilterType) => {
-    const res = await getRanking({
-      page: params.page,
-      pageSize: params.pageSize,
-      type: params.type,
-      itemOrder: params.itemOrder,
-      order: params.order
-    });
+  const getList = React.useCallback(
+    async (params: IPage & FilterType) => {
+      const res = await getRanking(
+        {
+          page: params.page,
+          pageSize: params.pageSize,
+          type: params.type,
+          itemOrder: params.itemOrder,
+          order: params.order
+        },
+        {
+          lan: lang === 'zh' ? 'zh' : 'en'
+        }
+      );
 
-    return {
-      list: res.list,
-      total: res.total,
-      hasMore: res.hasNextPage
-    };
-  }, []);
+      return {
+        list: res.list,
+        total: res.total,
+        hasMore: res.hasNextPage
+      };
+    },
+    [lang]
+  );
 
   const { state, action } = useList<any, FilterType>(getList, defaultFilter);
 

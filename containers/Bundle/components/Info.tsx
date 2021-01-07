@@ -1,4 +1,4 @@
-import { Affix, Descriptions, Input, Modal, Space } from 'antd';
+import { Affix, Button, Input, Modal, Space } from 'antd';
 import { BigNumber, utils } from 'ethers';
 import Link from 'next/link';
 import React from 'react';
@@ -7,11 +7,14 @@ import { IOffer } from '@/api/types';
 import EnableButton from '@/components/Button/EnableButton';
 import ERC20ApproveButton from '@/components/Button/ERC20ApproveButton';
 import Jdenticon from '@/components/Jdenticon';
+import OfferTable from '@/components/Table/OfferTable';
+import PriceSvg from '@/icons/icon_price.svg';
 import { APPROVE_ADDRESS, WETH_ADDRESS } from '@/shared/constants';
 import { useActiveWeb3React } from '@/shared/hooks';
+import useTheme from '@/shared/hooks/useTheme';
 import { useApp } from '@/shared/providers/AppProvider';
 import { useLanguage } from '@/shared/providers/LanguageProvider';
-import { shortenAddress, shortenAddressLast } from '@/utils/string';
+import { shortenAddressLast } from '@/utils/string';
 
 import { useData } from '../context';
 
@@ -19,7 +22,18 @@ const Info: React.FunctionComponent = () => {
   const { account } = useActiveWeb3React();
   const { t } = useLanguage();
   const { balance, wethBalance } = useApp();
-  const { asset, maxOfferPrice, offers, changePrice, cancelOrder, buy, offer } = useData();
+  const {
+    asset,
+    maxOfferPrice,
+    hasMoreOffers,
+    loadMoreOffers,
+    changePrice,
+    cancelOrder,
+    buy,
+    offer,
+    offers
+  } = useData();
+  const theme = useTheme();
   const { chainId } = useActiveWeb3React();
 
   const [price, setPrice] = React.useState('');
@@ -31,21 +45,21 @@ const Info: React.FunctionComponent = () => {
   return (
     <>
       <Affix offsetTop={20}>
-        <Descriptions bordered title="Bundles">
-          <Descriptions.Item label="User" span={24}>
-            <Link href={`/user/${asset?.operator}`}>
-              <a>
-                <Space>
-                  <Jdenticon size={24} value={asset?.operator} />
-                  {shortenAddress(asset?.operator)}
-                </Space>
-              </a>
-            </Link>
-          </Descriptions.Item>
-          <Descriptions.Item label="Price" span={24}>
-            {utils.formatEther(asset?.dealPrice ?? '0')}
-          </Descriptions.Item>
-        </Descriptions>
+        <Space>
+          {t('asset.detail.holders')}:
+          <Jdenticon size={24} value={asset?.operator} />
+          <Link href={`/user/${asset?.operator}/items`}>
+            <a>{shortenAddressLast(asset?.operator)}</a>
+          </Link>
+        </Space>
+        {asset && asset.orderType === 3 && (
+          <div className="price">
+            <Space align="center">
+              <PriceSvg />
+              {utils.formatEther(asset.dealPrice || '0')} ETH
+            </Space>
+          </div>
+        )}
 
         {isMine && (
           <div className="form">
@@ -159,7 +173,40 @@ const Info: React.FunctionComponent = () => {
             )}
           </div>
         )}
+
+        {asset?.orderType === 2 && (
+          <div className="content" id="offer-list">
+            <OfferTable data={offers} isMine={isMine} />
+            {hasMoreOffers && (
+              <Button
+                onClick={loadMoreOffers}
+                style={{ display: 'block', margin: '24px auto 0 auto' }}
+              >
+                {t('asset.detail.more')}
+              </Button>
+            )}
+          </div>
+        )}
       </Affix>
+
+      <style jsx>{`
+        .price {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          flex-wrap: wrap;
+          margin-top: 30px;
+
+          font-size: 20px;
+          font-weight: bold;
+          color: ${theme['@primary-color']};
+          line-height: 20px;
+        }
+
+        .price span {
+          color: ${theme['@text-color-tertiary']};
+        }
+      `}</style>
     </>
   );
 };

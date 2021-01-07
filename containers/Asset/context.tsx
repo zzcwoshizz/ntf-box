@@ -1,13 +1,11 @@
-import { useRouter } from 'next/router';
 import React from 'react';
-import { useAsync, useAsyncRetry } from 'react-use';
+import { useAsyncRetry } from 'react-use';
 
 import {
   cancelOrder as cancelOrderApi,
   getAsset,
   getNetActivity,
   getOfferList,
-  getToken,
   getTokenOwner,
   offer as offerApi
 } from '@/api';
@@ -17,14 +15,12 @@ import { useList } from '@/shared/hooks/useList';
 import useMarket from '@/shared/hooks/useMarket';
 import useServerError from '@/shared/hooks/useServerError';
 import { useApp } from '@/shared/providers/AppProvider';
-import { delay } from '@/utils/time';
 
 const dataContext = React.createContext<{
   asset?: IAsset;
   activities: INetActivity[];
   auctions: IOffer[];
   token: IToken;
-  fetching: boolean;
   holders: number;
   tokenOwner: ITokenOwner[];
   isMine: boolean;
@@ -37,47 +33,18 @@ const dataContext = React.createContext<{
   loadMoreTokenOwner(): void;
   loadMoreActivity(): void;
   loadMoreAuction(): void;
-  buy(): Promise<any>;
+  buy(orderId: string): Promise<any>;
   offer(orderId: string, price: string): Promise<any>;
 }>({} as any);
 
-const DataProvider: React.FunctionComponent = ({ children }) => {
-  const router = useRouter();
+const DataProvider: React.FunctionComponent<{ token: IToken; orderId?: string }> = ({
+  children,
+  orderId,
+  token
+}) => {
   const { token: apiToken } = useApp();
   const { account } = useActiveWeb3React();
   const { showError } = useServerError();
-
-  const { address, tokenId } = router.query as { address: string; tokenId: string };
-
-  const {
-    value: token = {
-      contractAdd: '',
-      tokenId: '0',
-      type: 'ERC721'
-    },
-    loading: tokenLoading
-  } = useAsync(async () => {
-    await delay(30);
-    const { data } = await getToken({ contractAdd: address, tokenId });
-
-    return data;
-  }, [address, tokenId]);
-
-  const orderId = React.useMemo(() => {
-    if (token.orderIds) {
-      return token.orderIds[0];
-    } else {
-      return undefined;
-    }
-  }, [token]);
-
-  const { value: asset, loading: assetLoading, retry } = useAsyncRetry(async () => {
-    if (orderId) {
-      return (await getAsset({ orderId })).data;
-    } else {
-      return undefined;
-    }
-  }, [orderId, apiToken]);
 
   const market = useMarket([token]);
 
@@ -210,6 +177,22 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     }
   };
 
+  const { value: asset, retry } = useAsyncRetry(async () => {
+    if (orderId && token.type === 'ERC721') {
+      return (await getAsset({ orderId })).data;
+    } else if (state.list && state.list.length > 0) {
+      const orderId = state.list[0].orderId;
+
+      if (orderId) {
+        return (await getAsset({ orderId })).data;
+      } else {
+        return undefined;
+      }
+    } else {
+      return undefined;
+    }
+  }, [orderId, state.list, apiToken]);
+
   // 是否是本人物品
   const isMine = token.owner ?? false;
 
@@ -239,11 +222,7 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
     }
   };
 
-  const buy = async () => {
-    if (!orderId) {
-      return;
-    }
-
+  const buy = async (orderId: string) => {
     try {
       await market.buy(orderId);
       retry();
@@ -267,7 +246,6 @@ const DataProvider: React.FunctionComponent = ({ children }) => {
         activities: activityState.list,
         auctions: auctionState.list,
         token,
-        fetching: tokenLoading || assetLoading,
         holders: state.pagination.total ?? 0,
         tokenOwner: state.list,
         isMine,

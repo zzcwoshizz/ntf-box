@@ -146,8 +146,10 @@ export const getProjectList = (params: { address?: string }) => {
   return getApi().get<IResponse<IProject[]>>('/projects', { params });
 };
 
-export const getProject = (id: number) => {
-  return getApi().get<IResponse<IProject>>(`/project/${id}`);
+export const getProject = (id: number, headers: { lan: 'zh' | 'en' }) => {
+  return getApi().get<IResponse<IProject>>(`/project/${id}`, {
+    headers
+  });
 };
 
 // 排行榜
@@ -156,9 +158,10 @@ export const getRanking = (
     type: AssetType;
     itemOrder: ItemOrder;
     order: 'desc' | 'asc';
-  }
+  },
+  headers: { lan: 'zh' | 'en' }
 ) => {
-  return getApi().get<IListResponse<IRanking>>('/rank', { params });
+  return getApi().get<IListResponse<IRanking>>('/rank', { params, headers });
 };
 
 export const getActivity = (
